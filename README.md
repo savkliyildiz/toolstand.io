@@ -2,7 +2,7 @@
 
 Free online tools. No downloads, no subscriptions, no dark patterns.
 
-**99 tools** — all free, all browser-based, all embeddable.
+**103 tools** — all free, all browser-based, all embeddable.
 
 ## Tools
 
@@ -148,3 +148,11 @@ Deploy: push to `main` branch → Cloudflare Pages auto-deploys.
 ## License
 
 MIT
+- **📄 PDF Merge** → https://toolstand.io/tools/pdf-merge/
+- **🎯 PDF to Image** → https://toolstand.io/tools/pdf-to-image/
+- **📊 Schema Markup Generator** → https://toolstand.io/tools/schema-markup-generator/
+- **🎨 CSS Box Shadow Generator** → https://toolstand.io/tools/css-box-shadow/
+- **⭕ CSS Border Radius Generator** → https://toolstand.io/tools/css-border-radius/
+- **📐 CSS Clamp Generator** → https://toolstand.io/tools/css-clamp-generator/
+- **📦 JSON Minifier** → https://toolstand.io/tools/json-minifier/
+- **🧹 SVG Optimizer** → https://toolstand.io/tools/svg-optimizer/
