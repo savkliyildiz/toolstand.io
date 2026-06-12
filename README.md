@@ -167,6 +167,11 @@ No ads on embed pages. No attribution required (but appreciated).
 - **🔍 Meta Tag & SERP Preview** → /tools/meta-tag-preview/
 - **📊 Markdown Table Generator** → /tools/markdown-table/
 
+## Blog
+
+- [SHA-256 Hash Generator: 9 Smart Categories & 108 Free Tools](https://toolstand.io/blog/sha256-hash-generator-9-categories-108-tools/) — June 2026
+- [10 New Free PDF, SEO & Finance Tools](https://toolstand.io/blog/10-new-free-pdf-seo-finance-health-tools/) — May 2026
+
 ## License
 
 MIT — use them, embed them, build on them. Just don't remove the attribution if you fork.
