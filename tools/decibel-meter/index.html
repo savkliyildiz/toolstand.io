@@ -508,7 +508,27 @@ async function initAudio() {
     // Don't connect to destination — no feedback
     return true;
   } catch (err) {
-    console.warn('Microphone access denied:', err);
+    console.warn('Microphone access denied:', err.name, err.message);
+    // Show user-friendly error in permission block
+    const icon = permissionBlock.querySelector('.dbm-permission-icon');
+    const h2 = permissionBlock.querySelector('h2');
+    const p = permissionBlock.querySelector('p');
+    if (err.name === 'NotAllowedError') {
+      h2.textContent = 'Microphone blocked';
+      p.innerHTML = 'Your browser blocked microphone access. Please allow it in your browser settings and try again.<br><br><small>On mobile: check site permissions in browser menu.</small>';
+    } else if (err.name === 'NotFoundError') {
+      h2.textContent = 'No microphone found';
+      p.textContent = 'No microphone detected on this device. Try a device with a built-in or external microphone.';
+    } else if (err.name === 'NotReadableError') {
+      h2.textContent = 'Microphone in use';
+      p.textContent = 'Your microphone is being used by another app. Close other apps using the mic and try again.';
+    } else {
+      h2.textContent = 'Microphone unavailable';
+      p.textContent = 'Could not access microphone: ' + (err.message || 'Unknown error') + '. Make sure you\'re on HTTPS and your browser supports getUserMedia.';
+    }
+    if (icon) icon.textContent = '⚠️';
+    btnRequestMic.textContent = 'Try Again';
+    btnRequestMic.style.display = 'inline-block';
     return false;
   }
 }
@@ -616,12 +636,21 @@ async function toggleMic() {
 }
 
 async function startMic() {
+  // Feature detection
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    const h2 = permissionBlock.querySelector('h2');
+    const p = permissionBlock.querySelector('p');
+    h2.textContent = 'Browser not supported';
+    p.textContent = 'Your browser doesn\'t support microphone access. Try Chrome, Firefox, or Safari on a device with a microphone.';
+    permissionBlock.querySelector('.dbm-permission-icon').textContent = '🚫';
+    return;
+  }
+  
   // If audioCtx not yet created, init
   if (!audioCtx) {
     const ok = await initAudio();
     if (!ok) {
-      permissionBlock.classList.add('visible');
-      return;
+      return;  // Error already shown by initAudio()
     }
     permissionBlock.classList.remove('visible');
     meterBlock.style.display = 'block';
