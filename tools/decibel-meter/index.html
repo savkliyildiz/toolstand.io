@@ -646,11 +646,40 @@ async function startMic() {
     return;
   }
   
-  // If audioCtx not yet created, init
+  // CRITICAL: getUserMedia must be the FIRST async call to preserve user gesture.
+  // Calling it through nested async functions (initAudio) or after feature-detection
+  // conditionals that yield to microtask queue can break user activation on some browsers.
   if (!audioCtx) {
-    const ok = await initAudio();
-    if (!ok) {
-      return;  // Error already shown by initAudio()
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(micStream);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0;
+      source.connect(analyser);
+    } catch (err) {
+      console.warn('Microphone access denied:', err.name, err.message);
+      const icon = permissionBlock.querySelector('.dbm-permission-icon');
+      const h2 = permissionBlock.querySelector('h2');
+      const p = permissionBlock.querySelector('p');
+      if (err.name === 'NotAllowedError') {
+        h2.textContent = 'Microphone blocked';
+        p.innerHTML = 'Your browser blocked microphone access.<br><br><strong>Fix:</strong> click the lock/info icon in your address bar → Site Settings → allow Microphone. Then refresh the page.';
+      } else if (err.name === 'NotFoundError') {
+        h2.textContent = 'No microphone found';
+        p.textContent = 'No microphone detected on this device. Try a device with a built-in or external microphone.';
+      } else if (err.name === 'NotReadableError') {
+        h2.textContent = 'Microphone in use';
+        p.textContent = 'Your microphone is being used by another app. Close other apps using the mic and try again.';
+      } else {
+        h2.textContent = 'Microphone unavailable';
+        p.textContent = 'Could not access microphone: ' + (err.message || 'Unknown error');
+      }
+      if (icon) icon.textContent = '⚠️';
+      btnRequestMic.textContent = 'Try Again';
+      btnRequestMic.style.display = 'inline-block';
+      return;
     }
     permissionBlock.classList.remove('visible');
     meterBlock.style.display = 'block';
