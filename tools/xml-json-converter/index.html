@@ -85,6 +85,210 @@
     <a href="/tools/sql-formatter/">🗄️ SQL Formatter</a>
   </nav>
 
-</main><footer class="footer"><div class="container"><p>🧰 <strong>ToolStand</strong> — Free tools, always.</p><p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p></div></footer><script>(function(){function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}function xmlToJson(xml){var parser=new DOMParser();var doc=parser.parseFromString(xml,'text/xml');var errEl=doc.querySelector('parsererror');if(errEl)return{error:errEl.textContent.replace(/\n/g,' ').trim()};function elementToObj(el){var obj={};if(el.attributes&&el.attributes.length>0){for(var a=0;a<el.attributes.length;a++){obj['@'+el.attributes[a].name]=el.attributes[a].value}}var childElements=[];var textContent='';for(var c=0;c<el.childNodes.length;c++){var node=el.childNodes[c];if(node.nodeType===1){childElements.push(node)}else if(node.nodeType===3){var t=node.textContent.trim();if(t)textContent+=t}}if(childElements.length>0){var groups={};for(var i=0;i<childElements.length;i++){var child=childElements[i];var tag=child.nodeName;if(!groups[tag])groups[tag]=[];groups[tag].push(elementToObj(child))}for(var key in groups){if(groups[key].length===1){obj[key]=groups[key][0]}else{obj[key]=groups[key]}}if(textContent)obj['#text']=textContent}else{if(textContent){if(Object.keys(obj).length===0){return textContent}else{obj['#text']=textContent}}else if(Object.keys(obj).length===0){return ''}}return obj}return elementToObj(doc.documentElement)}function jsonToXml(obj,rootName){if(!rootName)rootName='root';function objToXml(name,obj,indent){var xml='';if(Array.isArray(obj)){for(var i=0;i<obj.length;i++){xml+=objToXml(name,obj[i],indent)}}else if(typeof obj==='object'&&obj!==null){var attrs='';var children='';var textVal='';var keys=Object.keys(obj);for(var k=0;k<keys.length;k++){var key=keys[k];var val=obj[key];if(key==='#text'){textVal=escXml(val)}else if(key.indexOf('@')===0){attrs+=' '+key.substring(1)+'="'+escXml(String(val))+'"'}else{children+=objToXml(key,val,indent+'  ')}}if(attrs||children||textVal){xml+=indent+'<'+name+attrs;if(!children&&!textVal){xml+='/>\n'}else if(!children){xml+='>'+textVal+'</'+name+'>\n'}else{xml+='>\n'+children+indent+'</'+name+'>\n'}}}else{xml+=indent+'<'+name+'>'+escXml(String(obj))+'</'+name+'>\n'}}return xml}function escXml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}var result='<?xml version="1.0" encoding="UTF-8"?>\n';result+=objToXml(rootName,obj,'');return result.trim()}function formatJson(obj){try{return JSON.stringify(obj,null,2)}catch(e){return String(obj)}}document.getElementById('tabX2J').addEventListener('click',function(){document.getElementById('panelX2J').style.display='block';document.getElementById('panelJ2X').style.display='none';document.getElementById('tabX2J').classList.add('active');document.getElementById('tabJ2X').classList.remove('active')});document.getElementById('tabJ2X').addEventListener('click',function(){document.getElementById('panelX2J').style.display='none';document.getElementById('panelJ2X').style.display='block';document.getElementById('tabJ2X').classList.add('active');document.getElementById('tabX2J').classList.remove('active')});document.getElementById('xjConvert').addEventListener('click',function(){var xml=document.getElementById('xjXmlIn').value;var out=document.getElementById('xjJsonOut');if(!xml.trim()){out.innerHTML='<p class="tc-err">Please enter XML.</p>';return}var json=xmlToJson(xml);if(json&&json.error){out.innerHTML='<div class="tc-err">⚠️ Invalid XML:\n'+escHtml(json.error)+'</div>';return}out.innerHTML=escHtml(formatJson(json))});document.getElementById('xjCopy').addEventListener('click',function(){var text=document.getElementById('xjJsonOut').textContent;navigator.clipboard.writeText(text).then(function(){var btn=document.getElementById('xjCopy');var orig=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=orig},1500)})});document.getElementById('xjConvertBack').addEventListener('click',function(){var jsonStr=document.getElementById('xjJsonIn').value;var out=document.getElementById('xjXmlOut');if(!jsonStr.trim()){out.innerHTML='<p class="tc-err">Please enter JSON.</p>';return}try{var obj=JSON.parse(jsonStr)}catch(e){out.innerHTML='<div class="tc-err">⚠️ Invalid JSON:\n'+escHtml(e.message)+'</div>';return}var rootName=Object.keys(obj)[0]||'root';var xml=jsonToXml(obj[rootName],rootName);out.innerHTML=escHtml(xml)});document.getElementById('xjCopyBack').addEventListener('click',function(){var text=document.getElementById('xjXmlOut').textContent;navigator.clipboard.writeText(text).then(function(){var btn=document.getElementById('xjCopyBack');var orig=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=orig},1500)})});document.getElementById('themeToggle').addEventListener('click',function(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('toolstand-theme',n)});document.documentElement.setAttribute('data-theme',localStorage.getItem('toolstand-theme')||'light');if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');document.getElementById('xjConvert').click();})();</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I convert files using xml ↔ json converter?", "acceptedAnswer": {"@type": "Answer", "text": "Paste or upload your content, select the output format, and click Convert. Processing happens in milliseconds using client-side JavaScript — nothing is uploaded to any server."}}, {"@type": "Question", "name": "Is it safe to convert sensitive documents with xml ↔ json converter?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — all conversion happens in your browser. Your files are never uploaded, never stored, and never seen by anyone. Close the tab and all data is gone."}}, {"@type": "Question", "name": "Will I lose quality when converting with xml ↔ json converter?", "acceptedAnswer": {"@type": "Answer", "text": "The tool uses lossless algorithms where possible. For formats that inherently lose data, it maintains maximum fidelity. Always keep your original file as backup."}}, {"@type": "Question", "name": "Does xml ↔ json converter work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Once the page loads, conversion runs without internet. Perfect for flights, commutes, or areas with poor connectivity. Just keep the tab open."}}, {"@type": "Question", "name": "What formats does xml ↔ json converter support?", "acceptedAnswer": {"@type": "Answer", "text": "The tool auto-detects your input format and supports the most common target formats. Check the How to Use section for the full list of supported input and output formats."}}, {"@type": "Question", "name": "How does xml ↔ json converter handle special characters and Unicode?", "acceptedAnswer": {"@type": "Answer", "text": "Properly handles Unicode, UTF-8, emojis, accented letters, and symbols. All characters are preserved faithfully during conversion."}}]}</script>
+</main><footer class="footer"><div class="container"><p>🧰 <strong>ToolStand</strong> — Free tools, always.</p><p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p></div></footer>
+<script>
+(function(){
+  'use strict';
+
+  // ── HTML escape for safe display ──────────────────────
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── XML → JSON ────────────────────────────────────────
+  function xmlToJson(xmlStr) {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(xmlStr, 'text/xml');
+    var errEl = doc.querySelector('parsererror');
+    if (errEl) return { error: errEl.textContent.replace(/\n/g, ' ').trim() };
+
+    function elementToObj(el) {
+      var obj = {};
+      // Attributes → @-prefixed keys
+      if (el.attributes && el.attributes.length > 0) {
+        for (var a = 0; a < el.attributes.length; a++) {
+          obj['@' + el.attributes[a].name] = el.attributes[a].value;
+        }
+      }
+      var childElements = [];
+      var textContent = '';
+      for (var c = 0; c < el.childNodes.length; c++) {
+        var node = el.childNodes[c];
+        if (node.nodeType === 1) { // Element
+          childElements.push(node);
+        } else if (node.nodeType === 3) { // Text
+          var t = node.textContent.trim();
+          if (t) textContent += t;
+        }
+      }
+      if (childElements.length > 0) {
+        var groups = {};
+        for (var i = 0; i < childElements.length; i++) {
+          var child = childElements[i];
+          var tag = child.nodeName;
+          if (!groups[tag]) groups[tag] = [];
+          groups[tag].push(elementToObj(child));
+        }
+        for (var key in groups) {
+          if (!groups.hasOwnProperty(key)) continue;
+          obj[key] = groups[key].length === 1 ? groups[key][0] : groups[key];
+        }
+        if (textContent) obj['#text'] = textContent;
+      } else {
+        if (textContent) {
+          if (Object.keys(obj).length === 0) return textContent;
+          obj['#text'] = textContent;
+        } else if (Object.keys(obj).length === 0) {
+          return '';
+        }
+      }
+      return obj;
+    }
+    return elementToObj(doc.documentElement);
+  }
+
+  // ── XML entity escape ─────────────────────────────────
+  function escXml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── JSON → XML ────────────────────────────────────────
+  function jsonToXml(obj, rootName) {
+    if (!rootName) rootName = 'root';
+
+    function objToXml(name, val, indent) {
+      var xml = '';
+      if (Array.isArray(val)) {
+        for (var i = 0; i < val.length; i++) {
+          xml += objToXml(name, val[i], indent);
+        }
+      } else if (typeof val === 'object' && val !== null) {
+        var attrs = '';
+        var children = '';
+        var textVal = '';
+        var keys = Object.keys(val);
+        for (var k = 0; k < keys.length; k++) {
+          var key = keys[k];
+          var v = val[key];
+          if (key === '#text') {
+            textVal = escXml(v);
+          } else if (key.indexOf('@') === 0) {
+            attrs += ' ' + key.substring(1) + '="' + escXml(String(v)) + '"';
+          } else {
+            children += objToXml(key, v, indent + '  ');
+          }
+        }
+        if (attrs || children || textVal) {
+          xml += indent + '<' + name + attrs;
+          if (!children && !textVal) {
+            xml += '/>\n';
+          } else if (!children) {
+            xml += '>' + textVal + '</' + name + '>\n';
+          } else {
+            xml += '>\n' + children + indent + '</' + name + '>\n';
+          }
+        }
+      } else {
+        xml += indent + '<' + name + '>' + escXml(String(val)) + '</' + name + '>\n';
+      }
+      return xml;
+    }
+    var result = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    result += objToXml(rootName, obj, '');
+    return result.trim();
+  }
+
+  // ── Tab switching ─────────────────────────────────────
+  document.getElementById('tabX2J').addEventListener('click', function(){
+    document.getElementById('panelX2J').style.display = 'block';
+    document.getElementById('panelJ2X').style.display = 'none';
+    document.getElementById('tabX2J').classList.add('active');
+    document.getElementById('tabJ2X').classList.remove('active');
+  });
+  document.getElementById('tabJ2X').addEventListener('click', function(){
+    document.getElementById('panelX2J').style.display = 'none';
+    document.getElementById('panelJ2X').style.display = 'block';
+    document.getElementById('tabJ2X').classList.add('active');
+    document.getElementById('tabX2J').classList.remove('active');
+  });
+
+  // ── XML → JSON Convert ────────────────────────────────
+  document.getElementById('xjConvert').addEventListener('click', function(){
+    var xml = document.getElementById('xjXmlIn').value;
+    var out = document.getElementById('xjJsonOut');
+    if (!xml.trim()) {
+      out.innerHTML = '<p class="tc-err">Please enter XML.</p>';
+      return;
+    }
+    var json = xmlToJson(xml);
+    if (json && json.error) {
+      out.innerHTML = '<div class="tc-err">⚠ Invalid XML:\n' + esc(json.error) + '</div>';
+      return;
+    }
+    try {
+      out.textContent = JSON.stringify(json, null, 2);
+    } catch(e) {
+      out.innerHTML = '<div class="tc-err">Error formatting: ' + esc(e.message) + '</div>';
+    }
+  });
+
+  document.getElementById('xjCopy').addEventListener('click', function(){
+    var text = document.getElementById('xjJsonOut').textContent;
+    navigator.clipboard.writeText(text).then(function(){
+      var btn = document.getElementById('xjCopy');
+      var orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(function(){ btn.textContent = orig; }, 1500);
+    });
+  });
+
+  // ── JSON → XML Convert ────────────────────────────────
+  document.getElementById('xjConvertBack').addEventListener('click', function(){
+    var jsonStr = document.getElementById('xjJsonIn').value;
+    var out = document.getElementById('xjXmlOut');
+    if (!jsonStr.trim()) {
+      out.innerHTML = '<p class="tc-err">Please enter JSON.</p>';
+      return;
+    }
+    var obj;
+    try {
+      obj = JSON.parse(jsonStr);
+    } catch(e) {
+      out.innerHTML = '<div class="tc-err">⚠ Invalid JSON:\n' + esc(e.message) + '</div>';
+      return;
+    }
+    var rootName = Object.keys(obj)[0] || 'root';
+    var xml = jsonToXml(obj[rootName], rootName);
+    out.textContent = xml;
+  });
+
+  document.getElementById('xjCopyBack').addEventListener('click', function(){
+    var text = document.getElementById('xjXmlOut').textContent;
+    navigator.clipboard.writeText(text).then(function(){
+      var btn = document.getElementById('xjCopyBack');
+      var orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(function(){ btn.textContent = orig; }, 1500);
+    });
+  });
+
+  // ── Theme ─────────────────────────────────────────────
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', n);
+    localStorage.setItem('toolstand-theme', n);
+  });
+  document.documentElement.setAttribute('data-theme', localStorage.getItem('toolstand-theme') || 'light');
+
+  // ── Service Worker ────────────────────────────────────
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+
+  // ── Auto-convert on load ──────────────────────────────
+  document.getElementById('xjConvert').click();
+
+})();
+</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"XML ↔ JSON Converter — Free Online Tool","item":"https://toolstand.io/tools/xml-json-converter/"}]}</script>
 /body></html>
