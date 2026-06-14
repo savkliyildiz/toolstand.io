@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+<link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="dns-prefetch" href="https://googleads.g.doubleclick.net">
+<title>109 Free Online Tools: UUID, Hash, Regex, SQL, YAML, Stopwatch & More | ToolStand</title>
+  <link rel="canonical" href="https://toolstand.io/">
+<meta name="description" content="109 free online tools: QR code generator, sleep sounds mixer, JSON formatter, hash generator, stopwatch, regex tester, UUID generator, unit converter, and more. No downloads. No sign-up. Works in your browser.">
+
+<!-- Critical CSS inlined — prevents CLS on first paint -->
+<style>
+:root{--bg:#ffffff;--bg-card:#f8fafc;--text:#1e293b;--text-secondary:#475569;--primary:#2563eb;--primary-hover:#1d4ed8;--border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,0.08);--radius:12px}
+[data-theme="dark"]{--bg:#0f172a;--bg-card:#1e293b;--text:#e2e8f0;--text-secondary:#cbd5e1;--primary:#3b82f6;--primary-hover:#2563eb;--border:#334155;--shadow:0 1px 3px rgba(0,0,0,0.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.header{border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;background:var(--bg);z-index:100;backdrop-filter:blur(10px);will-change:transform}
+.header .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.25rem;text-decoration:none;color:var(--text)}
+.nav{display:flex;align-items:center;gap:20px}
+.nav a{color:var(--text-secondary);text-decoration:none;font-size:.95rem}
+.nav a:hover{color:var(--primary)}
+.btn-icon{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:1.1rem}
+.hero{text-align:center;padding:60px 0 40px}
+.hero h1{font-size:2.5rem;font-weight:800;line-height:1.2;margin-bottom:12px;letter-spacing:-.02em}
+.hero p{color:var(--text-secondary);font-size:1.15rem;max-width:500px;margin:0 auto}
+.ad-banner{max-width:800px;margin:24px auto;padding:0 16px;height:120px;text-align:center;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ad-banner ins{display:block;width:100%;height:100%}
+.search-container{max-width:500px;margin:0 auto 24px;padding:0 16px}
+.search-input{width:100%;padding:14px 18px;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text);font-size:1rem;font-family:inherit;transition:border-color .2s,box-shadow .2s;outline:none}
+.search-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.search-input::placeholder{color:var(--text-secondary);opacity:.7}
+.tag-filters{margin:0 auto 16px;max-width:100%}
+.tag-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tag-btn{padding:6px 14px;font-size:.82rem;font-weight:600;border:1px solid var(--border);border-radius:100px;cursor:pointer;background:var(--bg-card);color:var(--text-secondary);transition:all .15s;user-select:none;white-space:nowrap}
+.tag-btn:hover{background:var(--border);color:var(--text)}
+.tag-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.tag-clear{display:none;font-size:.8rem;color:var(--text-secondary);cursor:pointer;padding:6px 10px}
+.tag-clear.visible{display:inline}
+.tag-clear:hover{color:var(--text);text-decoration:underline}
+.browse-categories{margin:0 auto 40px;max-width:100%;text-align:center}
+.browse-categories h2{font-size:1.3rem;font-weight:700;margin-bottom:16px;color:var(--text)}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.category-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 16px;text-decoration:none;color:var(--text);transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.category-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.category-card .tool-icon{font-size:1.8rem}
+.category-card h3{font-size:.95rem;font-weight:700}
+.category-card p{color:var(--text-secondary);font-size:.8rem}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding-bottom:60px}
+.tool-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-decoration:none;color:var(--text);transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;gap:8px;content-visibility:auto;contain-intrinsic-size:180px}
+.tool-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.tool-card--soon{opacity:.6;cursor:default}
+.tool-card--soon:hover{transform:none;box-shadow:none}
+.tool-card[hidden]{display:none}
+.tool-icon{font-size:2rem}
+.tool-card h3{font-size:1.1rem;font-weight:700}
+.tool-card p{color:var(--text-secondary);font-size:.9rem}
+.tool-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.tool-tag{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:100px;background:var(--bg);color:var(--text-secondary);border:1px solid var(--border);text-transform:uppercase;letter-spacing:.03em}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;margin-top:auto;width:fit-content}
+.badge--ready{background:#dcfce7;color:#166534}
+[data-theme="dark"] .badge--ready{background:#14532d;color:#86efac}
+.badge--soon{background:#f1f5f9;color:#475569}
+[data-theme="dark"] .badge--soon{background:#334155;color:#cbd5e1}
+.footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--text-secondary);font-size:.9rem}
+.footer a{color:var(--primary)}
+.footer .small{font-size:.8rem;margin-top:4px}
+.no-results{text-align:center;padding:40px 20px;color:var(--text-secondary);font-size:1.1rem}
+.no-results a{color:var(--primary);text-decoration:underline}
+@media(max-width:640px){.hero h1{font-size:1.8rem}.tools-grid{grid-template-columns:1fr}.category-grid{grid-template-columns:repeat(2,1fr)}.ad-banner{height:100px;margin:16px auto}}
+</style>
+
+<link rel="stylesheet" href="/shared/styles.css" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="/shared/styles.css"></noscript>
+
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+
+<script>
+(function(){var w=window;w.adsbygoogle=w.adsbygoogle||[];var s=document.createElement('script');s.async=true;s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770';s.crossOrigin='anonymous';s.onerror=function(e){e.stopPropagation()};var l=function(){document.head.appendChild(s)};if(w.requestIdleCallback){w.requestIdleCallback(l,{timeout:3000})}else{setTimeout(l,1000)};w.addEventListener('error',function(e){if(e.target&&e.target.src&&e.target.src.includes('googlesyndication')){e.stopPropagation();e.preventDefault()}},true)})();
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"ToolStand","url":"https://toolstand.io","description":"109 free online tools: QR code generator, sleep sounds mixer, JSON formatter, hash generator, stopwatch, regex tester, UUID generator, unit converter, and more. No downloads. No sign-up. Works in your browser.","potentialAction":{"@type":"SearchAction","target":"https://toolstand.io/?q={search_term_string}","query-input":"required name=search_term_string"}}
+</script>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/" />
+<meta property="og:title" content="109 Free Online Tools: UUID, Hash, Regex, SQL, YAML, Stopwatch & More | ToolStand">
+<meta property="og:description" content="109 free online tools: QR code generator, sleep sounds mixer, JSON formatter, hash generator, stopwatch, regex tester, UUID generator, unit converter, and more. No downloads. No sign-up. Works in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="109 Free Online Tools: UUID, Hash, Regex, SQL, YAML, Stopwatch & More | ToolStand">
+<meta name="twitter:description" content="109 free online tools: QR code generator, sleep sounds mixer, JSON formatter, hash generator, stopwatch, regex tester, UUID generator, unit converter, and more. No downloads. No sign-up. Works in your browser.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZS2V408VKP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZS2V408VKP');
+</script>
+
+<!-- ToolStand Analytics (privacy-first, self-hosted) -->
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle dark/light theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <h1>Free Online Tools.<br>No Downloads. No Subscriptions.</h1>
+    <p>Every tool on this page is free, works in your browser, and never asks for your credit card.</p>
+  </section>
+
+  <div class="ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="search-container">
+    <input type="text" id="toolSearch" class="search-input" placeholder="Search tools... (e.g. QR, sleep, signature)" autocomplete="off" aria-label="Search tools">
+  </div>
+
+  <div class="tag-filters">
+    <div class="tag-list" id="tagFilters">
+      <button class="tag-btn" data-tag="utility">🔧 Utilities 31</button>
+      <button class="tag-btn" data-tag="calculator">🧮 Calculators 22</button>
+      <button class="tag-btn" data-tag="converter">🔄 Converters 22</button>
+      <button class="tag-btn" data-tag="generator">✨ Generators 22</button>
+      <button class="tag-btn" data-tag="productivity">⏱️ Productivity 16</button>
+      <button class="tag-btn" data-tag="developer">💻 Developer 11</button>
+      <button class="tag-btn" data-tag="game">🎮 Games 5</button>
+      <button class="tag-btn" data-tag="finance">💰 Finance 5</button>
+      <button class="tag-btn" data-tag="seo">🔎 SEO 5</button>
+      <button class="tag-btn" data-tag="pdf">📄 PDF Tools 4</button>
+      <button class="tag-btn" data-tag="health">💪 Health 3</button>
+      <button class="tag-btn" data-tag="security">🔐 Security 2</button>
+      <button class="tag-btn" data-tag="formatter">📝 Formatter 2</button>
+      <button class="tag-btn" data-tag="music">🎵 Music 1</button>
+      <button class="tag-btn" data-tag="accessibility">♿ Accessibility 1</button>
+      <button class="tag-btn" data-tag="education">📚 Education 1</button>
+      <button class="tag-btn" data-tag="design">🎨 Design 3</button>
+    </div>
+    <div style="text-align:center;margin-top:8px"><span class="tag-clear" id="tagClear">Clear filters</span></div>
+  </div>
+
+  <section class="browse-categories">
+    <h2>Browse by Category</h2>
+    <div class="category-grid">
+      <a href="/hubs/everyday-tools.html" class="category-card"><span class="tool-icon">🔧 </span><h3>Everyday Tools</h3><p>21 tools</p></a>
+      <a href="/hubs/converters.html" class="category-card"><span class="tool-icon">🔄 </span><h3>Converters</h3><p>21 tools</p></a>
+      <a href="/hubs/generators.html" class="category-card"><span class="tool-icon">⚡ </span><h3>Generators</h3><p>18 tools</p></a>
+      <a href="/hubs/developer-tools.html" class="category-card"><span class="tool-icon">💻 </span><h3>Developer Tools</h3><p>16 tools</p></a>
+      <a href="/hubs/calculators.html" class="category-card"><span class="tool-icon">🧮 </span><h3>Calculators</h3><p>15 tools</p></a>
+      <a href="/hubs/games-fun.html" class="category-card"><span class="tool-icon">🎮 </span><h3>Games & Fun</h3><p>5 tools</p></a>
+      <a href="/hubs/money-finance.html" class="category-card"><span class="tool-icon">💰 </span><h3>Money & Finance</h3><p>5 tools</p></a>
+      <a href="/hubs/design-creative.html" class="category-card"><span class="tool-icon">🎨 </span><h3>Design & Creative</h3><p>4 tools</p></a>
+      <a href="/hubs/health-wellness.html" class="category-card"><span class="tool-icon">💪 </span><h3>Health & Wellness</h3><p>3 tools</p></a>
+    </div>
+  </section>
+
+  <section class="tools-grid" id="toolsGrid" aria-label="All tools">
+<a href="/tools/qr-code/" class="tool-card" data-tags="generator,utility" data-name="qr code generator & scanner" data-id="qr-code"><span class="tool-icon">📱</span><h3>QR Code Generator & Scanner</h3><p>Create and scan QR codes instantly. No app needed.</p><div class="tool-tags"><span class="tool-tag">generator</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/spirit-level/" class="tool-card" data-tags="utility" data-name="spirit level" data-id="spirit-level"><span class="tool-icon">📐</span><h3>Spirit Level</h3><p>Use your phone as a bubble level. Perfect for hanging pictures.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/pomodoro/" class="tool-card" data-tags="productivity" data-name="pomodoro timer" data-id="pomodoro"><span class="tool-icon">🍅</span><h3>Pomodoro Timer</h3><p>Focus timer with clean design. No ads interrupting your flow.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/metronome/" class="tool-card" data-tags="productivity" data-name="metronome" data-id="metronome"><span class="tool-icon">🎵</span><h3>Metronome</h3><p>Precise rhythm tool for musicians. No subscription paywalls.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/decibel-meter/" class="tool-card" data-tags="utility" data-name="decibel meter" data-id="decibel-meter"><span class="tool-icon">🔊</span><h3>Decibel Meter</h3><p>Measure sound levels. Great for classrooms and events.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/decision-wheel/" class="tool-card" data-tags="game,utility" data-name="decision wheel" data-id="decision-wheel"><span class="tool-icon">🎡</span><h3>Decision Wheel</h3><p>Spin the wheel with custom options. Fair, fast, and free.</p><div class="tool-tags"><span class="tool-tag">game</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/sleep-sounds/" class="tool-card" data-tags="utility" data-name="sleep sounds & white noise" data-id="sleep-sounds"><span class="tool-icon">🌙</span><h3>Sleep Sounds & White Noise</h3><p>Mix rain, fire, ocean, and white noise. Fall asleep faster.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/dead-pixel-test/" class="tool-card" data-tags="utility" data-name="dead pixel test" data-id="dead-pixel-test"><span class="tool-icon">🖥️</span><h3>Dead Pixel Test</h3><p>Full-screen color test for your screen. No ads during the test.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/due-date-calculator/" class="tool-card" data-tags="calculator" data-name="pregnancy due date calculator" data-id="due-date-calculator"><span class="tool-icon">👶</span><h3>Pregnancy Due Date Calculator</h3><p>Estimate your due date instantly. No sign-ups.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/signature-generator/" class="tool-card" data-tags="generator" data-name="signature generator" data-id="signature-generator"><span class="tool-icon">✍️</span><h3>Signature Generator</h3><p>Create a beautiful handwritten signature. Download as PNG.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/bmi-calculator/" class="tool-card" data-tags="calculator" data-name="bmi calculator" data-id="bmi-calculator"><span class="tool-icon">⚖️</span><h3>BMI Calculator</h3><p>Body Mass Index calculator. Instant results, no health data stored.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/age-calculator/" class="tool-card" data-tags="calculator" data-name="age calculator" data-id="age-calculator"><span class="tool-icon">🎂</span><h3>Age Calculator</h3><p>Calculate exact age in years, months, and days.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/password-generator/" class="tool-card" data-tags="generator" data-name="password generator" data-id="password-generator"><span class="tool-icon">🔐</span><h3>Password Generator</h3><p>Generate strong, random passwords. Configurable length.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/word-counter/" class="tool-card" data-tags="productivity" data-name="word & character counter" data-id="word-counter"><span class="tool-icon">📝</span><h3>Word & Character Counter</h3><p>Count words, characters, sentences, and reading time.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/base64/" class="tool-card" data-tags="generator,converter" data-name="base64 encoder & decoder" data-id="base64"><span class="tool-icon">🔣</span><h3>Base64 Encoder & Decoder</h3><p>Encode and decode Base64 strings. Essential developer utility.</p><div class="tool-tags"><span class="tool-tag">generator</span><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/color-converter/" class="tool-card" data-tags="converter" data-name="color code converter" data-id="color-converter"><span class="tool-icon">🎨</span><h3>Color Code Converter</h3><p>Convert HEX to RGB and HSL. Pick colors and copy codes.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/countdown/" class="tool-card" data-tags="productivity" data-name="countdown timer" data-id="countdown"><span class="tool-icon">⏳</span><h3>Countdown Timer</h3><p>Set a date and time, get a live countdown. Embeddable.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/dpi-calculator/" class="tool-card" data-tags="calculator" data-name="dpi & ppi calculator" data-id="dpi-calculator"><span class="tool-icon">📺</span><h3>DPI & PPI Calculator</h3><p>Calculate screen pixel density. For designers and developers.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/roman-numerals/" class="tool-card" data-tags="converter" data-name="roman numeral converter" data-id="roman-numerals"><span class="tool-icon">🏛️</span><h3>Roman Numeral Converter</h3><p>Convert numbers to Roman numerals and back.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/tip-calculator/" class="tool-card" data-tags="calculator" data-name="tip calculator" data-id="tip-calculator"><span class="tool-icon">💵</span><h3>Tip Calculator</h3><p>Calculate tips and split bills. Works worldwide.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/compound-interest/" class="tool-card" data-tags="calculator" data-name="compound interest calculator" data-id="compound-interest"><span class="tool-icon">📈</span><h3>Compound Interest Calculator</h3><p>See how your money grows with compound interest. Charts.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/dividend-calculator/" class="tool-card" data-tags="calculator" data-name="dividend reinvestment calculator" data-id="dividend-calculator"><span class="tool-icon">💰</span><h3>Dividend Reinvestment Calculator</h3><p>Calculate dividend returns with reinvestment and tax.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/minesweeper/" class="tool-card" data-tags="game" data-name="minesweeper" data-id="minesweeper"><span class="tool-icon">💣</span><h3>Minesweeper</h3><p>Classic minesweeper. 3 difficulty levels. Flag, reveal, win.</p><div class="tool-tags"><span class="tool-tag">game</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/snake-game/" class="tool-card" data-tags="game" data-name="snake game" data-id="snake-game"><span class="tool-icon">🐍</span><h3>Snake Game</h3><p>Classic snake game. Eat, grow, beat your high score.</p><div class="tool-tags"><span class="tool-tag">game</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/reaction-time/" class="tool-card" data-tags="game,utility" data-name="reaction time test" data-id="reaction-time"><span class="tool-icon">⚡</span><h3>Reaction Time Test</h3><p>Test your reflexes. High-precision timing via performance.now().</p><div class="tool-tags"><span class="tool-tag">game</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/tone-generator/" class="tool-card" data-tags="utility" data-name="frequency generator & tone tool" data-id="tone-generator"><span class="tool-icon">🎛️</span><h3>Frequency Generator & Tone Tool</h3><p>Pure tones 20Hz-20kHz. Water extraction mode included.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/diff-checker/" class="tool-card" data-tags="productivity" data-name="text diff checker" data-id="diff-checker"><span class="tool-icon">📝</span><h3>Text Diff Checker</h3><p>Compare two texts side by side. Color-coded LCS diff.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/video-script-timer/" class="tool-card" data-tags="productivity" data-name="video hook & script timer" data-id="video-script-timer"><span class="tool-icon">🎬</span><h3>Video Hook & Script Timer</h3><p>Calculate video duration from script. WPM slider, hook detection.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/youtube-title-generator/" class="tool-card" data-tags="generator" data-name="youtube title & tag generator" data-id="youtube-title-generator"><span class="tool-icon">📋</span><h3>YouTube Title & Tag Generator</h3><p>Generate YouTube titles and tags from keywords.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/token-counter/" class="tool-card" data-tags="productivity" data-name="ai token counter & cost estimator" data-id="token-counter"><span class="tool-icon">🤖</span><h3>AI Token Counter & Cost Estimator</h3><p>Count tokens, estimate API costs for 12 models.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/json-formatter/" class="tool-card" data-tags="converter" data-name="json formatter & validator" data-id="json-formatter"><span class="tool-icon">{ }</span><h3>JSON Formatter & Validator</h3><p>Format, validate, minify JSON. Error line detection.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/trade-risk-calculator/" class="tool-card" data-tags="calculator" data-name="trade risk & break-even calc" data-id="trade-risk-calculator"><span class="tool-icon">📊</span><h3>Trade Risk & Break-Even Calc</h3><p>Break-even price with commission. BIST, Binance presets.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/dca-calculator/" class="tool-card" data-tags="calculator" data-name="dca calculator" data-id="dca-calculator"><span class="tool-icon">📉</span><h3>DCA Calculator</h3><p>Dollar Cost Averaging. Add buys, see real average cost.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/keto-calculator/" class="tool-card" data-tags="calculator" data-name="keto & macro calculator" data-id="keto-calculator"><span class="tool-icon">🥑</span><h3>Keto & Macro Calculator</h3><p>Calculate keto macros. BMR, TDEE, doughnut chart.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/uuid-generator/" class="tool-card" data-tags="generator" data-name="uuid generator" data-id="uuid-generator"><span class="tool-icon">🆔</span><h3>UUID Generator</h3><p>Generate UUID v4 identifiers. Browser crypto API.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/jwt-decoder/" class="tool-card" data-tags="converter" data-name="jwt decoder" data-id="jwt-decoder"><span class="tool-icon">🔐</span><h3>JWT Decoder</h3><p>Decode JWT tokens. View header, payload, expiration.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/timestamp-converter/" class="tool-card" data-tags="converter" data-name="unix timestamp converter" data-id="timestamp-converter"><span class="tool-icon">🕐</span><h3>Unix Timestamp Converter</h3><p>Convert Unix timestamps to dates and back. Bidirectional.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/url-encoder/" class="tool-card" data-tags="converter" data-name="url encoder & decoder" data-id="url-encoder"><span class="tool-icon">🔗</span><h3>URL Encoder & Decoder</h3><p>Encode/decode URL strings. Percent-encoding tool.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/html-entity-encoder/" class="tool-card" data-tags="converter" data-name="html entity encoder & decoder" data-id="html-entity-encoder"><span class="tool-icon">📝</span><h3>HTML Entity Encoder & Decoder</h3><p>Encode/decode HTML entities. XSS prevention.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/case-converter/" class="tool-card" data-tags="converter" data-name="case converter" data-id="case-converter"><span class="tool-icon">🔤</span><h3>Case Converter</h3><p>UPPER, lower, camelCase, snake_case, 8 formats.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/base-converter/" class="tool-card" data-tags="converter" data-name="number base converter" data-id="base-converter"><span class="tool-icon">🔢</span><h3>Number Base Converter</h3><p>Binary, octal, decimal, hex. Real-time conversion.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/stopwatch/" class="tool-card" data-tags="productivity" data-name="stopwatch" data-id="stopwatch"><span class="tool-icon">⏱️</span><h3>Stopwatch</h3><p>Online stopwatch with lap timing. Millisecond precision.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/date-difference/" class="tool-card" data-tags="calculator" data-name="date difference calculator" data-id="date-difference"><span class="tool-icon">📅</span><h3>Date Difference Calculator</h3><p>Days between dates. Business days, years, weeks.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/utm-builder/" class="tool-card" data-tags="generator" data-name="utm builder" data-id="utm-builder"><span class="tool-icon">📊</span><h3>UTM Builder</h3><p>Build UTM campaign URLs. Source, medium, campaign.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/robots-txt-generator/" class="tool-card" data-tags="generator" data-name="robots.txt generator" data-id="robots-txt-generator"><span class="tool-icon">🤖</span><h3>Robots.txt Generator</h3><p>Generate robots.txt. Allow/block crawlers.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/meta-tag-generator/" class="tool-card" data-tags="generator" data-name="meta tag generator" data-id="meta-tag-generator"><span class="tool-icon">🏷️</span><h3>Meta Tag Generator</h3><p>Generate SEO meta, Open Graph, Twitter Card tags.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/color-palette-generator/" class="tool-card" data-tags="generator" data-name="color palette generator" data-id="color-palette-generator"><span class="tool-icon">🎨</span><h3>Color Palette Generator</h3><p>Complementary, analogous, triadic, monochrome palettes.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/lorem-ipsum/" class="tool-card" data-tags="generator" data-name="lorem ipsum generator" data-id="lorem-ipsum"><span class="tool-icon">📄</span><h3>Lorem Ipsum Generator</h3><p>Placeholder text. Paragraphs or words. HTML output.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/cron-builder/" class="tool-card" data-tags="productivity" data-name="cron expression builder" data-id="cron-builder"><span class="tool-icon">⏰</span><h3>Cron Expression Builder</h3><p>Visual cron builder. Human-readable. Presets included.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/hash-generator/" class="tool-card" data-tags="generator" data-name="hash generator" data-id="hash-generator"><span class="tool-icon">🔐</span><h3>Hash Generator</h3><p>SHA-256, SHA-1, SHA-512. Web Crypto API.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/regex-tester/" class="tool-card" data-tags="productivity" data-name="regex tester" data-id="regex-tester"><span class="tool-icon">🔍</span><h3>Regex Tester</h3><p>Test regex in real-time. Highlight matches, groups.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/markdown-previewer/" class="tool-card" data-tags="productivity" data-name="markdown previewer" data-id="markdown-previewer"><span class="tool-icon">📝</span><h3>Markdown Previewer</h3><p>Live Markdown preview. Write left, see rendered HTML right.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/password-strength-checker/" class="tool-card" data-tags="utility" data-name="password strength checker" data-id="password-strength-checker"><span class="tool-icon">🔒</span><h3>Password Strength Checker</h3><p>Entropy score, crack time, improvement tips.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/unit-converter/" class="tool-card" data-tags="converter" data-name="unit converter" data-id="unit-converter"><span class="tool-icon">📏</span><h3>Unit Converter</h3><p>Length, weight, temp, area, volume, speed. All in one.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/readability-checker/" class="tool-card" data-tags="productivity" data-name="readability score checker" data-id="readability-checker"><span class="tool-icon">📖</span><h3>Readability Score Checker</h3><p>Flesch-Kincaid score, grade level, word statistics.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/timezone-converter/" class="tool-card" data-tags="utility" data-name="time zone converter" data-id="timezone-converter"><span class="tool-icon">🌍</span><h3>Time Zone Converter</h3><p>Compare current time across cities worldwide.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/json-compare/" class="tool-card" data-tags="converter" data-name="json compare" data-id="json-compare"><span class="tool-icon">🔍</span><h3>JSON Compare</h3><p>Compare two JSON objects. Find added/removed/changed keys.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/water-intake/" class="tool-card" data-tags="calculator" data-name="water intake calculator" data-id="water-intake"><span class="tool-icon">💧</span><h3>Water Intake Calculator</h3><p>Daily water needs based on weight, activity, climate.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/whats-my-ip/" class="tool-card" data-tags="developer,utility" data-name="what is my ip address" data-id="whats-my-ip"><span class="tool-icon">🌐</span><h3>What Is My IP Address</h3><p>Check your public IPv4 & IPv6, ISP, and location instantly.</p><div class="tool-tags"><span class="tool-tag">developer</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/gradient-generator/" class="tool-card" data-tags="generator" data-name="gradient generator" data-id="gradient-generator"><span class="tool-icon">🎨</span><h3>Gradient Generator</h3><p>CSS gradients: linear, radial, conic. Copy CSS code.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/json-schema-generator/" class="tool-card" data-tags="converter" data-name="json schema generator" data-id="json-schema-generator"><span class="tool-icon">📋</span><h3>JSON Schema Generator</h3><p>Generate JSON Schema from JSON. Auto-detects types.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/yaml-validator/" class="tool-card" data-tags="converter" data-name="yaml validator" data-id="yaml-validator"><span class="tool-icon">📄</span><h3>YAML Validator</h3><p>Validate YAML, convert to JSON. Error line detection.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/sql-formatter/" class="tool-card" data-tags="converter" data-name="sql formatter" data-id="sql-formatter"><span class="tool-icon">🗄️</span><h3>SQL Formatter</h3><p>Format SQL. MySQL, PostgreSQL, SQLite. Beautify/minify.</p><div class="tool-tags"><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/barcode-generator/" class="tool-card" data-tags="generator" data-name="barcode generator" data-id="barcode-generator"><span class="tool-icon">📊</span><h3>Barcode Generator</h3><p>CODE128, EAN-13, UPC barcodes. Download SVG/PNG.</p><div class="tool-tags"><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/scientific-calculator/" class="tool-card" data-tags="calculator" data-name="scientific calculator" data-id="scientific-calculator"><span class="tool-icon">🧮</span><h3>Scientific Calculator</h3><p>Trig, log, sqrt, power. Expression input with history.</p><div class="tool-tags"><span class="tool-tag">calculator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/temperature-tracker/" class="tool-card" data-tags="utility" data-name="temperature tracker" data-id="temperature-tracker"><span class="tool-icon">🌡️</span><h3>Temperature Tracker</h3><p>Track body temp. Chart, CSV export. Fever alerts.</p><div class="tool-tags"><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/regex-explainer/" class="tool-card" data-tags="utility,developer" data-name="regex explainer" data-id="regex-explainer"><span class="tool-icon">🔍</span><h3>Regex Explainer</h3><p>Translate regex to human language. Token-by-token explanation.</p><div class="tool-tags"><span class="tool-tag">utility</span><span class="tool-tag">developer</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/xml-formatter/" class="tool-card" data-tags="formatter,developer" data-name="xml formatter & validator" data-id="xml-formatter"><span class="tool-icon">📄</span><h3>XML Formatter & Validator</h3><p>Format & validate XML. DOMParser error detection.</p><div class="tool-tags"><span class="tool-tag">formatter</span><span class="tool-tag">developer</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/xml-json-converter/" class="tool-card" data-tags="converter,developer" data-name="xml ↔ json converter" data-id="xml-json-converter"><span class="tool-icon">🔄</span><h3>XML ↔ JSON Converter</h3><p>Bidirectional XML ↔ JSON conversion. Recursive mapping.</p><div class="tool-tags"><span class="tool-tag">converter</span><span class="tool-tag">developer</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/csv-json-converter/" class="tool-card" data-tags="converter,developer" data-name="csv ↔ json converter" data-id="csv-json-converter"><span class="tool-icon">📊</span><h3>CSV ↔ JSON Converter</h3><p>CSV ↔ JSON converter. Smart parsing with PapaParse.</p><div class="tool-tags"><span class="tool-tag">converter</span><span class="tool-tag">developer</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/jsonpath-tester/" class="tool-card" data-tags="developer,utility" data-name="jsonpath tester" data-id="jsonpath-tester"><span class="tool-icon">🎯</span><h3>JSONPath Tester</h3><p>Evaluate JSONPath queries. Select data from JSON.</p><div class="tool-tags"><span class="tool-tag">developer</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/serp-preview/" class="tool-card" data-tags="seo,utility" data-name="serp preview tool" data-id="serp-preview"><span class="tool-icon">🔎</span><h3>SERP Preview Tool</h3><p>Google SERP preview. Title 60, description 160 chars.</p><div class="tool-tags"><span class="tool-tag">seo</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/inflation-calculator/" class="tool-card" data-tags="calculator,finance" data-name="inflation calculator" data-id="inflation-calculator"><span class="tool-icon">💸</span><h3>Inflation Calculator</h3><p>Calculate inflation impact. Future value of money.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">finance</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/random-number/" class="tool-card" data-tags="generator,utility" data-name="random number generator" data-id="random-number"><span class="tool-icon">🎲</span><h3>Random Number Generator</h3><p>Cryptographic random numbers. Dice, lottery, unique picks.</p><div class="tool-tags"><span class="tool-tag">generator</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/aspect-ratio/" class="tool-card" data-tags="calculator,utility" data-name="aspect ratio calculator" data-id="aspect-ratio"><span class="tool-icon">📐</span><h3>Aspect Ratio Calculator</h3><p>Aspect ratio calculator. YouTube, Instagram, TikTok presets.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/text-encryptor/" class="tool-card" data-tags="security,utility" data-name="text encryptor / decryptor" data-id="text-encryptor"><span class="tool-icon">🔐</span><h3>Text Encryptor / Decryptor</h3><p>AES-256-GCM encryption. Password-protected messages.</p><div class="tool-tags"><span class="tool-tag">security</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/ssh-key-generator/" class="tool-card" data-tags="security,developer" data-name="ssh key generator" data-id="ssh-key-generator"><span class="tool-icon">🔑</span><h3>SSH Key Generator</h3><p>Generate SSH key pairs. RSA, ECDSA. PEM format.</p><div class="tool-tags"><span class="tool-tag">security</span><span class="tool-tag">developer</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/bpm-tap/" class="tool-card" data-tags="utility,music" data-name="bpm tap tempo" data-id="bpm-tap"><span class="tool-icon">🥁</span><h3>BPM Tap Tempo</h3><p>Tap tempo BPM finder. Tap button or press spacebar.</p><div class="tool-tags"><span class="tool-tag">utility</span><span class="tool-tag">music</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/og-preview/" class="tool-card" data-tags="seo,utility" data-name="open graph preview" data-id="og-preview"><span class="tool-icon">👁️</span><h3>Open Graph Preview</h3><p>Social media link preview. Facebook, Twitter, LinkedIn.</p><div class="tool-tags"><span class="tool-tag">seo</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/image-resizer/" class="tool-card" data-tags="utility,converter" data-name="image resizer & compressor" data-id="image-resizer"><span class="tool-icon">🖼️</span><h3>Image Resizer & Compressor</h3><p>Resize & compress images. Canvas API, no upload.</p><div class="tool-tags"><span class="tool-tag">utility</span><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/image-converter/" class="tool-card" data-tags="converter,utility" data-name="image format converter" data-id="image-converter"><span class="tool-icon">🔄</span><h3>Image Format Converter</h3><p>PNG, JPEG, WebP conversion. Batch processing support.</p><div class="tool-tags"><span class="tool-tag">converter</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/loan-calculator/" class="tool-card" data-tags="calculator,finance" data-name="loan & mortgage calculator" data-id="loan-calculator"><span class="tool-icon">🏦</span><h3>Loan & Mortgage Calculator</h3><p>Loan calculator. Monthly payment, amortization, early payoff.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">finance</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/calorie-calculator/" class="tool-card" data-tags="calculator,health" data-name="calorie & tdee calculator" data-id="calorie-calculator"><span class="tool-icon">🔥</span><h3>Calorie & TDEE Calculator</h3><p>Daily calorie needs, TDEE, macros. BMR calculation.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">health</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/color-blindness/" class="tool-card" data-tags="utility,accessibility" data-name="color blindness simulator" data-id="color-blindness"><span class="tool-icon">👁️</span><h3>Color Blindness Simulator</h3><p>Color blindness simulator. 4 types, Canvas LMS matrix.</p><div class="tool-tags"><span class="tool-tag">utility</span><span class="tool-tag">accessibility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/pace-calculator/" class="tool-card" data-tags="calculator,health" data-name="pace & running calculator" data-id="pace-calculator"><span class="tool-icon">🏃</span><h3>Pace & Running Calculator</h3><p>Running pace, time, distance. 5K, 10K, marathon splits.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">health</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/pomodoro-task/" class="tool-card" data-tags="productivity" data-name="pomodoro + task tracker" data-id="pomodoro-task"><span class="tool-icon">✅</span><h3>Pomodoro + Task Tracker</h3><p>Pomodoro timer + task list. Progress tracking.</p><div class="tool-tags"><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/currency-converter/" class="tool-card" data-tags="converter,finance" data-name="currency converter" data-id="currency-converter"><span class="tool-icon">💱</span><h3>Currency Converter</h3><p>Live exchange rates. Frankfurter API, 7-day chart.</p><div class="tool-tags"><span class="tool-tag">converter</span><span class="tool-tag">finance</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/function-plotter/" class="tool-card" data-tags="calculator,education" data-name="function graph plotter" data-id="function-plotter"><span class="tool-icon">📈</span><h3>Function Graph Plotter</h3><p>Math function graphing. sin, cos, x², multi-function.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">education</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/invoice-generator/" class="tool-card" data-tags="generator,productivity" data-name="invoice generator" data-id="invoice-generator"><span class="tool-icon">🧾</span><h3>Invoice Generator</h3><p>Create invoices, print-ready template. Export via print.</p><div class="tool-tags"><span class="tool-tag">generator</span><span class="tool-tag">productivity</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/wordle-solver/" class="tool-card" data-tags="game,utility" data-name="wordle solver" data-id="wordle-solver"><span class="tool-icon">🟩</span><h3>Wordle Solver</h3><p>Wordle solver. Letter filtering, 2000+ words.</p><div class="tool-tags"><span class="tool-tag">game</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/pdf-merge/" class="tool-card" data-tags="pdf,utility" data-name="pdf merge" data-id="pdf-merge"><span class="tool-icon">📎</span><h3>PDF Merge</h3><p>Combine multiple PDFs into one. Drag-and-drop, reorder, instant download.</p><div class="tool-tags"><span class="tool-tag">pdf</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/pdf-split/" class="tool-card" data-tags="pdf,utility" data-name="pdf split" data-id="pdf-split"><span class="tool-icon">✂️</span><h3>PDF Split</h3><p>Split PDFs by page range. Extract individual pages or ranges.</p><div class="tool-tags"><span class="tool-tag">pdf</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/image-to-pdf/" class="tool-card" data-tags="pdf,converter" data-name="image to pdf" data-id="image-to-pdf"><span class="tool-icon">🖼️</span><h3>Image to PDF</h3><p>Convert JPG, PNG, WebP images to PDF. A4/Letter, margins.</p><div class="tool-tags"><span class="tool-tag">pdf</span><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/pdf-to-image/" class="tool-card" data-tags="pdf,converter" data-name="pdf to image" data-id="pdf-to-image"><span class="tool-icon">📄</span><h3>PDF to Image</h3><p>Convert PDF pages to PNG, JPG, or WebP images. High quality.</p><div class="tool-tags"><span class="tool-tag">pdf</span><span class="tool-tag">converter</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/schema-markup-generator/" class="tool-card" data-tags="seo,generator" data-name="schema markup generator" data-id="schema-markup-generator"><span class="tool-icon">🏗️</span><h3>Schema Markup Generator</h3><p>Generate JSON-LD schema. Organization, Product, FAQ, Article, more.</p><div class="tool-tags"><span class="tool-tag">seo</span><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/faq-schema-generator/" class="tool-card" data-tags="seo,generator" data-name="faq schema generator" data-id="faq-schema-generator"><span class="tool-icon">❓</span><h3>FAQ Schema Generator</h3><p>Create Google FAQ rich results. Question-answer pairs, copy code.</p><div class="tool-tags"><span class="tool-tag">seo</span><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/savings-calculator/" class="tool-card" data-tags="calculator,finance" data-name="savings calculator" data-id="savings-calculator"><span class="tool-icon">🐖</span><h3>Savings Calculator</h3><p>Future value of savings. Compound growth with Chart.js visualization.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">finance</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/retirement-calculator/" class="tool-card" data-tags="calculator,finance" data-name="retirement calculator" data-id="retirement-calculator"><span class="tool-icon">👴</span><h3>Retirement Calculator</h3><p>Estimate retirement fund and monthly income. 4% rule, growth chart.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">finance</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/body-fat-calculator/" class="tool-card" data-tags="calculator,health" data-name="body fat calculator" data-id="body-fat-calculator"><span class="tool-icon">💪</span><h3>Body Fat Calculator</h3><p>US Navy body fat % formula. Gender-specific, fitness assessment.</p><div class="tool-tags"><span class="tool-tag">calculator</span><span class="tool-tag">health</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/svg-optimizer/" class="tool-card" data-tags="design,utility" data-name="svg optimizer" data-id="svg-optimizer"><span class="tool-icon">📐</span><h3>SVG Optimizer</h3><p>Minify and clean SVG code. Remove metadata, comments, whitespace.</p><div class="tool-tags"><span class="tool-tag">design</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/css-box-shadow/" class="tool-card" data-tags="design,utility" data-name="css box shadow generator" data-id="css-box-shadow"><span class="tool-icon">🎨</span><h3>CSS Box Shadow Generator</h3><p>Design box shadows visually. Adjust offset, blur, spread, color. Live preview. Copy CSS.</p><div class="tool-tags"><span class="tool-tag">design</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/css-border-radius/" class="tool-card" data-tags="design,utility" data-name="css border radius generator" data-id="css-border-radius"><span class="tool-icon">⭕</span><h3>CSS Border Radius Generator</h3><p>Generate border-radius visually. Control each corner individually. px or %. Copy CSS.</p><div class="tool-tags"><span class="tool-tag">design</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/css-clamp-generator/" class="tool-card" data-tags="developer,utility" data-name="css clamp generator" data-id="css-clamp-generator"><span class="tool-icon">📐</span><h3>CSS Clamp Generator</h3><p>Generate CSS clamp() for fluid typography and spacing. Min, preferred, max. Copy instantly.</p><div class="tool-tags"><span class="tool-tag">developer</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/json-minifier/" class="tool-card" data-tags="developer,utility" data-name="json minifier" data-id="json-minifier"><span class="tool-icon">📦</span><h3>JSON Minifier</h3><p>Minify and compress JSON. Strip whitespace, reduce file size. Size comparison stats.</p><div class="tool-tags"><span class="tool-tag">developer</span><span class="tool-tag">utility</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/json-to-java/" class="tool-card" data-tags="developer,generator" data-name="json to java pojo/dto converter" data-id="json-to-java"><span class="tool-icon">☕</span><h3>JSON to Java POJO/DTO Converter</h3><p>Convert JSON to Java POJO classes with Lombok, Jackson, nested objects. Free online converter, no sign-up.</p><div class="tool-tags"><span class="tool-tag">developer</span><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/ai-prompt-builder/" class="tool-card" data-tags="productivity,generator" data-name="ai prompt builder & optimizer" data-id="ai-prompt-builder"><span class="tool-icon">🤖</span><h3>AI Prompt Builder & Optimizer</h3><p>Build structured prompts for ChatGPT, Claude, Midjourney. Role, tone, format controls. Free and instant.</p><div class="tool-tags"><span class="tool-tag">productivity</span><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/dockerfile-generator/" class="tool-card" data-tags="developer,generator" data-name="dockerfile & docker compose generator" data-id="dockerfile-generator"><span class="tool-icon">🐳</span><h3>Dockerfile & Docker Compose Generator</h3><p>Generate Dockerfile and compose files for Node, Python, Go, Java. Pick DB, ports, env vars. No Docker experience needed.</p><div class="tool-tags"><span class="tool-tag">developer</span><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/meta-tag-preview/" class="tool-card" data-tags="seo,generator" data-name="meta tag & serp preview generator" data-id="meta-tag-preview"><span class="tool-icon">🔍</span><h3>Meta Tag & SERP Preview Generator</h3><p>Preview Google search results and social cards. Generate meta tags with live SERP simulator. Free SEO tool.</p><div class="tool-tags"><span class="tool-tag">seo</span><span class="tool-tag">generator</span></div><span class="badge badge--ready">Available</span></a>
+    <a href="/tools/markdown-table/" class="tool-card" data-tags="productivity,formatter" data-name="markdown table generator & csv converter" data-id="markdown-table"><span class="tool-icon">📊</span><h3>Markdown Table Generator & CSV Converter</h3><p>Create Markdown tables visually or paste CSV. Align columns, export to HTML. Works with GitHub Flavored Markdown.</p><div class="tool-tags"><span class="tool-tag">productivity</span><span class="tool-tag">formatter</span></div><span class="badge badge--ready">Available</span></a>
+  </section>
+
+  <div id="noResults" class="no-results" style="display:none" role="status">
+    <p>No tools found matching "<span id="searchTerm"></span>"</p>
+    <p class="small" style="color:var(--text-secondary)">Try different tags or <a href="#" onclick="clearAllFilters();return false">show all tools</a></p>
+  </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always. <a href="mailto:hello@toolstand.io">hello@toolstand.io</a></p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+    <p class="small">Powered by clean code and coffee ☕</p>
+  </div>
+</footer>
+
+<script async src="/shared/tools-data.js"></script>
+
+<script>
+var TAGS=[{id:"utility",label:"Utilities",count:0},{id:"calculator",label:"Calculators",count:0},{id:"converter",label:"Converters",count:0},{id:"generator",label:"Generators",count:0},{id:"productivity",label:"Productivity",count:0},{id:"developer",label:"Developer",count:0},{id:"game",label:"Games",count:0},{id:"finance",label:"Finance",count:0},{id:"seo",label:"SEO",count:0},{id:"pdf",label:"PDF Tools",count:0},{id:"health",label:"Health",count:0},{id:"security",label:"Security",count:0},{id:"formatter",label:"Formatter",count:0},{id:"music",label:"Music",count:0},{id:"accessibility",label:"Accessibility",count:0},{id:"education",label:"Education",count:0},{id:"design",label:"Design",count:0}];
+
+var activeTags=[],tf=document.getElementById('tagFilters'),toolsReady=false;
+
+function renderTagButtons(){
+  if(!tf||!toolsReady)return;
+  var btns=tf.querySelectorAll('.tag-btn');
+  btns.forEach(function(b){
+    var t=b.dataset.tag, a=activeTags.includes(t);
+    b.classList.toggle('active',a);
+    b.setAttribute('aria-pressed',a);
+  });
+}
+function updateClearButton(){var e=document.getElementById('tagClear');if(e)e.classList.toggle('visible',activeTags.length>0)}
+function toggleTag(id){var i=activeTags.indexOf(id);if(i>=0)activeTags.splice(i,1);else activeTags.push(id);renderTagButtons();updateClearButton();applyFilters()}
+function clearAllFilters(){activeTags=[];document.getElementById('toolSearch').value='';renderTagButtons();updateClearButton();applyFilters()}
+
+function applyFilters(filterText){
+  var q=(typeof filterText==='string'?filterText:document.getElementById('toolSearch').value).toLowerCase().trim();
+  var cards=document.querySelectorAll('.tool-card'),nr=document.getElementById('noResults'),st=document.getElementById('searchTerm');
+  var visible=0;
+  cards.forEach(function(c){
+    var name=c.getAttribute('data-name')||'',tags=c.getAttribute('data-tags')||'',id=c.getAttribute('data-id')||'';
+    var match=true;
+    if(q)match=name.includes(q)||id.includes(q);
+    if(match&&activeTags.length>0)match=activeTags.every(function(t){return tags.split(',').includes(t)});
+    c.hidden=!match;
+    if(match)visible++;
+  });
+  if(visible===0){
+    nr.style.display='block';st.textContent=q||(activeTags.length?activeTags.map(function(t){return'#'+t}).join(' + '):'');
+  }else{nr.style.display='none'}
+}
+
+function initTools(){if(typeof TOOLS==='undefined'){setTimeout(initTools,50);return}toolsReady=true;renderTagButtons();document.title=document.title.replace(/^\d+/,TOOLS.length)}
+
+if(tf)tf.addEventListener('click',function(e){var b=e.target.closest('.tag-btn');if(b)toggleTag(b.dataset.tag)});
+var tc=document.getElementById('tagClear');if(tc)tc.addEventListener('click',clearAllFilters);
+var se=document.getElementById('toolSearch');if(se){var dbTimer;se.addEventListener('input',function(e){clearTimeout(dbTimer);dbTimer=setTimeout(function(){applyFilters(e.target.value)},200)})};
+
+var toggle=document.getElementById('themeToggle'),saved=localStorage.getItem('toolstand-theme')||'light';
+requestAnimationFrame(function(){document.documentElement.setAttribute('data-theme',saved)});
+if(toggle)toggle.addEventListener('click',function(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('toolstand-theme',n)});
+
+initTools();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js?v=10');
+</script>
+<script>
+// Dynamic category counts — updates from TOOLS array
+(function(){
+  var hubTags = {
+    'everyday-tools': ['utility'],
+    'converters': ['converter'],
+    'generators': ['generator'],
+    'developer-tools': ['developer','formatter','security','seo'],
+    'calculators': ['calculator'],
+    'games-fun': ['game'],
+    'money-finance': ['finance'],
+    'design-creative': ['design'],
+    'health-wellness': ['health']
+  };
+  function updateCounts(){
+    if(typeof TOOLS === 'undefined'){setTimeout(updateCounts,100);return}
+    var cards = document.querySelectorAll('.category-card');
+    cards.forEach(function(card){
+      var href = card.getAttribute('href')||'';
+      var hub = href.replace('/hubs/','').replace('.html','');
+      var tags = hubTags[hub];
+      if(!tags) return;
+      var count = TOOLS.filter(function(t){
+        return t.tags.some(function(tag){return tags.indexOf(tag)>=0})
+      }).length;
+      var p = card.querySelector('p');
+      if(p) p.textContent = count + ' tools';
+    });
+  }
+  updateCounts();
+})();
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is ToolStand?","acceptedAnswer":{"@type":"Answer","text":"ToolStand is a collection of 109 free browser‑based tools — no downloads, no sign‑up, no subscriptions. Generate QR codes, format JSON, convert units, test regex, and more, all in your browser."}},{"@type":"Question","name":"Are ToolStand tools really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every tool is completely free to use. There are no pro plans, no feature gates, and no time limits. We generate revenue through non‑intrusive display advertising only."}},{"@type":"Question","name":"Can I embed these tools on my own website?","acceptedAnswer":{"@type":"Answer","text":"Yes. Many ToolStand tools include an embed option (iframe). Copy the embed code from the tool page and paste it into your site — the tool works inside the embed with no external dependencies."}},{"@type":"Question","name":"Is ToolStand mobile‑friendly?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Every tool is responsive and works on phones, tablets, and desktops. ToolStand is a PWA so you can install it on your device for offline access."}}]}</script>
+</body>
+</html>

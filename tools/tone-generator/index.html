@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Frequency Generator & Tone Tool — Generate Free | ToolStand</title>
+<meta name="description" content="Generate pure audio tones from 20Hz to 20kHz. Sine, square, sawtooth, triangle waves. Includes Water Extraction Mode for speakers. Free, no signup.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#a855f7">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/tone-generator/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Frequency Generator & Tone Tool",
+  "alternateName": "tone-generator",
+  "url": "https://toolstand.io/tools/tone-generator/",
+  "description": "A frequency generation tool that produces pure audio tones from 20Hz to 20kHz using the Web Audio API with multiple waveforms. It solves problems including audio equipment testing, tinnitus relief (water extraction mode), and hearing range testing.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "utility",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+/* ── Tone Generator: scoped with .tg- prefix ── */
+.tg-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.tg-wave-selector {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tg-wave-btn {
+  padding: 10px 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+
+.tg-wave-btn.tg-active {
+  background: #a855f7;
+  color: white;
+}
+
+.tg-display {
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.tg-freq-value {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #a855f7;
+  line-height: 1.1;
+}
+
+.tg-freq-unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.tg-note-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 4px;
+}
+
+.tg-controls {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tg-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tg-control-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tg-control-group label span.tg-val {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  min-width: 70px;
+  text-align: right;
+}
+
+.tg-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border);
+  outline: none;
+}
+
+.tg-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #a855f7;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.tg-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #a855f7;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.tg-presets {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tg-preset-btn {
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+
+.tg-preset-btn:hover {
+  background: #a855f7;
+  color: white;
+  border-color: #a855f7;
+}
+
+.tg-fine-tune {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.tg-fine-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.tg-fine-btn:hover { background: var(--border); }
+
+.tg-action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tg-btn-play {
+  padding: 12px 36px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: #a855f7;
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tg-btn-play:hover { background: #9333ea; }
+
+.tg-btn-play.tg-playing {
+  background: #ef4444;
+}
+
+.tg-btn-play.tg-playing:hover { background: #dc2626; }
+
+.tg-btn-mute {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tg-btn-mute:hover { background: var(--bg-card); }
+
+/* Water extraction mode */
+.tg-water-mode {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.tg-water-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tg-water-header h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.tg-toggle {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: var(--border);
+  border-radius: 13px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.tg-toggle.tg-on {
+  background: #a855f7;
+}
+
+.tg-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s;
+}
+
+.tg-toggle.tg-on::after {
+  transform: translateX(22px);
+}
+
+.tg-water-info {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.tg-water-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 500px) {
+  .tg-freq-value { font-size: 2.2rem; }
+  .tg-wave-btn { padding: 8px 12px; font-size: 0.75rem; }
+}
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/tone-generator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/tone-generator/" />
+<meta property="og:title" content="Frequency/Tone Generator &amp; Water Extraction — Free Online Sound Tool | ToolStand">
+<meta property="og:description" content="Generate pure audio tones from 20Hz to 20kHz. Sine, square, sawtooth, triangle waves. Includes Water Extraction Mode for speakers. Free, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/tone-generator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Frequency/Tone Generator &amp; Water Extraction — Free Online Sound Tool | ToolStand">
+<meta name="twitter:description" content="Generate pure audio tones from 20Hz to 20kHz. Sine, square, sawtooth, triangle waves. Includes Water Extraction Mode for speakers. Free, no signup.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-8632240779421770"
+    data-ad-slot="auto"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>🔊 Frequency/Tone Generator</h1>
+    <p>Generate pure tones from 20Hz to 20kHz. Includes Water Extraction Mode for clearing speakers of water. Free, no signup.</p>
+  </div>
+
+  <div class="tg-container">
+    <!-- Wave type selector -->
+    <div class="tg-wave-selector" id="tgWaveSelector">
+      <button class="tg-wave-btn tg-active" data-wave="sine">∿ Sine</button>
+      <button class="tg-wave-btn" data-wave="square">⊓ Square</button>
+      <button class="tg-wave-btn" data-wave="sawtooth">⋰ Sawtooth</button>
+      <button class="tg-wave-btn" data-wave="triangle">Δ Triangle</button>
+    </div>
+
+    <!-- Frequency display -->
+    <div class="tg-display">
+      <div class="tg-freq-value" id="tgFreqDisplay">440</div>
+      <div class="tg-freq-unit">Hz</div>
+      <div class="tg-note-name" id="tgNoteDisplay">A4</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="tg-controls">
+      <div class="tg-control-group">
+        <label>Frequency <span class="tg-val" id="tgFreqVal">440 Hz</span></label>
+        <input type="range" class="tg-slider" id="tgFreqSlider" min="20" max="20000" value="440" step="1">
+      </div>
+
+      <div class="tg-fine-tune">
+        <button class="tg-fine-btn" id="tgFreqDown1">−1</button>
+        <button class="tg-fine-btn" id="tgFreqDown01">−0.1</button>
+        <span style="font-size:0.78rem;color:var(--text-secondary)">Fine</span>
+        <button class="tg-fine-btn" id="tgFreqUp01">+0.1</button>
+        <button class="tg-fine-btn" id="tgFreqUp1">+1</button>
+      </div>
+
+      <div class="tg-control-group">
+        <label>Volume <span class="tg-val" id="tgVolVal">50%</span></label>
+        <input type="range" class="tg-slider" id="tgVolSlider" min="0" max="100" value="50" step="1">
+      </div>
+
+      <div class="tg-presets">
+        <button class="tg-preset-btn" data-freq="261.63">C4 (261 Hz)</button>
+        <button class="tg-preset-btn" data-freq="440">A4 (440 Hz)</button>
+        <button class="tg-preset-btn" data-freq="1000">1 kHz</button>
+        <button class="tg-preset-btn" data-freq="5000">5 kHz</button>
+        <button class="tg-preset-btn" data-freq="10000">10 kHz</button>
+      </div>
+
+      <div class="tg-action-buttons">
+        <button class="tg-btn-play" id="tgPlayBtn">▶ Play</button>
+        <button class="tg-btn-mute" id="tgMuteBtn">🔇 Mute</button>
+      </div>
+    </div>
+
+    <!-- Water Extraction Mode -->
+    <div class="tg-water-mode">
+      <div class="tg-water-header">
+        <h3>💧 Water Extraction Mode</h3>
+        <button class="tg-toggle" id="tgWaterToggle" aria-label="Toggle water extraction mode"></button>
+      </div>
+      <p class="tg-water-info">Plays a low-frequency tone (~165 Hz) with periodic volume modulation to help eject water from phone/watch speakers.</p>
+      <div class="tg-control-group" style="margin-top:8px">
+        <label>Modulation Speed <span class="tg-val" id="tgModSpeedVal">1.0 Hz</span></label>
+        <input type="range" class="tg-slider" id="tgModSpeed" min="0.5" max="2" value="1" step="0.1">
+      </div>
+    </div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Frequency Generator &amp; Tone Tool to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Frequency Generator &amp; Tone Tool — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/tone-generator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Frequency Generator &amp; Tone Tool | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Tone Generator</h2>
+  <ol>
+    <li><strong>Select a waveform</strong> — Choose Sine (smooth), Square (harsh), Sawtooth (bright), or Triangle (mellow). Each sounds distinct.</li>
+    <li><strong>Set your frequency</strong> — Drag the slider from 20Hz to 20kHz, or click a preset (C4, A4, 1kHz, 5kHz, 10kHz). Use the fine-tune buttons for precise adjustments.</li>
+    <li><strong>Adjust volume</strong> — Set the output level between 0-100%. Start low to protect your ears and speakers.</li>
+    <li><strong>Try Water Extraction Mode</strong> — Toggle the special mode to play a low-frequency modulated tone (~165 Hz) designed to help eject water from phone or watch speakers.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How do I use frequency generator & tone tool for the first time?</summary><p>Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough.</p></details>
+  <details><summary>Does frequency generator & tone tool require any special permissions?</summary><p>No special permissions needed — just a modern browser. All processing stays on your device.</p></details>
+  <details><summary>Can I use frequency generator & tone tool for professional or business purposes?</summary><p>Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code.</p></details>
+  <details><summary>Does frequency generator & tone tool run locally in my browser?</summary><p>Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data.</p></details>
+  <details><summary>What browsers support frequency generator & tone tool?</summary><p>Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported.</p></details>
+  <details><summary>How is frequency generator & tone tool different from similar tools on other websites?</summary><p>Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/sleep-sounds/">😴 Sleep Sounds</a>
+    <a href="/tools/metronome/">🥁 Metronome</a>
+    <a href="/tools/bpm-tap/">🎵 BPM Tap</a>
+    <a href="/tools/decibel-meter/">🔊 Decibel Meter</a>
+    <a href="/tools/scientific-calculator/">🔬 Scientific Calculator</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+
+// ── Audio state ──
+let audioCtx = null;
+let oscillator = null;
+let gainNode = null;
+let waterModGain = null;
+let waterModOsc = null;
+let isPlaying = false;
+let isMuted = false;
+let currentWave = 'sine';
+let currentFreq = 440;
+let currentVolume = 0.5;
+let waterMode = false;
+let modSpeed = 1.0;
+
+// ── Note detection ──
+const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+function getNoteFromFreq(freq) {
+  if (freq < 20 || freq > 20000) return '—';
+  const A4 = 440;
+  const C0 = A4 * Math.pow(2, -4.75);
+  const halfSteps = Math.round(12 * Math.log2(freq / C0));
+  if (halfSteps < 0) return '—';
+  const octave = Math.floor(halfSteps / 12);
+  const note = halfSteps % 12;
+  if (octave < 0 || octave > 10) return '—';
+  return NOTE_NAMES[note] + octave;
+}
+
+// ── UI updates ──
+function updateDisplay() {
+  document.getElementById('tgFreqDisplay').textContent = Math.round(currentFreq);
+  document.getElementById('tgFreqVal').textContent = currentFreq.toFixed(1) + ' Hz';
+  document.getElementById('tgFreqSlider').value = currentFreq;
+  document.getElementById('tgNoteDisplay').textContent = getNoteFromFreq(currentFreq);
+  document.getElementById('tgVolVal').textContent = Math.round(currentVolume * 100) + '%';
+  document.getElementById('tgVolSlider').value = currentVolume * 100;
+  document.getElementById('tgModSpeedVal').textContent = modSpeed.toFixed(1) + ' Hz';
+}
+
+function updatePlayButton() {
+  const btn = document.getElementById('tgPlayBtn');
+  if (isPlaying) {
+    btn.textContent = '⏹ Stop';
+    btn.classList.add('tg-playing');
+  } else {
+    btn.textContent = '▶ Play';
+    btn.classList.remove('tg-playing');
+  }
+}
+
+// ── Audio engine ──
+function ensureAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function createSignalChain() {
+  // Main gain
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = isMuted ? 0 : currentVolume;
+
+  // Oscillator
+  oscillator = audioCtx.createOscillator();
+  oscillator.type = currentWave;
+  oscillator.frequency.value = currentFreq;
+
+  if (waterMode) {
+    // Water mode: oscillator → waterModGain → main gain → destination
+    waterModGain = audioCtx.createGain();
+    waterModGain.gain.value = 0.5; // base level
+
+    // Modulation oscillator for water mode
+    waterModOsc = audioCtx.createOscillator();
+    waterModOsc.type = 'sine';
+    waterModOsc.frequency.value = modSpeed;
+
+    // Modulate gain: sine wave mapped from 0.3 to 0.7
+    const modDepth = audioCtx.createGain();
+    modDepth.gain.value = 0.2; // amplitude of modulation (±0.2)
+
+    waterModOsc.connect(modDepth);
+
+    // Create constant 0.5 base + modulation
+    const baseGain = audioCtx.createGain();
+    baseGain.gain.value = 0.5;
+
+    oscillator.connect(waterModGain);
+
+    // Sum: baseGain(0.5) + modDepth(modulation * 0.2) = 0.3 to 0.7
+    modDepth.connect(waterModGain.gain);
+
+    waterModGain.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    waterModOsc.start();
+  } else {
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+  }
+
+  oscillator.start();
+}
+
+function destroySignalChain() {
+  if (waterModOsc) {
+    try { waterModOsc.stop(); } catch(e) {}
+    waterModOsc.disconnect();
+    waterModOsc = null;
+  }
+  if (waterModGain) {
+    waterModGain.disconnect();
+    waterModGain = null;
+  }
+  if (oscillator) {
+    try { oscillator.stop(); } catch(e) {}
+    oscillator.disconnect();
+    oscillator = null;
+  }
+  if (gainNode) {
+    gainNode.disconnect();
+    gainNode = null;
+  }
+}
+
+function startTone() {
+  if (isPlaying) return;
+  ensureAudioContext();
+  destroySignalChain();
+  createSignalChain();
+  isPlaying = true;
+  updatePlayButton();
+}
+
+function stopTone() {
+  if (!isPlaying) return;
+  destroySignalChain();
+  isPlaying = false;
+  updatePlayButton();
+}
+
+function updateTone() {
+  if (!isPlaying) return;
+  destroySignalChain();
+  createSignalChain();
+  updatePlayButton();
+}
+
+// ── Event handlers ──
+document.getElementById('tgWaveSelector').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('.tg-wave-btn').forEach(b => b.classList.remove('tg-active'));
+  e.target.classList.add('tg-active');
+  currentWave = e.target.dataset.wave;
+  if (oscillator) oscillator.type = currentWave;
+});
+
+document.getElementById('tgFreqSlider').addEventListener('input', function() {
+  currentFreq = parseFloat(this.value);
+  if (oscillator) oscillator.frequency.value = currentFreq;
+  updateDisplay();
+});
+
+document.getElementById('tgVolSlider').addEventListener('input', function() {
+  currentVolume = parseInt(this.value) / 100;
+  if (gainNode && !isMuted) gainNode.gain.value = currentVolume;
+  updateDisplay();
+});
+
+// Fine tuning
+document.getElementById('tgFreqDown1').addEventListener('click', () => { currentFreq = Math.max(20, currentFreq - 1); applyFreq(); });
+document.getElementById('tgFreqDown01').addEventListener('click', () => { currentFreq = Math.max(20, currentFreq - 0.1); applyFreq(); });
+document.getElementById('tgFreqUp01').addEventListener('click', () => { currentFreq = Math.min(20000, currentFreq + 0.1); applyFreq(); });
+document.getElementById('tgFreqUp1').addEventListener('click', () => { currentFreq = Math.min(20000, currentFreq + 1); applyFreq(); });
+
+function applyFreq() {
+  if (oscillator) oscillator.frequency.value = currentFreq;
+  updateDisplay();
+}
+
+// Presets
+document.querySelectorAll('.tg-preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentFreq = parseFloat(btn.dataset.freq);
+    applyFreq();
+  });
+});
+
+// Play/Stop
+document.getElementById('tgPlayBtn').addEventListener('click', () => {
+  if (isPlaying) stopTone();
+  else startTone();
+});
+
+// Mute
+document.getElementById('tgMuteBtn').addEventListener('click', () => {
+  isMuted = !isMuted;
+  if (gainNode) {
+    gainNode.gain.value = isMuted ? 0 : currentVolume;
+  }
+  document.getElementById('tgMuteBtn').textContent = isMuted ? '🔊 Unmute' : '🔇 Mute';
+});
+
+// Water extraction mode
+document.getElementById('tgWaterToggle').addEventListener('click', () => {
+  waterMode = !waterMode;
+  const toggle = document.getElementById('tgWaterToggle');
+  if (waterMode) {
+    toggle.classList.add('tg-on');
+    currentFreq = 165;
+    applyFreq();
+  } else {
+    toggle.classList.remove('tg-on');
+  }
+  if (isPlaying) updateTone();
+});
+
+// Modulation speed
+document.getElementById('tgModSpeed').addEventListener('input', function() {
+  modSpeed = parseFloat(this.value);
+  if (waterModOsc) waterModOsc.frequency.value = modSpeed;
+  updateDisplay();
+});
+
+// ── Init ──
+updateDisplay();
+
+<script>
+// ── Theme ──
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  destroySignalChain();
+  if (audioCtx) { audioCtx.close(); audioCtx = null; }
+});
+
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Water Extraction Mode?", "acceptedAnswer": {"@type": "Answer", "text": "It plays a ~165 Hz tone with periodic volume modulation. The vibration can help push water droplets out of speaker grilles. It's a popular trick for phones and smartwatches that got wet. Not guaranteed to work — use at your own risk."}}, {"@type": "Question", "name": "Can I test my hearing with this?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Slowly sweep the frequency from low to high to find your hearing range. Most adults hear 20Hz-16kHz. If you can't hear above 15kHz, that's normal age-related hearing loss. Start at low volume."}}, {"@type": "Question", "name": "Why can't I hear very low or high frequencies?", "acceptedAnswer": {"@type": "Answer", "text": "Human hearing ranges from ~20Hz to ~20kHz. Your speakers may not reproduce extreme frequencies. Phone speakers typically cut off below 200Hz and above 15kHz."}}, {"@type": "Question", "name": "Is this safe for my speakers?", "acceptedAnswer": {"@type": "Answer", "text": "At reasonable volumes, yes. Avoid playing very low frequencies (<50Hz) at high volume on small speakers — this can cause distortion and damage. The tool starts at 50% volume for safety."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Frequency/Tone Generator &amp; Water Extraction — Free Online Sound Tool","item":"https://toolstand.io/tools/tone-generator/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

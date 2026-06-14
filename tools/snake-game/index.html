@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Snake Game — Play Free | ToolStand</title>
+<meta name="description" content="Play classic Snake in your browser. Eat food, grow longer, beat your high score. Free, no downloads — perfect 404 page replacement.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#22c55e">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/snake-game/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Snake Game",
+  "alternateName": "snake-game",
+  "url": "https://toolstand.io/tools/snake-game/",
+  "description": "A classic arcade game implementation with keyboard, touch, and on-screen D-pad controls, featuring persistent high scores. It solves the problem of quick entertainment with no downloads or app store requirements.",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "game",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.sn-container { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.sn-score { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+.sn-canvas { border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg-card); display: block; width: 100%; max-width: 400px; aspect-ratio: 1/1; }
+.sn-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.sn-btn { padding: 10px 24px; font-size: 0.9rem; font-weight: 600; background: #22c55e; color: white; border: none; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; }
+.sn-btn:hover { background: #16a34a; }
+.sn-btn-reset { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.sn-btn-reset:hover { background: var(--bg-card); }
+.sn-dpad { display: none; grid-template-columns: repeat(3, 50px); grid-template-rows: repeat(2, 50px); gap: 6px; justify-content: center; }
+.sn-dpad-btn { width: 50px; height: 50px; font-size: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; user-select: none; -webkit-user-select: none; }
+.sn-dpad-btn:active { background: var(--border); }
+.sn-dpad-empty { visibility: hidden; }
+@media (max-width: 500px) { .sn-dpad { display: grid; } .sn-canvas { max-width: 320px; } }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/snake-game/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/snake-game/" />
+<meta property="og:title" content="Snake Game — Free Online Game | ToolStand">
+<meta property="og:description" content="Play classic Snake in your browser. Eat food, grow longer, beat your high score. Free, no downloads — perfect 404 page replacement.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/snake-game/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Snake Game — Free Online Game | ToolStand">
+<meta name="twitter:description" content="Play classic Snake in your browser. Eat food, grow longer, beat your high score. Free, no downloads — perfect 404 page replacement.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>🐍 Snake Game</h1>
+    <p>The classic snake game in your browser. Eat the red apple, grow longer — don't hit the walls! Perfect as a 404 page replacement.</p>
+  </div>
+
+  <div class="sn-container">
+    <div class="sn-score">Score: <span id="snScore">0</span> &nbsp;|&nbsp; Best: <span id="snBest">0</span></div>
+    <canvas class="sn-canvas" id="snCanvas" width="400" height="400"></canvas>
+    <div class="sn-controls">
+      <button class="sn-btn" id="snStart">▶ Start</button>
+      <button class="sn-btn sn-btn-reset" id="snReset">↺ Reset</button>
+    </div>
+    <div class="sn-dpad" id="snDpad">
+      <div class="sn-dpad-empty"></div>
+      <button class="sn-dpad-btn" data-dir="up">▲</button>
+      <div class="sn-dpad-empty"></div>
+      <button class="sn-dpad-btn" data-dir="left">◀</button>
+      <div class="sn-dpad-empty"></div>
+      <button class="sn-dpad-btn" data-dir="right">▶</button>
+      <div class="sn-dpad-empty"></div>
+      <button class="sn-dpad-btn" data-dir="down">▼</button>
+      <div class="sn-dpad-empty"></div>
+    </div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Snake Game to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Snake Game — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/snake-game/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Snake Game | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Play Snake Game</h2>
+  <ol>
+    <li><strong>Start the game</strong> — Click the Start button or press any arrow key to begin.</li>
+    <li><strong>Control the snake</strong> — Use arrow keys (←↑→↓) or WASD. On mobile, use the on-screen D-pad or swipe on the game canvas.</li>
+    <li><strong>Eat the red apples</strong> — Each apple increases your score by 10 points and makes the snake longer. The game speeds up as you grow.</li>
+    <li><strong>Avoid the walls and yourself</strong> — Crashing into walls or your own tail ends the game. Your best score is saved automatically.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>Is snake game truly free to play?</summary><p>Yes, 100% free — no in-game purchases, no premium levels, no ads interrupting gameplay. Built for quick breaks and mental refreshment, not monetization.</p></details>
+  <details><summary>Does snake game work on mobile touchscreens?</summary><p>Yes! Supports both touch (tap, swipe) and keyboard/mouse controls. Controls adapt for comfortable one-handed play on phones.</p></details>
+  <details><summary>Can I play snake game offline?</summary><p>Yes — once loaded, the game works without internet. Perfect for flights, commutes, or waiting rooms. No data connection needed.</p></details>
+  <details><summary>Does snake game have multiple difficulty levels?</summary><p>Yes, multiple difficulty levels available. Beginners should start with Easy to learn the mechanics, then progress to harder levels.</p></details>
+  <details><summary>How is my high score saved?</summary><p>High scores save automatically in your browser's localStorage. Your top 10 scores are displayed locally. Challenge friends by sharing a screenshot!</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/minesweeper/">💣 Minesweeper</a>
+    <a href="/tools/wordle-solver/">🟩 Wordle Solver</a>
+    <a href="/tools/decision-wheel/">🎡 Decision Wheel</a>
+    <a href="/tools/reaction-time/">⚡ Reaction Time</a>
+    <a href="/tools/dead-pixel-test/">🖥️ Dead Pixel Test</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+const cv = document.getElementById('snCanvas');
+const ctx = cv.getContext('2d');
+const GS = 20, CS = cv.width / GS;
+
+let snake = [], food = { x:0, y:0 };
+let dir = { x:1, y:0 }, nextDir = { x:1, y:0 };
+let score = 0, best = parseInt(localStorage.getItem('sn-snake-best')||'0');
+let running = false, interval = null, speed = 120;
+
+function init() {
+  snake = [{ x:10,y:10 }, { x:9,y:10 }, { x:8,y:10 }];
+  dir = { x:1, y:0 }; nextDir = { x:1, y:0 };
+  score = 0; speed = 120; placeFood(); updateScore(); draw();
+}
+
+function placeFood() {
+  const occ = new Set(snake.map(s=>s.x*GS+s.y));
+  let fx, fy;
+  do { fx = Math.floor(Math.random()*GS); fy = Math.floor(Math.random()*GS); } while (occ.has(fx*GS+fy));
+  food = { x:fx, y:fy };
+}
+
+function updateScore() {
+  document.getElementById('snScore').textContent = score;
+  document.getElementById('snBest').textContent = best;
+}
+
+function draw() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  ctx.fillStyle = isDark ? '#1e293b' : '#f8fafc';
+  ctx.fillRect(0, 0, cv.width, cv.height);
+
+  // Food
+  ctx.fillStyle = '#ef4444';
+  ctx.beginPath();
+  ctx.arc(food.x*CS+CS/2, food.y*CS+CS/2, CS/2-2, 0, Math.PI*2);
+  ctx.fill();
+
+  // Snake body
+  snake.forEach((seg, i) => {
+    const alpha = 1 - (i / snake.length) * 0.5;
+    ctx.fillStyle = i === 0 ? '#22c55e' : `rgba(34,197,94,${alpha})`;
+    ctx.fillRect(seg.x*CS+1, seg.y*CS+1, CS-2, CS-2);
+  });
+
+  // Eyes on head
+  if (snake.length > 0) {
+    const h = snake[0];
+    const cx = h.x*CS+CS/2, cy = h.y*CS+CS/2;
+    ctx.fillStyle = 'white';
+    const ex = dir.x===0?4:(dir.x>0?4:-4);
+    const ey = dir.y===0?4:(dir.y>0?4:-4);
+    ctx.beginPath(); ctx.arc(cx+ex, cy+ey, 2.5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx-ex, cy-ey, 2.5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath(); ctx.arc(cx+ex, cy+ey, 1.2, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx-ex, cy-ey, 1.2, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function tick() {
+  if (!running) return;
+  dir = { ...nextDir };
+  const head = snake[0];
+  const nh = { x: head.x+dir.x, y: head.y+dir.y };
+  if (nh.x<0||nh.x>=GS||nh.y<0||nh.y>=GS) { end(); return; }
+  if (snake.some(s=>s.x===nh.x && s.y===nh.y)) { end(); return; }
+
+  snake.unshift(nh);
+  if (nh.x===food.x && nh.y===food.y) {
+    score += 10; updateScore(); placeFood();
+    speed = Math.max(50, speed-3);
+    clearInterval(interval); interval = setInterval(tick, speed);
+  } else { snake.pop(); }
+  draw();
+}
+
+function end() {
+  running = false; clearInterval(interval); interval = null;
+  if (score > best) { best = score; localStorage.setItem('sn-snake-best', best); }
+  updateScore();
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Game Over!', cv.width/2, cv.height/2-10);
+  ctx.font = '16px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.fillText('Score: '+score, cv.width/2, cv.height/2+20);
+  document.getElementById('snStart').textContent = '▶ Start';
+}
+
+function start() {
+  if (running) return;
+  init(); running = true;
+  document.getElementById('snStart').textContent = '⏸ Running';
+  interval = setInterval(tick, speed);
+}
+
+function setDir(dx, dy) {
+  if (!running) return;
+  if (dir.x===-dx && dir.y===-dy) return;
+  nextDir = { x:dx, y:dy };
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  switch(e.key) {
+    case 'ArrowUp': case 'w': case 'W': e.preventDefault(); setDir(0,-1); break;
+    case 'ArrowDown': case 's': case 'S': e.preventDefault(); setDir(0,1); break;
+    case 'ArrowLeft': case 'a': case 'A': e.preventDefault(); setDir(-1,0); break;
+    case 'ArrowRight': case 'd': case 'D': e.preventDefault(); setDir(1,0); break;
+  }
+});
+
+// Touch swipe
+let tsX=0, tsY=0;
+cv.addEventListener('touchstart', e => { tsX=e.touches[0].clientX; tsY=e.touches[0].clientY; });
+cv.addEventListener('touchend', e => {
+  const dx=e.changedTouches[0].clientX-tsX, dy=e.changedTouches[0].clientY-tsY;
+  if (Math.abs(dx)<20 && Math.abs(dy)<20) return;
+  if (Math.abs(dx)>Math.abs(dy)) setDir(dx>0?1:-1, 0);
+  else setDir(0, dy>0?1:-1);
+});
+
+// D-pad
+document.getElementById('snDpad').addEventListener('click', e => {
+  const b = e.target.closest('.sn-dpad-btn');
+  if (!b) return;
+  const d = b.dataset.dir;
+  if (d==='up') setDir(0,-1);
+  if (d==='down') setDir(0,1);
+  if (d==='left') setDir(-1,0);
+  if (d==='right') setDir(1,0);
+});
+
+document.getElementById('snStart').addEventListener('click', start);
+document.getElementById('snReset').addEventListener('click', () => {
+  running = false; clearInterval(interval); interval = null;
+  init(); draw(); document.getElementById('snStart').textContent = '▶ Start';
+});
+
+init(); updateScore(); draw();
+
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+  draw();
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is snake game truly free to play?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, 100% free — no in-game purchases, no premium levels, no ads interrupting gameplay. Built for quick breaks and mental refreshment, not monetization."}}, {"@type": "Question", "name": "Does snake game work on mobile touchscreens?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Supports both touch (tap, swipe) and keyboard/mouse controls. Controls adapt for comfortable one-handed play on phones."}}, {"@type": "Question", "name": "Can I play snake game offline?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — once loaded, the game works without internet. Perfect for flights, commutes, or waiting rooms. No data connection needed."}}, {"@type": "Question", "name": "Does snake game have multiple difficulty levels?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, multiple difficulty levels available. Beginners should start with Easy to learn the mechanics, then progress to harder levels."}}, {"@type": "Question", "name": "How is my high score saved?", "acceptedAnswer": {"@type": "Answer", "text": "High scores save automatically in your browser's localStorage. Your top 10 scores are displayed locally. Challenge friends by sharing a screenshot!"}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Snake Game — Free Online Game","item":"https://toolstand.io/tools/snake-game/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

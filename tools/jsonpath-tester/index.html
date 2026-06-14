@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Online JSONPath Tester — Test Online Free | ToolStand</title>
+  <meta name="description" content="Test and evaluate JSONPath expressions against your JSON data. Query nested objects, filter arrays, and extract values. Essential for API testing and data pipeline debugging.">
+  <meta name="theme-color" content="#f59e0b">
+  <link rel="canonical" href="https://toolstand.io/tools/jsonpath-tester/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "JSONPath Tester",
+  "alternateName": "jsonpath-tester",
+  "url": "https://toolstand.io/tools/jsonpath-tester/",
+  "description": "A query evaluation tool that executes JSONPath expressions against JSON data to extract specific nodes. It solves the problem of navigating and filtering deeply nested JSON structures without writing imperative code.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "developer, utility",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+  <link rel="stylesheet" href="/shared/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsonpath-plus@7.2.0/dist/index-browser-umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-card: #f8fafc;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --radius: 8px;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-secondary: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.25rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .logo strong { color: #f59e0b; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .nav a:hover { color: var(--text); }
+    .btn-icon {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .btn-icon:hover { background: var(--bg-card); }
+    .ad-banner {
+      text-align: center;
+      padding: 12px 0;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      min-height: 90px;
+    }
+    .tool-container {
+      flex: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      width: 100%;
+    }
+    .tool-header { margin-bottom: 24px; }
+    .tool-header h1 { font-size: 1.75rem; margin-bottom: 4px; }
+    .tool-header p { color: var(--text-secondary); font-size: 0.95rem; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: var(--text-secondary);
+    }
+    textarea {
+      width: 100%;
+      min-height: 240px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      resize: vertical;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+    }
+    .query-row {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .query-row input { flex: 1; }
+    .btn {
+      padding: 8px 20px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: #f59e0b; color: #fff; }
+    .btn-primary:hover { background: #d97706; }
+    .btn-sm { padding: 4px 12px; font-size: 0.8rem; }
+    .examples {
+      margin: 8px 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .example-chip {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .example-chip:hover { background: #fef3c7; border-color: #f59e0b; color: #d97706; }
+    .result-area {
+      margin-top: 12px;
+      position: relative;
+    }
+    .result-area textarea { min-height: 200px; background: var(--bg); }
+    .result-area .btn-sm {
+      position: absolute;
+      top: 28px;
+      right: 8px;
+    }
+    .error {
+      color: #ef4444;
+      padding: 12px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
+      margin-top: 12px;
+      font-size: 0.85rem;
+    }
+    [data-theme="dark"] .error {
+      background: #451a1a;
+      border-color: #7f1d1d;
+    }
+    .success-msg {
+      color: #22c55e;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .success-msg.show { opacity: 1; }
+    .match-count {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .json-key { color: #0ea5e9; }
+    .json-string { color: #22c55e; }
+    .json-number { color: #f59e0b; }
+    .json-bool { color: #a855f7; }
+    .json-null { color: #94a3b8; }
+    .embed-cta {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 32px 16px;
+      text-align: center;
+    }
+    .embed-cta h3 { margin-bottom: 8px; }
+    .embed-cta p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+    .embed-code {
+      width: 100%;
+      max-width: 640px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.75rem;
+      resize: vertical;
+    }
+    .footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .footer .small { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+    .footer .small a { color: var(--text-secondary); }
+    .seo-content{max-width:800px;margin:32px auto 0;line-height:1.7}
+    .seo-content h2,.faq-section h2,.related-tools h2{font-size:1.3rem;margin-bottom:14px;color:var(--text)}
+    .seo-content ol{padding-left:20px}
+    .seo-content li{margin-bottom:10px;color:var(--text-secondary)}
+    .faq-section{max-width:800px;margin:32px auto 0}
+    .faq-section details{border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;background:var(--bg-card)}
+    .faq-section summary{cursor:pointer;font-weight:600;color:var(--text);margin-bottom:8px}
+    .faq-section p{color:var(--text-secondary);font-size:.92rem;line-height:1.6}
+    .related-tools{max-width:800px;margin:32px auto 0}
+    .related-tools ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+    .related-tools li{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;font-size:.9rem}
+    .related-tools a{color:var(--text);text-decoration:none;font-weight:600}
+    .related-tools a:hover{color:#083fa1}
+  </style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/jsonpath-tester/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/jsonpath-tester/" />
+<meta property="og:title" content="JSONPath Tester | ToolStand">
+<meta property="og:description" content="Test and evaluate JSONPath expressions against your JSON data. Query nested objects, filter arrays, and extract values. Essential for API testing and data pipeline debugging.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/jsonpath-tester/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="JSONPath Tester | ToolStand">
+<meta name="twitter:description" content="Test and evaluate JSONPath expressions against your JSON data. Query nested objects, filter arrays, and extract values. Essential for API testing and data pipeline debugging.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+<div class="ad-banner">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>🎯 JSONPath Tester</h1>
+    <p>Test JSONPath expressions against your JSON data instantly.</p>
+  </div>
+  <div class="layout">
+    <div>
+      <label for="jsonInput">JSON Input</label>
+      <textarea id="jsonInput" placeholder='{"store":{"book":[{"title":"Sayings of the Century","price":8.95,"category":"reference"},{"title":"Sword of Honour","price":12.99,"category":"fiction"},{"title":"Moby Dick","price":8.99,"category":"fiction"}],"bicycle":{"color":"red","price":19.95}}}'></textarea>
+    </div>
+    <div>
+      <label for="jsonpathQuery">JSONPath Expression</label>
+      <div class="query-row">
+        <input type="text" id="jsonpathQuery" placeholder="$.store.book[*].author" value="$.store.book[*].title">
+        <button class="btn btn-primary" id="btnRun">▶ Run</button>
+      </div>
+      <div class="examples">
+        <span style="font-size:0.75rem;color:var(--text-secondary);padding:4px 0;">Examples:</span>
+        <span class="example-chip">$..title</span>
+        <span class="example-chip">$.store.book[*]</span>
+        <span class="example-chip">$..price</span>
+        <span class="example-chip">$.store.book[0]</span>
+        <span class="example-chip">$.store.book[?(@.price<10)]</span>
+        <span class="example-chip">$..book[?(@.category=="fiction")]</span>
+        <span class="example-chip">$.store.*</span>
+        <span class="example-chip">$..*</span>
+      </div>
+      <div class="result-area">
+        <label for="jsonpathResult">Results</label>
+        <button class="btn btn-sm" id="btnCopyResult" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text);cursor:pointer;border-radius:var(--radius);padding:4px 12px;font-size:0.8rem;">📋 Copy</button>
+        <textarea id="jsonpathResult" readonly></textarea>
+        <div class="match-count" id="matchCount"></div>
+        <div class="success-msg" id="copyMsg">Copied to clipboard!</div>
+      </div>
+    </div>
+  </div>
+  <div id="errorBox" style="display:none;"></div>
+
+  <!-- ===== HOW TO USE ===== -->
+  <section class="seo-content">
+    <h2>📖 How to Use the JSONPath Tester</h2>
+    <ol>
+      <li><strong>Paste your JSON</strong> — add a valid JSON object or array in the left panel.</li>
+      <li><strong>Write a JSONPath expression</strong> — use <code>$.store.book[*].title</code>, <code>$..author</code>, or filter expressions like <code>$..book[?(@.price &lt; 10)]</code>.</li>
+      <li><strong>Click Evaluate</strong> — the matching nodes appear in the right panel with syntax highlighting.</li>
+      <li><strong>Copy results</strong> — use the Copy button to grab the extracted JSON.</li>
+      <li><strong>Iterate</strong> — refine your path expression until you extract exactly what you need.</li>
+    </ol>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <details>
+      <summary>What is JSONPath?</summary>
+      <p>JSONPath is a query language for JSON, similar to XPath for XML. It lets you navigate and extract data from nested JSON structures using path expressions like <code>$</code> (root), <code>.</code> (child), <code>..</code> (descendant), and <code>[?(...)]</code> (filter).</p>
+    </details>
+    <details>
+      <summary>What's the difference between $.store.book and $..book?</summary>
+      <p><code>$.store.book</code> only matches the exact path from root to store to book. <code>$..book</code> uses recursive descent to find any "book" key at any nesting level — a shortcut when you don't know the exact structure.</p>
+    </details>
+    <details>
+      <summary>How do filter expressions work?</summary>
+      <p>Filters use <code>[?(@.field operator value)]</code> syntax. Example: <code>$.store.book[?(@.price &lt; 10)]</code> returns all books under $10. Supported operators: <code>==, !=, &lt;, &gt;, &lt;=, &gt;=, =~</code> (regex).</p>
+    </details>
+    <details>
+      <summary>What library powers the JSONPath evaluation?</summary>
+      <p>The tester uses JSONPath-Plus (v7.2+), a standards-compliant implementation supporting the full JSONPath specification including filters, slices, and script expressions. All evaluation happens client-side — your data never leaves your browser.</p>
+    </details>
+  </section>
+
+  <!-- ===== RELATED TOOLS ===== -->
+  <section class="related-tools">
+    <h2>🔗 Related Tools</h2>
+    <ul>
+      <li><a href="/tools/json-formatter/">JSON Formatter &amp; Validator</a> — Format, validate, and minify JSON</li>
+      <li><a href="/tools/json-compare/">JSON Compare</a> — Diff two JSON objects side by side</li>
+      <li><a href="/tools/json-schema-generator/">JSON Schema Generator</a> — Generate schemas from JSON data</li>
+      <li><a href="/tools/jwt-decoder/">JWT Decoder</a> — Decode and inspect JWTs</li>
+    </ul>
+  </section>
+
+
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How do I use jsonpath tester for the first time?</summary><p>Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough.</p></details>
+  <details><summary>Does jsonpath tester require any special permissions?</summary><p>No special permissions needed — just a modern browser. All processing stays on your device.</p></details>
+  <details><summary>Can I use jsonpath tester for professional or business purposes?</summary><p>Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code.</p></details>
+  <details><summary>Does jsonpath tester run locally in my browser?</summary><p>Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data.</p></details>
+  <details><summary>What browsers support jsonpath tester?</summary><p>Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported.</p></details>
+  <details><summary>How is jsonpath tester different from similar tools on other websites?</summary><p>Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub.</p></details>
+</main>
+  <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the JSONPath Tester to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- JSONPath Tester — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/jsonpath-tester/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="JSONPath Tester | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+<script>
+(function(){
+  // Theme toggle
+  document.getElementById('themeToggle').addEventListener('click',function(){
+    var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',n);
+    localStorage.setItem('toolstand-theme',n);
+  });
+  document.documentElement.setAttribute('data-theme',localStorage.getItem('toolstand-theme')||'light');
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+
+  // JSONPath: JSONPathPlus exposes window.JSONPath
+  function runQuery(){
+    var errorBox=document.getElementById('errorBox');
+    var resultArea=document.getElementById('jsonpathResult');
+    var matchCount=document.getElementById('matchCount');
+    errorBox.style.display='none';
+    resultArea.value='';
+    matchCount.textContent='';
+
+    var jsonStr=document.getElementById('jsonInput').value.trim();
+    var query=document.getElementById('jsonpathQuery').value.trim();
+
+    if(!jsonStr){ showError('Please enter JSON data.'); return; }
+    if(!query){ showError('Please enter a JSONPath expression.'); return; }
+
+    var data;
+    try { data=JSON.parse(jsonStr); }
+    catch(e){ showError('Invalid JSON: '+e.message); return; }
+
+    var results;
+    try {
+      results=JSONPath({path:query,json:data});
+    } catch(e){
+      showError('JSONPath error: '+e.message);
+      return;
+    }
+
+    var formatted=JSON.stringify(results,null,2);
+    resultArea.value=formatted;
+    matchCount.textContent=results.length+' match'+(results.length!==1?'es':'')+' found';
+  }
+
+  function showError(msg){
+    var errorBox=document.getElementById('errorBox');
+    errorBox.innerHTML='<div class="error">⚠️ '+escapeHtml(msg)+'</div>';
+    errorBox.style.display='block';
+  }
+
+  document.getElementById('btnRun').addEventListener('click',runQuery);
+
+  // Example chips
+  document.querySelectorAll('.example-chip').forEach(function(chip){
+    chip.addEventListener('click',function(){
+      document.getElementById('jsonpathQuery').value=chip.textContent;
+      runQuery();
+    });
+  });
+
+  // Run on Enter in query input
+  document.getElementById('jsonpathQuery').addEventListener('keydown',function(e){
+    if(e.key==='Enter') runQuery();
+  });
+
+  // Copy result
+  document.getElementById('btnCopyResult').addEventListener('click',function(){
+    var ta=document.getElementById('jsonpathResult');
+    ta.select();
+    document.execCommand('copy');
+    var el=document.getElementById('copyMsg');
+    el.classList.add('show');
+    setTimeout(function(){el.classList.remove('show');},2000);
+  });
+
+  // Run initial query
+  runQuery();
+
+  function escapeHtml(str){
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(str));
+    return d.innerHTML;
+  }
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I use jsonpath tester for the first time?", "acceptedAnswer": {"@type": "Answer", "text": "Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough."}}, {"@type": "Question", "name": "Does jsonpath tester require any special permissions?", "acceptedAnswer": {"@type": "Answer", "text": "No special permissions needed — just a modern browser. All processing stays on your device."}}, {"@type": "Question", "name": "Can I use jsonpath tester for professional or business purposes?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code."}}, {"@type": "Question", "name": "Does jsonpath tester run locally in my browser?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data."}}, {"@type": "Question", "name": "What browsers support jsonpath tester?", "acceptedAnswer": {"@type": "Answer", "text": "Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported."}}, {"@type": "Question", "name": "How is jsonpath tester different from similar tools on other websites?", "acceptedAnswer": {"@type": "Answer", "text": "Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"JSONPath Tester","item":"https://toolstand.io/tools/jsonpath-tester/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

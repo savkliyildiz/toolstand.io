@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online QR Code Generator & Scanner — Generate Free | ToolStand</title>
+<meta name="description" content="Free online QR code generator and scanner. Create custom QR codes from text, URLs, or plain data. Scan with your camera — no apps, no signup. Instant download.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/qr-code/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "QR Code Generator & Scanner",
+  "alternateName": "qr-code",
+  "url": "https://toolstand.io/tools/qr-code/",
+  "description": "A browser-based utility that generates QR codes from URLs or text using the qrcodejs library, and scans existing codes via the device camera. It solves the problem of creating scannable offline-to-online bridges without installing any app.",
+  "applicationCategory": "GeneratorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "generator, utility",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<style>
+.qr-tabs { display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; width: fit-content; margin-left: auto; margin-right: auto; }
+.qr-tab { padding: 10px 28px; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; background: var(--bg-card); color: var(--text-secondary); transition: all 0.15s; }
+.qr-tab.active { background: #2563eb; color: white; }
+.qr-panel { display: none; }
+.qr-panel.active { display: block; }
+.qr-input { width: 100%; padding: 14px 16px; font-size: 1rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); margin-bottom: 20px; box-sizing: border-box; }
+.qr-input:focus { outline: none; border-color: #2563eb; }
+.qr-output { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+#qrCode canvas, #qrCode img { border-radius: var(--radius); max-width: 256px; width: 100%; height: auto; image-rendering: pixelated; }
+.qr-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.btn { padding: 10px 24px; font-size: 0.9rem; font-weight: 600; background: #2563eb; color: white; border: none; border-radius: var(--radius); cursor: pointer; transition: opacity 0.15s; }
+.btn:hover { opacity: 0.9; }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { background: var(--bg-card); opacity: 1; }
+#qrStatus { font-size: 0.85rem; color: var(--text-secondary); min-height: 20px; }
+@media (max-width: 500px) { .qr-tabs { width: 100%; } .qr-tab { flex: 1; text-align: center; font-size: 0.82rem; padding: 10px 8px; } }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/qr-code/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/qr-code/" />
+<meta property="og:title" content="Free QR Code Generator &amp; Scanner — Create &amp; Scan QR Codes Online | ToolStand">
+<meta property="og:description" content="Free online QR code generator and scanner. Create custom QR codes from text, URLs, or plain data. Scan with your camera — no apps, no signup. Instant download.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/qr-code/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free QR Code Generator &amp; Scanner — Create &amp; Scan QR Codes Online | ToolStand">
+<meta name="twitter:description" content="Free online QR code generator and scanner. Create custom QR codes from text, URLs, or plain data. Scan with your camera — no apps, no signup. Instant download.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>📱 QR Code Generator & Scanner</h1>
+    <p>Create and scan QR codes right in your browser. Free, no ads blocking your flow.</p>
+  </div>
+
+  <div class="qr-tabs">
+    <button class="qr-tab active" data-panel="generate">Generate</button>
+    <button class="qr-tab" data-panel="scan">Scan</button>
+  </div>
+
+  <div id="panel-generate" class="qr-panel active">
+    <input type="text" id="qrText" class="qr-input" placeholder="Enter text, URL, or any data..." maxlength="2000" autofocus>
+    <div id="qrStatus"></div>
+    <div class="qr-output">
+      <div id="qrCode"></div>
+      <div class="qr-actions">
+        <button class="btn" id="downloadQR">⬇ Download PNG</button>
+        <button class="btn btn-outline" id="printQR">🖨️ Print</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-scan" class="qr-panel">
+    <p style="text-align:center;color:var(--text-secondary);margin-bottom:16px">Point your camera at a QR code</p>
+    <div class="qr-output">
+      <video id="cameraView" autoplay playsinline style="display:none;max-width:100%;border-radius:var(--radius)"></video>
+      <button id="startScan" class="btn">📷 Start Camera</button>
+      <button id="stopScan" class="btn btn-outline" style="display:none">⏹️ Stop</button>
+      <canvas id="scanCanvas" style="display:none"></canvas>
+      <div id="qrResult"></div>
+    </div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the QR Code Generator &amp; Scanner to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- QR Code Generator &amp; Scanner — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/qr-code/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="QR Code Generator &amp; Scanner | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the QR Code Generator &amp; Scanner</h2>
+  <p><strong>1. Choose your mode.</strong> Select "Generate" to create a QR code from text or a URL, or "Scan" to read an existing QR code using your device camera.</p>
+  <p><strong>2. Enter your data.</strong> In Generate mode, type any text, URL, or data into the input field. The QR code updates in real time as you type. You can encode up to 2,000 characters.</p>
+  <p><strong>3. Download or print.</strong> Click "Download PNG" to save the QR code as an image file, or "Print" to print it directly. The generated code uses error correction level M, so it remains scannable even with minor damage.</p>
+  <p><strong>4. Scan with your camera.</strong> Switch to Scan mode, grant camera permission, and point your camera at any QR code. The decoded content appears instantly — clickable if it's a URL.</p>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>Can I generate a QR code for WiFi access free online?</summary><p>Yes! Paste WiFi credentials as: WIFI:S:{SSID};T:{WPA|WEP};P:{password};; and generate the code. When scanned, phones connect to your WiFi instantly without typing the password.</p></details>
+  <details><summary>How do I create a QR code for Instagram or LinkedIn?</summary><p>Copy your profile URL, paste it into the generator, and download the PNG. Print on business cards or flyers. Scanning takes people directly to your profile.</p></details>
+  <details><summary>Does the QR code scanner work with damaged codes?</summary><p>Yes, to an extent. Error correction level M allows ~15% damage recovery. For harsh environments, print codes larger with high contrast.</p></details>
+  <details><summary>Can I generate qr code generator & scanner online without downloading any software?</summary><p>Yes! The QR Code Generator & Scanner works 100% in your browser. No downloads, no installs, no apps. Just open the page and start. Everything runs locally on your device.</p></details>
+  <details><summary>Is the qr code generator & scanner completely free to use with no limits?</summary><p>Completely free — no daily caps, no paywalls, no premium tiers. ToolStand believes essential utilities should be free forever.</p></details>
+  <details><summary>How do I save or download what I create?</summary><p>Look for the Download, Copy, or Export button after generating. Most generators let you save as PNG or copy to clipboard. Options vary by tool type.</p></details>
+  <details><summary>Does qr code generator & scanner work on mobile phones and tablets?</summary><p>Yes, fully responsive. Works on iOS Safari, Android Chrome, and all modern mobile browsers. The interface adapts to your screen size automatically.</p></details>
+  <details><summary>Can I use the generated output for commercial projects?</summary><p>Absolutely. Everything you create is yours — use it for personal, commercial, or client work. No attribution required (though we appreciate a link!).</p></details>
+  <details><summary>How is qr code generator & scanner different from other online generator tools?</summary><p>Unlike other tools, it runs entirely in your browser — your data never leaves your device. No ads blocking your work, no signup, no limits. Source code is open on GitHub.</p></details>
+  <details><summary>How do I use qr code generator & scanner for the first time?</summary><p>Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/url-encoder/">URL Encoder / Decoder</a>
+    <a href="/tools/signature-generator/">Signature Generator</a>
+    <a href="/tools/barcode-generator/">Barcode Generator</a>
+    <a href="/tools/password-generator/">Password Generator</a>
+    <a href="/tools/utm-builder/">UTM Builder</a>
+  </nav>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<!-- Primary: CDN library for best quality -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"
+  onerror="document.getElementById('qrStatus').textContent='QR library failed to load. Refresh the page.'"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+<script>
+// ═══════════════════════════════
+// QR Code Generator — CDN-first with inline fallback
+// ═══════════════════════════════
+(function() {
+  var qrContainer = document.getElementById('qrCode');
+  var qrInput = document.getElementById('qrText');
+  var statusEl = document.getElementById('qrStatus');
+  var qrInstance = null;
+  var debounceTimer;
+
+  // Main generate function (uses QRCode library)
+  function generateQR(text) {
+    if (!text || !text.trim()) text = 'https://toolstand.io';
+    qrContainer.innerHTML = '';
+
+    if (typeof QRCode !== 'undefined') {
+      // CDN library available — best quality
+      try {
+        qrInstance = new QRCode(qrContainer, {
+          text: text,
+          width: 256,
+          height: 256,
+          colorDark: '#1e293b',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        statusEl.textContent = '';
+      } catch(e) {
+        statusEl.textContent = '⚠️ Generation error. Trying again...';
+        setTimeout(function() { generateQR(text); }, 500);
+      }
+    } else {
+      // Fallback: library not loaded yet, wait and retry
+      statusEl.textContent = '⏳ Loading QR library...';
+      setTimeout(function() { generateQR(text); }, 300);
+    }
+  }
+
+  // Input handler with debounce
+  qrInput.addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    var val = qrInput.value.trim();
+    if (val) {
+      debounceTimer = setTimeout(function() { generateQR(val); }, 100);
+    }
+  });
+
+  // Download
+  document.getElementById('downloadQR').addEventListener('click', function() {
+    var canvas = qrContainer.querySelector('canvas, img');
+    if (!canvas) return;
+    if (canvas.tagName === 'IMG') {
+      // Fallback: img element
+      var link = document.createElement('a');
+      link.download = 'qr-code.png';
+      link.href = canvas.src;
+      link.click();
+      return;
+    }
+    var link = document.createElement('a');
+    link.download = 'qr-code.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  // Print
+  document.getElementById('printQR').addEventListener('click', function() {
+    var canvas = qrContainer.querySelector('canvas, img');
+    if (!canvas) return;
+    var src = canvas.tagName === 'IMG' ? canvas.src : canvas.toDataURL();
+    var win = window.open('');
+    win.document.write('<img src="' + src + '" alt="QR Code" style="max-width:300px">');
+    win.print();
+  });
+
+  // Theme
+  var themeToggle = document.getElementById('themeToggle');
+  var saved = localStorage.getItem('toolstand-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  themeToggle.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('toolstand-theme', next);
+    // Regenerate QR for dark mode colors
+    if (qrInstance && qrInput.value.trim()) generateQR(qrInput.value);
+  });
+
+  // Tabs
+  document.querySelectorAll('.qr-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.qr-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.qr-panel').forEach(function(p) { p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+      if (tab.dataset.panel === 'scan') startScan();
+      else stopScan();
+    });
+  });
+
+  // QR Scanning
+  var stream = null;
+  var video = document.getElementById('cameraView');
+  var startBtn = document.getElementById('startScan');
+  var stopBtn = document.getElementById('stopScan');
+  var resultDiv = document.getElementById('qrResult');
+  var scanCanvas = document.getElementById('scanCanvas');
+  var scanCtx = scanCanvas.getContext('2d');
+
+  function startScan() {
+    if (stream) return;
+    if (typeof jsQR === 'undefined') {
+      resultDiv.textContent = '⚠️ Scanner loading... try again in a moment.';
+      resultDiv.style.display = 'block';
+      return;
+    }
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function(s) {
+      stream = s;
+      video.srcObject = stream;
+      video.style.display = 'block';
+      startBtn.style.display = 'none';
+      stopBtn.style.display = 'inline-block';
+      video.play();
+      scanLoop();
+    }).catch(function() {
+      resultDiv.textContent = '⚠️ Camera access denied or not available.';
+      resultDiv.style.display = 'block';
+    });
+  }
+
+  function stopScan() {
+    if (stream) { stream.getTracks().forEach(function(t) { t.stop(); }); stream = null; }
+    video.style.display = 'none'; video.srcObject = null;
+    startBtn.style.display = 'inline-block'; stopBtn.style.display = 'none';
+  }
+
+  function scanLoop() {
+    if (!stream) return;
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      scanCanvas.width = video.videoWidth;
+      scanCanvas.height = video.videoHeight;
+      scanCtx.drawImage(video, 0, 0, scanCanvas.width, scanCanvas.height);
+      var imageData = scanCtx.getImageData(0, 0, scanCanvas.width, scanCanvas.height);
+      var code = jsQR(imageData.data, imageData.width, imageData.height);
+      if (code) {
+        resultDiv.innerHTML = '';
+        resultDiv.style.display = 'block';
+        if (code.data.startsWith('http')) {
+          var a = document.createElement('a');
+          a.href = code.data; a.target = '_blank'; a.textContent = code.data;
+          a.style.color = 'var(--primary)';
+          resultDiv.appendChild(a);
+        } else { resultDiv.textContent = code.data; }
+      }
+    }
+    requestAnimationFrame(scanLoop);
+  }
+
+  startBtn.addEventListener('click', startScan);
+  stopBtn.addEventListener('click', stopScan);
+
+  // Generate default QR on load — with retry
+  var loadAttempts = 0;
+  function initQR() {
+    if (typeof QRCode !== 'undefined') {
+      generateQR('https://toolstand.io');
+      return;
+    }
+    loadAttempts++;
+    if (loadAttempts < 15) {
+      setTimeout(initQR, 200); // Retry up to 3 seconds
+    } else {
+      statusEl.textContent = '⚠️ QR library unavailable. Please refresh.';
+    }
+  }
+  initQR();
+
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I generate a QR code for WiFi access free online?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Paste WiFi credentials as: WIFI:S:{SSID};T:{WPA|WEP};P:{password};; and generate the code. When scanned, phones connect to your WiFi instantly without typing the password."}}, {"@type": "Question", "name": "How do I create a QR code for Instagram or LinkedIn?", "acceptedAnswer": {"@type": "Answer", "text": "Copy your profile URL, paste it into the generator, and download the PNG. Print on business cards or flyers. Scanning takes people directly to your profile."}}, {"@type": "Question", "name": "Does the QR code scanner work with damaged codes?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, to an extent. Error correction level M allows ~15% damage recovery. For harsh environments, print codes larger with high contrast."}}, {"@type": "Question", "name": "Can I generate qr code generator & scanner online without downloading any software?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! The QR Code Generator & Scanner works 100% in your browser. No downloads, no installs, no apps. Just open the page and start. Everything runs locally on your device."}}, {"@type": "Question", "name": "Is the qr code generator & scanner completely free to use with no limits?", "acceptedAnswer": {"@type": "Answer", "text": "Completely free — no daily caps, no paywalls, no premium tiers. ToolStand believes essential utilities should be free forever."}}, {"@type": "Question", "name": "How do I save or download what I create?", "acceptedAnswer": {"@type": "Answer", "text": "Look for the Download, Copy, or Export button after generating. Most generators let you save as PNG or copy to clipboard. Options vary by tool type."}}, {"@type": "Question", "name": "Does qr code generator & scanner work on mobile phones and tablets?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, fully responsive. Works on iOS Safari, Android Chrome, and all modern mobile browsers. The interface adapts to your screen size automatically."}}, {"@type": "Question", "name": "Can I use the generated output for commercial projects?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. Everything you create is yours — use it for personal, commercial, or client work. No attribution required (though we appreciate a link!)."}}, {"@type": "Question", "name": "How is qr code generator & scanner different from other online generator tools?", "acceptedAnswer": {"@type": "Answer", "text": "Unlike other tools, it runs entirely in your browser — your data never leaves your device. No ads blocking your work, no signup, no limits. Source code is open on GitHub."}}, {"@type": "Question", "name": "How do I use qr code generator & scanner for the first time?", "acceptedAnswer": {"@type": "Answer", "text": "Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"QR Code Generator &amp; Scanner","item":"https://toolstand.io/tools/qr-code/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

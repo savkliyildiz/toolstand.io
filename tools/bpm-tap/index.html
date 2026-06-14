@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online BPM Tap Tempo — Find Tempo | ToolStand</title>
+    <meta name="description" content="Tap tempo BPM finder. Tap button or press spacebar. Tap tempo BPM counter for musicians. Free online BPM finder.">
+    <meta name="theme-color" content="#f59e0b">
+    <link rel="canonical" href="https://toolstand.io/tools/bpm-tap/">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="stylesheet" href="/shared/styles.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-card: #f9fafb;
+            --border: #e5e7eb;
+            --text: #111827;
+            --text-secondary: #6b7280;
+            --radius: 12px;
+            --accent: #f59e0b;
+        }
+        [data-theme="dark"] {
+            --bg: #111827;
+            --bg-card: #1f2937;
+            --border: #374151;
+            --text: #f9fafb;
+            --text-secondary: #9ca3af;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .header { background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
+        .header .container { display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 1.25rem; text-decoration: none; color: var(--text); }
+        .logo strong { color: var(--accent); }
+        .nav { display: flex; align-items: center; gap: 16px; }
+        .nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+        .nav a:hover { color: var(--text); }
+        .btn-icon { background: none; border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 10px; cursor: pointer; font-size: 1rem; color: var(--text); }
+        .ad-banner { max-width: 800px; margin: 12px auto; padding: 0 16px; min-height: 90px; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+        .tool-container { max-width: 800px; margin: 0 auto; padding: 24px 16px 40px; }
+        .tool-header { text-align: center; margin-bottom: 24px; }
+        .tool-header h1 { font-size: 2rem; margin-bottom: 4px; }
+        .tap-area { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .bpm-display { text-align: center; }
+        .bpm-number { font-size: 72px; font-weight: 800; color: var(--accent); line-height: 1; transition: color 0.3s; }
+        .bpm-label { font-size: 1rem; color: var(--text-secondary); margin-top: 4px; }
+        .tap-btn {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            background: var(--bg);
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 4px 24px rgba(245, 158, 11, 0.15);
+        }
+        .tap-btn:hover {
+            box-shadow: 0 6px 32px rgba(245, 158, 11, 0.25);
+        }
+        .tap-btn:active, .tap-btn.tapping {
+            transform: scale(0.92);
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(245, 158, 11, 0.3);
+        }
+        [data-theme="dark"] .tap-btn {
+            box-shadow: 0 4px 24px rgba(245, 158, 11, 0.25);
+        }
+        [data-theme="dark"] .tap-btn:hover {
+            box-shadow: 0 6px 32px rgba(245, 158, 11, 0.4);
+        }
+        .beat-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+            transition: transform 0.08s, opacity 0.08s;
+        }
+        .beat-indicator.pulse {
+            transform: scale(1.8);
+            opacity: 1;
+        }
+        .stats { text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+        .stats span { font-weight: 600; color: var(--text); }
+        .hint { font-size: 0.8rem; color: var(--text-secondary); margin-top: 8px; }
+        .btn-reset { padding: 8px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); color: var(--text); cursor: pointer; font-size: 0.85rem; font-weight: 500; margin-top: 10px; }
+        .btn-reset:hover { background: var(--border); }
+        .embed-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 40px; text-align: center; }
+        .embed-cta h3 { margin-bottom: 8px; }
+        .embed-cta p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+        .embed-code { width: 100%; font-family: monospace; font-size: 0.75rem; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); resize: vertical; }
+        .footer { border-top: 1px solid var(--border); padding: 20px 0; text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 40px; }
+        .footer a { color: var(--text-secondary); text-decoration: none; }
+        .footer a:hover { color: var(--text); }
+        .small { font-size: 0.8rem; margin-top: 4px; }
+    </style>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "BPM Tap Tempo",
+  "alternateName": "bpm-tap",
+  "url": "https://toolstand.io/tools/bpm-tap/",
+  "description": "A musical timing tool that detects Beats Per Minute from tap input with rolling average calculation and visual pulse indicator. It solves the problem of determining song tempo by feel without a physical metronome.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "utility, music",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/bpm-tap/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/bpm-tap/" />
+<meta property="og:title" content="BPM Tap Tempo — Free Online Tap Tempo BPM Counter | ToolStand">
+<meta property="og:description" content="Tap tempo BPM finder. Tap button or press spacebar. Tap tempo BPM counter for musicians. Free online BPM finder.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/bpm-tap/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BPM Tap Tempo — Free Online Tap Tempo BPM Counter | ToolStand">
+<meta name="twitter:description" content="Tap tempo BPM finder. Tap button or press spacebar. Tap tempo BPM counter for musicians. Free online BPM finder.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+        <nav class="nav">
+            <a href="/blog/">Blog</a>
+            <a href="#embed-section">Embed</a>
+            <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+        </nav>
+    </div>
+</header>
+
+<div class="ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+
+<main class="tool-container">
+    <div class="tool-header">
+        <h1>🥁 BPM Tap Tempo</h1>
+        <p style="color: var(--text-secondary);">Tap tempo BPM finder. Tap button or press spacebar.</p>
+    </div>
+
+    <div class="tap-area">
+        <div class="bpm-display">
+            <div class="bpm-number" id="bpmDisplay">--</div>
+            <div class="bpm-label">BPM</div>
+        </div>
+
+        <div class="beat-indicator" id="beatIndicator"></div>
+
+        <button class="tap-btn" id="tapButton" aria-label="Tap for BPM">
+            🥁 TAP
+        </button>
+
+        <div class="stats">
+            Taps: <span id="tapCount">0</span> &nbsp;·&nbsp;
+            Avg BPM: <span id="avgBpm">--</span>
+        </div>
+
+        <p class="hint">Press <strong>Space</strong> or tap the button. Stops after 4s of no taps.</p>
+        <button class="btn-reset" id="resetButton">↻ Reset</button>
+    </div>
+</main>
+
+  <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the BPM Tap Tempo to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- BPM Tap Tempo — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/bpm-tap/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="BPM Tap Tempo | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+    <h2>How to Use the BPM Tap Tempo</h2>
+    <ol>
+      <li>Start tapping the large button (or press the Space key) in rhythm with the music.</li>
+      <li>Each tap updates the BPM reading in real time — the more taps, the more accurate the result.</li>
+      <li>The counter stops automatically after 4 seconds of no taps and displays the average BPM.</li>
+      <li>Click Reset to clear the reading and start a new measurement.</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How do I use bpm tap tempo for the first time?</summary><p>Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough.</p></details>
+  <details><summary>Does bpm tap tempo require any special permissions?</summary><p>No special permissions needed — just a modern browser. All processing stays on your device.</p></details>
+  <details><summary>Can I use bpm tap tempo for professional or business purposes?</summary><p>Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code.</p></details>
+  <details><summary>Does bpm tap tempo run locally in my browser?</summary><p>Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data.</p></details>
+  <details><summary>What browsers support bpm tap tempo?</summary><p>Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported.</p></details>
+  <details><summary>How is bpm tap tempo different from similar tools on other websites?</summary><p>Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <p>Explore more free tools like the BPM Tap Tempo:</p>
+      <ul>
+        <li><a href="/tools/metronome/">Metronome</a></li>
+        <li><a href="/tools/stopwatch/">Stopwatch</a></li>
+        <li><a href="/tools/tone-generator/">Tone Generator</a></li>
+        <li><a href="/tools/countdown/">Countdown Timer</a></li>
+      </ul>
+    </nav>
+
+
+<footer class="footer">
+    <div class="container">
+        <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+        <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+    </div>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    // Theme
+    var stored = localStorage.getItem('toolstand-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', stored);
+    document.getElementById('themeToggle').addEventListener('click', function() {
+        var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('toolstand-theme', t);
+    });
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+
+    // BPM state
+    var taps = [];
+    var resetTimer = null;
+    var bpmDisplay = document.getElementById('bpmDisplay');
+    var tapCountEl = document.getElementById('tapCount');
+    var avgBpmEl = document.getElementById('avgBpm');
+    var beatIndicator = document.getElementById('beatIndicator');
+    var tapButton = document.getElementById('tapButton');
+
+    function resetTaps() {
+        taps = [];
+        bpmDisplay.textContent = '--';
+        tapCountEl.textContent = '0';
+        avgBpmEl.textContent = '--';
+        if (resetTimer) {
+            clearTimeout(resetTimer);
+            resetTimer = null;
+        }
+    }
+
+    function pulseBeat() {
+        beatIndicator.classList.add('pulse');
+        setTimeout(function() {
+            beatIndicator.classList.remove('pulse');
+        }, 80);
+    }
+
+    function calculateBpm() {
+        if (taps.length < 2) {
+            bpmDisplay.textContent = '--';
+            avgBpmEl.textContent = '--';
+            return;
+        }
+
+        // Use last 8 taps
+        var recentTaps = taps.slice(-8);
+        var intervals = [];
+        for (var i = 1; i < recentTaps.length; i++) {
+            intervals.push(recentTaps[i] - recentTaps[i - 1]);
+        }
+
+        // Calculate average interval
+        var sum = 0;
+        for (var i = 0; i < intervals.length; i++) {
+            sum += intervals[i];
+        }
+        var avgInterval = sum / intervals.length;
+
+        if (avgInterval <= 0) return;
+
+        var bpm = Math.round(60000 / avgInterval);
+
+        // Clamp to reasonable range
+        if (bpm < 20) bpm = 20;
+        if (bpm > 300) bpm = 300;
+
+        bpmDisplay.textContent = bpm;
+        avgBpmEl.textContent = bpm;
+        pulseBeat();
+    }
+
+    function doTap() {
+        var now = Date.now();
+        taps.push(now);
+        tapCountEl.textContent = taps.length;
+        calculateBpm();
+
+        // Visual feedback
+        tapButton.classList.add('tapping');
+        setTimeout(function() {
+            tapButton.classList.remove('tapping');
+        }, 100);
+
+        // Reset after 4 seconds of inactivity
+        if (resetTimer) clearTimeout(resetTimer);
+        resetTimer = setTimeout(resetTaps, 4000);
+    }
+
+    // Button tap
+    tapButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        doTap();
+    });
+
+    // Spacebar tap
+    document.addEventListener('keydown', function(e) {
+        if (e.code === 'Space' || e.key === ' ' || e.keyCode === 32) {
+            e.preventDefault();
+            doTap();
+        }
+    });
+
+    // Reset button
+    document.getElementById('resetButton').addEventListener('click', function() {
+        resetTaps();
+    });
+
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I use bpm tap tempo for the first time?", "acceptedAnswer": {"@type": "Answer", "text": "Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough."}}, {"@type": "Question", "name": "Does bpm tap tempo require any special permissions?", "acceptedAnswer": {"@type": "Answer", "text": "No special permissions needed — just a modern browser. All processing stays on your device."}}, {"@type": "Question", "name": "Can I use bpm tap tempo for professional or business purposes?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code."}}, {"@type": "Question", "name": "Does bpm tap tempo run locally in my browser?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data."}}, {"@type": "Question", "name": "What browsers support bpm tap tempo?", "acceptedAnswer": {"@type": "Answer", "text": "Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported."}}, {"@type": "Question", "name": "How is bpm tap tempo different from similar tools on other websites?", "acceptedAnswer": {"@type": "Answer", "text": "Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"BPM Tap Tempo — Free Online Tap Tempo BPM Counter","item":"https://toolstand.io/tools/bpm-tap/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

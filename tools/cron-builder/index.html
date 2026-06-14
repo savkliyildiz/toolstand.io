@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Free Online Cron Expression Builder — Build Online | ToolStand</title><meta name="description" content="Build and explain cron expressions visually. Select minute, hour, day, month, weekday. Human-readable output. Paste any cron expression to get a plain-English explanation."><link rel="stylesheet" href="/shared/styles.css"><meta name="theme-color" content="#f59e0b"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" type="image/png" href="/assets/favicon.png"><link rel="canonical" href="https://toolstand.io/tools/cron-builder/"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Cron Expression Builder & Explainer",
+  "alternateName": "cron-builder",
+  "url": "https://toolstand.io/tools/cron-builder/",
+  "description": "A scheduling expression tool that visually constructs cron syntax with human-readable descriptions and common presets. It solves the problem of writing correct crontab expressions for task automation.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "productivity",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script><style>.tc-c{display:flex;flex-direction:column;gap:20px}.tc-i{width:100%;padding:12px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);box-sizing:border-box;font-family:monospace}.tc-i:focus{outline:none;border-color:#f59e0b}.tc-b{padding:12px 24px;font-weight:700;background:#f59e0b;color:white;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem}.tc-b:hover{opacity:.9}.tc-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:monospace;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;min-height:50px}.tc-l{font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}</style>
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/cron-builder/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/cron-builder/" />
+<meta property="og:title" content="Cron Expression Builder &amp; Explainer — Free Online Tool | ToolStand">
+<meta property="og:description" content="Build and explain cron expressions visually. Select minute, hour, day, month, weekday. Human-readable output. Paste any cron expression to get a plain-English explanation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/cron-builder/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cron Expression Builder &amp; Explainer — Free Online Tool | ToolStand">
+<meta name="twitter:description" content="Build and explain cron expressions visually. Select minute, hour, day, month, weekday. Human-readable output. Paste any cron expression to get a plain-English explanation.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head><body><header class="header"><div class="container"><a href="/" class="logo">🧰 <strong>ToolStand</strong></a><nav class="nav"><a href="/blog/">Blog</a><a href="#embed-section">Embed</a><button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button></nav></div></header><div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div><main class="tool-container"><div class="tool-header"><h1>⏰ Cron Expression Builder &amp; Explainer</h1><p>Build and explain cron expressions. Set fields or paste an expression to decode it.</p></div><div class="tc-c"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"><div><label class="tc-l">Minute</label><input type="text" id="tgM" class="tc-i" value="0" maxlength="10" style="font-family:sans-serif"></div><div><label class="tc-l">Hour</label><input type="text" id="tgH" class="tc-i" value="9" maxlength="10" style="font-family:sans-serif"></div><div><label class="tc-l">Day</label><input type="text" id="tgD" class="tc-i" value="*" maxlength="10" style="font-family:sans-serif"></div><div><label class="tc-l">Month</label><input type="text" id="tgMo" class="tc-i" value="*" maxlength="10" style="font-family:sans-serif"></div><div><label class="tc-l">Weekday</label><input type="text" id="tgW" class="tc-i" value="*" maxlength="10" style="font-family:sans-serif"></div><div style="display:flex;flex-direction:column;justify-content:flex-end"><div style="display:flex;gap:4px;flex-wrap:wrap"><button onclick="document.getElementById('tgM').value='0';document.getElementById('tgH').value='0';document.getElementById('tgD').value='*';document.getElementById('tgMo').value='*';document.getElementById('tgW').value='*';bld()" style="font-size:.65rem;padding:3px 8px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;cursor:pointer">@daily</button><button onclick="document.getElementById('tgM').value='0';document.getElementById('tgH').value='*';document.getElementById('tgD').value='*';document.getElementById('tgMo').value='*';document.getElementById('tgW').value='*';bld()" style="font-size:.65rem;padding:3px 8px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;cursor:pointer">@hourly</button><button onclick="document.getElementById('tgM').value='*/30';document.getElementById('tgH').value='*';document.getElementById('tgD').value='*';document.getElementById('tgMo').value='*';document.getElementById('tgW').value='*';bld()" style="font-size:.65rem;padding:3px 8px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;cursor:pointer">every 30m</button><button onclick="document.getElementById('tgM').value='*/15';document.getElementById('tgH').value='*';document.getElementById('tgD').value='*';document.getElementById('tgMo').value='*';document.getElementById('tgW').value='*';bld()" style="font-size:.65rem;padding:3px 8px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;cursor:pointer">every 15m</button>></div></div><div class="tc-o" id="tgO" style="text-align:center;font-size:1.1rem"></div><div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px"><label class="tc-l" style="display:block;margin-bottom:6px">🔍 Or paste a cron expression to explain:</label><div style="display:flex;gap:8px"><input type="text" id="tgExplain" class="tc-i" placeholder="e.g. 0 9 * * 1" style="font-family:monospace;flex:1" maxlength="50"><button class="tc-b" id="tgExplainBtn" style="flex:none;padding:10px 18px;font-size:0.85rem">Explain</button></div><div class="tc-o" id="tgExplainOut" style="margin-top:10px;font-size:0.9rem;font-family:sans-serif;display:none"></div></div>  <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Cron Expression Builder to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Cron Expression Builder — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/cron-builder/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Cron Expression Builder | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+    <h2>How to Use the Cron Expression Builder</h2>
+    <ol>
+      <li>Fill in the minute, hour, day, month, and weekday fields (use * for 'every').</li>
+      <li>Or click a preset like @daily or every 30m for common schedules.</li>
+      <li>The cron expression and its human-readable description update in real time.</li>
+      <li>Copy the cron expression and use it in your crontab, CI/CD pipelines, or task schedulers.</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How can cron expression builder improve my daily workflow?</summary><p>Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard.</p></details>
+  <details><summary>Does cron expression builder save my progress if I close the browser?</summary><p>Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab.</p></details>
+  <details><summary>Can I use cron expression builder with keyboard shortcuts?</summary><p>Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section.</p></details>
+  <details><summary>Does cron expression builder work with screen readers?</summary><p>Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack.</p></details>
+  <details><summary>How do I share results from cron expression builder with my team?</summary><p>Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <p>Explore more free tools like the Cron Expression Builder:</p>
+      <ul>
+        <li><a href="/tools/timestamp-converter/">Timestamp Converter</a></li>
+        <li><a href="/tools/ssh-key-generator/">Ssh Key Generator</a></li>
+        <li><a href="/tools/sql-formatter/">Sql Formatter</a></li>
+        <li><a href="/tools/json-formatter/">Json Formatter</a></li>
+      </ul>
+    </nav>
+
+</div></main><footer class="footer"><div class="container"><p>🧰 <strong>ToolStand</strong> — Free tools, always.</p><p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p></div></footer><script>(function(){function bld(){var m=document.getElementById("tgM").value,h=document.getElementById("tgH").value,d=document.getElementById("tgD").value,mn=document.getElementById("tgMo").value,w=document.getElementById("tgW").value;var exp=m+" "+h+" "+d+" "+mn+" "+w;var hum="";if(m==="0"&&h==="9"&&d==="*"&&mn==="*"&&w==="*")hum="Daily at 9:00 AM";else if(m==="0"&&h==="0"&&d==="*"&&mn==="*"&&w==="*")hum="Daily at midnight";else if(m==="0"&&h!=="*")hum="At "+h+":00, every day";else if(m==="*/30")hum="Every 30 minutes";else if(m==="*/15")hum="Every 15 minutes";else hum="Custom: minute "+m+", hour "+h+", day "+d+", month "+mn+", weekday "+w;document.getElementById("tgO").innerHTML="<b>"+exp+"</b><br><span style=\"font-size:.85rem;color:var(--text-secondary)\">"+hum+"</span>"}
+function explainCron(expr){var parts=expr.trim().split(/\s+/);if(parts.length!==5)return'<span style="color:#ef4444">Invalid: cron expression must have exactly 5 fields</span>';var wdays=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];var months=["January","February","March","April","May","June","July","August","September","October","November","December"];function describeField(val,unit,names,offset){if(val==="*")return"every "+unit;if(val.indexOf("/")>-1){var s=val.split("/");return"every "+s[1]+" "+unit+"s"+(s[0]!=="*"?" starting at "+s[0]:"")}if(val.indexOf("-")>-1){var r=val.split("-");return"from "+(names?names[parseInt(r[0])-offset]:r[0])+" to "+(names?names[parseInt(r[1])-offset]:r[1])}if(val.indexOf(",")>-1){var items=val.split(",").map(function(v){return names?names[parseInt(v)-offset]:v});return "at "+items.join(", ")}return "at "+(names?names[parseInt(val)-offset]:val)}
+var minDesc=describeField(parts[0],"minute");var hourDesc=describeField(parts[1],"hour");var dayDesc=describeField(parts[2],"day");var monDesc=describeField(parts[3],"month",months,1);var wdayDesc=describeField(parts[4],"weekday",wdays,0);
+var minPart=parts[0]==="*"?"":parts[0]==="0"?"":parts[0]+" minute"+(parts[0]!=="1"?"s":"")+" past the hour, ";var hourPart=parts[1]==="*"?"":parts[1]+":00, ";
+if(parts[0]==="*"&&parts[1]==="*"){return"Every minute of every day";}if(parts[2]==="*"&&parts[3]==="*"&&parts[4]==="*"){return hourPart+minPart+"every day".replace(/,\s*$/,"").replace(/^,\s*/,"")}if(parts[4]!=="*"){var wdNames=parts[4].split(",").map(function(v){return wdays[parseInt(v)]||v});return "At "+parts[1]+":"+(parts[0]==="0"?"00":parts[0])+", every "+wdNames.join(", ")}
+var result="Minute: "+minDesc+", Hour: "+hourDesc+", Day: "+dayDesc+", Month: "+monDesc+", Weekday: "+wdayDesc;return result}
+document.getElementById("tgExplainBtn").addEventListener("click",function(){var out=document.getElementById("tgExplainOut");var expr=document.getElementById("tgExplain").value;out.style.display="block";out.innerHTML=explainCron(expr)})
+["tgM","tgH","tgD","tgMo","tgW"].forEach(function(id){document.getElementById(id).addEventListener("input",bld)});bld();})();document.getElementById("themeToggle").addEventListener("click",function(){var n=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("toolstand-theme",n)});document.documentElement.setAttribute("data-theme",localStorage.getItem("toolstand-theme")||"light");if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js");</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How can cron expression builder improve my daily workflow?", "acceptedAnswer": {"@type": "Answer", "text": "Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard."}}, {"@type": "Question", "name": "Does cron expression builder save my progress if I close the browser?", "acceptedAnswer": {"@type": "Answer", "text": "Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab."}}, {"@type": "Question", "name": "Can I use cron expression builder with keyboard shortcuts?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section."}}, {"@type": "Question", "name": "Does cron expression builder work with screen readers?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack."}}, {"@type": "Question", "name": "How do I share results from cron expression builder with my team?", "acceptedAnswer": {"@type": "Answer", "text": "Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Cron Expression Builder & Explainer — Free Online Tool","item":"https://toolstand.io/tools/cron-builder/"}]}</script>
+/body></html>

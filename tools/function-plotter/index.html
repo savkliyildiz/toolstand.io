@@ -1,0 +1,342 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Function Graph Plotter — Plot Graphs | ToolStand</title>
+<meta name="description" content="Free online math function plotter. Graph multiple functions like sin(x), x², ln(x) with custom ranges. Built with Math.js and Chart.js.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#8b5cf6">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/function-plotter/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Function Graph Plotter",
+  "alternateName": "function-plotter",
+  "url": "https://toolstand.io/tools/function-plotter/",
+  "description": "A mathematical visualization tool that graphs mathematical functions using math.js for expression parsing and Chart.js for rendering. It solves the problem of visualizing mathematical relationships for education and analysis.",
+  "applicationCategory": "CalculatorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "calculator, education",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+<style>
+:root{--accent:#8b5cf6;--accent-light:#ede9fe;--accent2:#06b6d4;--accent3:#f59e0b;--accent4:#ef4444;--accent5:#22c55e;--bg:#f8fafc;--card:#fff;--text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.08)}
+[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--text-secondary:#94a3b8;--border:#334155;--shadow:0 1px 3px rgba(0,0,0,.3)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1100px;margin:0 auto;padding:0 20px;width:100%}
+.header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.4rem;text-decoration:none;color:var(--text)}
+.nav{display:flex;gap:16px;align-items:center}
+.nav a{color:var(--text-secondary);text-decoration:none;font-size:.9rem;transition:color .2s}
+.nav a:hover{color:var(--accent)}
+.btn-icon{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:1.1rem;color:var(--text)}
+.ad-banner{max-width:1100px;margin:12px auto 0;padding:0 20px;min-height:90px;overflow:hidden}
+.tool-container{max-width:960px;margin:0 auto;padding:24px 20px 40px;flex:1;width:100%}
+.tool-header{text-align:center;margin-bottom:24px}
+.tool-header h1{font-size:2rem;margin-bottom:8px}
+.tool-header p{color:var(--text-secondary);font-size:1.05rem}
+.control-panel{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.fn-card{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.fn-card h3{font-size:.95rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.fn-card h3 .color-dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex-shrink:0}
+.fn-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.fn-row input{font-size:.9rem;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:monospace;outline:none;flex:1;min-width:0}
+.fn-row input:focus{border-color:var(--accent)}
+.fn-row input[type="color"]{width:36px;height:36px;padding:2px;flex:none;cursor:pointer;border-radius:8px}
+.fn-row button{background:var(--danger);color:#fff;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.85rem;font-weight:600;flex-shrink:0}
+.fn-row button:hover{opacity:.9}
+.range-card{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.range-card h3{font-size:.95rem;margin-bottom:0}
+.range-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.range-item{display:flex;flex-direction:column;gap:3px}
+.range-item label{font-size:.75rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.4px}
+.range-item input{font-size:.9rem;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);outline:none;font-family:monospace}
+.range-item input:focus{border-color:var(--accent)}
+.add-fn-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-weight:600;font-size:.9rem;margin-top:8px;width:100%}
+.add-fn-btn:hover{opacity:.9}
+.presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.preset-chip{font-size:.75rem;padding:5px 12px;border:1px solid var(--border);border-radius:16px;cursor:pointer;background:var(--bg);color:var(--text);transition:all .2s;white-space:nowrap}
+.preset-chip:hover{background:var(--accent-light);border-color:var(--accent)}
+.chart-wrapper{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px}
+.chart-wrapper canvas{width:100%;height:420px}
+.error-msg{color:#ef4444;font-size:.8rem;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.embed-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0;text-align:left}
+.embed-cta h3{margin-bottom:8px;font-size:1.1rem}
+.embed-cta p{color:var(--text-secondary);font-size:.9rem;margin-bottom:16px}
+.embed-code{width:100%;font-family:monospace;font-size:.78rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px 80px 14px 14px;color:var(--text);resize:vertical;line-height:1.5;white-space:pre;overflow-x:auto}
+.embed-code-wrapper{position:relative}
+.btn-copy-embed{position:absolute;top:8px;right:8px;padding:6px 14px;background:#083fa1;color:#fff;border:none;border-radius:4px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-copy-embed:hover{background:#062d7a}
+.footer{background:var(--card);border-top:1px solid var(--border);padding:24px 0;text-align:center;margin-top:40px}
+.footer a{color:var(--text-secondary);text-decoration:none;font-size:.85rem}
+.footer a:hover{color:var(--accent)}
+.footer .small{font-size:.8rem;margin-top:4px}
+@media(max-width:768px){
+  .control-panel{grid-template-columns:1fr}
+  .range-grid{grid-template-columns:1fr 1fr}
+  .tool-header h1{font-size:1.5rem}
+}
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/function-plotter/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/function-plotter/" />
+<meta property="og:title" content="Function Plotter — Free Online Tool | ToolStand">
+<meta property="og:description" content="Free online math function plotter. Graph multiple functions like sin(x), x², ln(x) with custom ranges. Built with Math.js and Chart.js.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/function-plotter/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Function Plotter — Free Online Tool | ToolStand">
+<meta name="twitter:description" content="Free online math function plotter. Graph multiple functions like sin(x), x², ln(x) with custom ranges. Built with Math.js and Chart.js.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header"><div class="container"><a href="/" class="logo">🧰 <strong>ToolStand</strong></a><nav class="nav"><a href="/blog/">Blog</a><a href="#embed-section">Embed</a><button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button></nav></div></header>
+<div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<main class="tool-container">
+  <div class="tool-header"><h1>📈 Function Plotter</h1><p>Graph multiple math functions with custom ranges. Built with Math.js + Chart.js.</p></div>
+
+  <div class="control-panel">
+    <div>
+      <div id="functionsContainer">
+        <div class="fn-card" data-fn-id="0">
+          <h3><span class="color-dot" style="background:#8b5cf6"></span> Function 1</h3>
+          <div class="fn-row"><input type="text" class="fn-input" value="sin(x)" placeholder="e.g. sin(x), x^2 + 3*x - 2"><input type="color" class="fn-color" value="#8b5cf6"></div>
+          <div class="error-msg fn-error"></div>
+        </div>
+      </div>
+      <button class="add-fn-btn" id="addFnBtn">+ Add Function</button>
+      <div class="presets" style="margin-top:10px">
+        <span style="font-size:.75rem;color:var(--text-secondary);align-self:center">Presets:</span>
+        <button class="preset-chip" data-fn="sin(x)">sin(x)</button>
+        <button class="preset-chip" data-fn="cos(x)">cos(x)</button>
+        <button class="preset-chip" data-fn="x^2">x²</button>
+        <button class="preset-chip" data-fn="x^3">x³</button>
+        <button class="preset-chip" data-fn="sqrt(x)">√x</button>
+        <button class="preset-chip" data-fn="ln(x)">ln(x)</button>
+        <button class="preset-chip" data-fn="1/x">1/x</button>
+        <button class="preset-chip" data-fn="abs(x)">|x|</button>
+        <button class="preset-chip" data-fn="tan(x)">tan(x)</button>
+      </div>
+    </div>
+    <div class="range-card">
+      <h3>⚙️ Range Settings</h3>
+      <div class="range-grid">
+        <div class="range-item"><label>X Min</label><input type="number" id="xMin" value="-10" step="any"></div>
+        <div class="range-item"><label>X Max</label><input type="number" id="xMax" value="10" step="any"></div>
+        <div class="range-item"><label>Points</label><input type="number" id="points" value="200" min="10" max="2000" step="1"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrapper"><canvas id="plotChart"></canvas></div>
+
+  <section id="embed-section" class="embed-cta"><h3>🔗 Embed this tool on your site</h3><p>Add this free function plotter to your website.</p><textarea class="embed-code" rows="3" readonly onclick="this.select()">&lt;iframe src="https://toolstand.io/tools/function-plotter/embed" width="100%" height="550" frameborder="0"&gt;&lt;/iframe&gt;
+&lt;p style="text-align:center;font-size:12px"&gt;Powered by &lt;a href="https://toolstand.io/tools/function-plotter/"&gt;ToolStand Function Plotter&lt;/a&gt;&lt;/p&gt;</textarea><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">Click to copy</p></section>
+
+  <h2>How to Use the Function Plotter</h2>
+  <ol>
+    <li><strong>Type a function</strong> — enter any math expression using x as the variable, e.g., <code>sin(x)</code>, <code>x^2 + 3*x - 2</code>, or <code>1/x</code>. Click a preset chip for quick examples.</li>
+    <li><strong>Add more functions</strong> — click "➕ Add Function" to plot multiple curves on the same graph. Each gets its own color.</li>
+    <li><strong>Set the x-axis range</strong> — adjust X Min, X Max, and the number of data points for finer resolution on complex curves.</li>
+    <li><strong>Hover to inspect</strong> — move your mouse over the graph to see exact (x, y) coordinates at any point on the curve.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How accurate is function graph plotter compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does function graph plotter store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use function graph plotter on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does function graph plotter show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed function graph plotter on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does function graph plotter work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/scientific-calculator/">Scientific Calculator</a>
+    <a href="/tools/random-number/">Random Number Generator</a>
+    <a href="/tools/unit-converter/">Unit Converter</a>
+    <a href="/tools/dpi-calculator/">DPI Calculator</a>
+    <a href="/tools/decision-wheel/">Decision Wheel</a>
+  </nav>
+
+</main>
+<footer class="footer"><div class="container"><p>🧰 <strong>ToolStand</strong> — Free tools, always.</p><p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p></div></footer>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12.2.1/lib/browser/math.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+  const COLORS = ['#8b5cf6','#06b6d4','#f59e0b','#ef4444','#22c55e','#ec4899','#6366f1','#14b8a6'];
+  let fnCount = 1;
+  let chartInstance = null;
+
+  const container = document.getElementById('functionsContainer');
+  const addBtn = document.getElementById('addFnBtn');
+  const xMinEl = document.getElementById('xMin');
+  const xMaxEl = document.getElementById('xMax');
+  const pointsEl = document.getElementById('points');
+
+  function createFnCard(id) {
+    const color = COLORS[(id-1) % COLORS.length];
+    const div = document.createElement('div');
+    div.className = 'fn-card';
+    div.dataset.fnId = id;
+    div.innerHTML = `
+      <h3><span class="color-dot" style="background:${color}"></span> Function ${id}</h3>
+      <div class="fn-row">
+        <input type="text" class="fn-input" value="" placeholder="e.g. sin(x), x^2 + 3*x - 2">
+        <input type="color" class="fn-color" value="${color}">
+        ${id > 1 ? '<button class="remove-fn-btn" title="Remove">✕</button>' : ''}
+      </div>
+      <div class="error-msg fn-error"></div>`;
+    return div;
+  }
+
+  function addFunction(expression) {
+    fnCount++;
+    const card = createFnCard(fnCount);
+    container.appendChild(card);
+    if (expression) card.querySelector('.fn-input').value = expression;
+    bindCardEvents(card);
+    plot();
+  }
+
+  function bindCardEvents(card) {
+    card.querySelector('.fn-input')?.addEventListener('input', debounce(plot,300));
+    card.querySelector('.fn-color')?.addEventListener('input', plot);
+    card.querySelector('.remove-fn-btn')?.addEventListener('click', () => {
+      if (container.children.length > 1) { card.remove(); plot(); }
+    });
+  }
+
+  document.querySelectorAll('.fn-card').forEach(bindCardEvents);
+
+  addBtn.addEventListener('click', () => addFunction(''));
+
+  document.querySelectorAll('.preset-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const firstInput = container.querySelector('.fn-card:first-child .fn-input');
+      if (firstInput) { firstInput.value = chip.dataset.fn; firstInput.dispatchEvent(new Event('input')); }
+      else { addFunction(chip.dataset.fn); }
+    });
+  });
+
+  [xMinEl, xMaxEl, pointsEl].forEach(el => el.addEventListener('input', debounce(plot,300)));
+
+  function debounce(fn, ms) { let t; return function(...args){ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args),ms); }; }
+
+  function evaluateFunction(expr, xVals) {
+    try {
+      const compiled = math.compile(expr);
+      return xVals.map(x => {
+        try {
+          const val = compiled.evaluate({x});
+          return isNaN(val) || !isFinite(val) ? null : val;
+        } catch(e) { return null; }
+      });
+    } catch(e) { return null; }
+  }
+
+  function plot() {
+    const xMin = parseFloat(xMinEl.value) || -10;
+    const xMax = parseFloat(xMaxEl.value) || 10;
+    const nPts = parseInt(pointsEl.value) || 200;
+    const step = (xMax - xMin) / (nPts - 1);
+    const xVals = Array.from({length:nPts}, (_,i) => xMin + i*step);
+
+    const datasets = [];
+    const cards = container.querySelectorAll('.fn-card');
+    cards.forEach(card => {
+      const input = card.querySelector('.fn-input');
+      const colorPicker = card.querySelector('.fn-color');
+      const errorEl = card.querySelector('.fn-error');
+      const expr = input.value.trim();
+      errorEl.classList.remove('show');
+      if (!expr) return;
+
+      const yVals = evaluateFunction(expr, xVals);
+      if (!yVals) {
+        errorEl.textContent = 'Invalid expression. Use x as variable, e.g. sin(x), x^2';
+        errorEl.classList.add('show');
+        return;
+      }
+
+      datasets.push({
+        label: expr,
+        data: yVals.map((y,i)=>({x:xVals[i],y})),
+        borderColor: colorPicker.value,
+        backgroundColor: hexToRgba(colorPicker.value, 0.08),
+        fill: false,
+        tension: 0.2,
+        pointRadius: 0,
+        borderWidth: 2,
+        spanGaps: false
+      });
+    });
+
+    const ctx = document.getElementById('plotChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+    if (datasets.length === 0) return;
+
+    chartInstance = new Chart(ctx, {
+      type:'line',
+      data:{datasets},
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        parsing:false,
+        animation:false,
+        interaction:{intersect:false,mode:'nearest'},
+        plugins:{
+          legend:{labels:{color:getComputedStyle(document.body).getPropertyValue('--text'),padding:16,usePointStyle:true}},
+          tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: (${ctx.raw.x.toFixed(4)}, ${ctx.raw.y.toFixed(4)})`}}
+        },
+        scales:{
+          x:{type:'linear',title:{display:true,text:'x',color:getComputedStyle(document.body).getPropertyValue('--text-secondary')},grid:{color:getComputedStyle(document.body).getPropertyValue('--border')},ticks:{color:getComputedStyle(document.body).getPropertyValue('--text-secondary')}},
+          y:{title:{display:true,text:'f(x)',color:getComputedStyle(document.body).getPropertyValue('--text-secondary')},grid:{color:getComputedStyle(document.body).getPropertyValue('--border')},ticks:{color:getComputedStyle(document.body).getPropertyValue('--text-secondary')}}
+        }
+      }
+    });
+  }
+
+  function hexToRgba(hex, alpha) { const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return `rgba(${r},${g},${b},${alpha})`; }
+
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle?.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('toolstand-theme', next);
+    plot();
+  });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+
+  plot();
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is function graph plotter compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does function graph plotter store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use function graph plotter on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does function graph plotter show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed function graph plotter on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does function graph plotter work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Function Plotter — Free Online Tool","item":"https://toolstand.io/tools/function-plotter/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body></html>

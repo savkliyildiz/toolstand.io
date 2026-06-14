@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Dividend Reinvestment Calculator — Calculate Online | ToolStand</title>
+<meta name="description" content="Calculate dividend reinvestment returns over time. See how dividend yield, share price growth, and reinvestment compound your wealth. Free, no signup.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#eab308">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/dividend-calculator/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Dividend Reinvestment Calculator",
+  "alternateName": "dividend-calculator",
+  "url": "https://toolstand.io/tools/dividend-calculator/",
+  "description": "An investment analysis tool that computes dividend returns with reinvestment and tax considerations. It solves the problem of projecting total returns from dividend-paying stocks including compounding effects.",
+  "applicationCategory": "CalculatorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "calculator",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.dv-container { display: flex; flex-direction: column; gap: 20px; }
+.dv-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 8px; }
+.dv-input-group { display: flex; flex-direction: column; gap: 5px; }
+.dv-input-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+.dv-input-group input { padding: 11px 14px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 1rem; background: var(--bg); color: var(--text); transition: border-color 0.15s; }
+.dv-input-group input:focus { outline: none; border-color: #eab308; }
+.dv-note { font-size: 0.75rem; color: var(--text-secondary); font-style: italic; }
+.dv-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.dv-btn-calc { padding: 12px 36px; font-size: 1rem; font-weight: 700; background: #eab308; color: #1e293b; border: none; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; }
+.dv-btn-calc:hover { background: #ca8a04; }
+.dv-btn-reset { padding: 12px 24px; font-size: 1rem; font-weight: 600; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); cursor: pointer; transition: background 0.15s; }
+.dv-btn-reset:hover { background: var(--bg-card); }
+.dv-results { display: none; margin-top: 8px; }
+.dv-results.dv-visible { display: block; }
+.dv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.dv-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; }
+.dv-card-label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.dv-card-value { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+.dv-gold { color: #eab308; }
+.dv-green { color: #22c55e; }
+.dv-blue { color: #3b82f6; }
+.dv-chart-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.dv-chart-wrap canvas { width: 100% !important; max-height: 350px; }
+@media (max-width: 640px) { .dv-inputs { grid-template-columns: 1fr; } .dv-cards { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/dividend-calculator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/dividend-calculator/" />
+<meta property="og:title" content="Dividend Reinvestment Calculator — Free Online Financial Tool | ToolStand">
+<meta property="og:description" content="Calculate dividend reinvestment returns over time. See how dividend yield, share price growth, and reinvestment compound your wealth. Free, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/dividend-calculator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dividend Reinvestment Calculator — Free Online Financial Tool | ToolStand">
+<meta name="twitter:description" content="Calculate dividend reinvestment returns over time. See how dividend yield, share price growth, and reinvestment compound your wealth. Free, no signup.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>💰 Dividend Reinvestment Calculator</h1>
+    <p>See how dividend reinvestment grows your portfolio. Calculate total returns with yield, price growth, and compounding — free, instant, no signup.</p>
+  </div>
+
+  <div class="dv-container">
+    <div class="dv-inputs">
+      <div class="dv-input-group"><label for="dvInitial">Initial Investment ($)</label><input type="number" id="dvInitial" value="10000" min="0" step="100"></div>
+      <div class="dv-input-group"><label for="dvMonthly">Monthly Addition ($)</label><input type="number" id="dvMonthly" value="300" min="0" step="50"></div>
+      <div class="dv-input-group"><label for="dvYield">Annual Dividend Yield (%)</label><input type="number" id="dvYield" value="4" min="0" max="50" step="0.1"></div>
+      <div class="dv-input-group"><label for="dvGrowth">Annual Share Price Growth (%)</label><input type="number" id="dvGrowth" value="6" min="-50" max="100" step="0.1"></div>
+      <div class="dv-input-group"><label for="dvTax">Dividend Tax Rate (%)</label><input type="number" id="dvTax" value="15" min="0" max="50" step="1"><span class="dv-note">0 for tax-free accounts (ISA, 401k, TFSA)</span></div>
+      <div class="dv-input-group"><label for="dvYears">Years</label><input type="number" id="dvYears" value="10" min="1" max="50" step="1"></div>
+    </div>
+
+    <div class="dv-actions">
+      <button class="dv-btn-calc" id="dvCalculate">💰 Calculate</button>
+      <button class="dv-btn-reset" id="dvReset">↺ Reset</button>
+    </div>
+
+    <div class="dv-results" id="dvResults">
+      <div class="dv-cards">
+        <div class="dv-card"><div class="dv-card-label">Final Portfolio Value</div><div class="dv-card-value dv-gold" id="dvFinal">—</div></div>
+        <div class="dv-card"><div class="dv-card-label">Total Invested</div><div class="dv-card-value dv-blue" id="dvInvested">—</div></div>
+        <div class="dv-card"><div class="dv-card-label">Total Dividends</div><div class="dv-card-value dv-gold" id="dvDividends">—</div></div>
+        <div class="dv-card"><div class="dv-card-label">Annual Income (yr 1)</div><div class="dv-card-value dv-green" id="dvYear1">—</div></div>
+      </div>
+      <div class="dv-chart-wrap"><canvas id="dvChart"></canvas></div>
+    </div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Dividend Reinvestment Calculator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Dividend Reinvestment Calculator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/dividend-calculator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Dividend Reinvestment Calculator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Dividend Reinvestment Calculator</h2>
+  <ol>
+    <li><strong>Enter your initial investment</strong> — the starting amount you already have invested in dividend-paying stocks or ETFs.</li>
+    <li><strong>Set your monthly addition</strong> — how much you plan to add each month. The calculator reinvests dividends automatically.</li>
+    <li><strong>Adjust dividend yield and share price growth</strong> — use realistic estimates based on your portfolio. Set the tax rate to 0% for tax-advantaged accounts (ISA, 401k, TFSA).</li>
+    <li><strong>Click Calculate</strong> — review your final portfolio value, total dividends earned, and the stacked bar chart showing how invested principal, dividends, and price growth contribute over time.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How accurate is dividend reinvestment calculator compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does dividend reinvestment calculator store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use dividend reinvestment calculator on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does dividend reinvestment calculator show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed dividend reinvestment calculator on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does dividend reinvestment calculator work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/compound-interest/">Compound Interest Calculator</a>
+    <a href="/tools/dca-calculator/">DCA Calculator</a>
+    <a href="/tools/inflation-calculator/">Inflation Calculator</a>
+    <a href="/tools/loan-calculator/">Loan Calculator</a>
+    <a href="/tools/retirement-calculator/">Retirement Calculator</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+(function() {
+const el = id => document.getElementById(id);
+let chart = null, chartData = null;
+
+function calc() {
+  const P = parseFloat(el('dvInitial').value) || 0;
+  const M = parseFloat(el('dvMonthly').value) || 0;
+  const yieldPct = (parseFloat(el('dvYield').value) || 0) / 100;
+  const growthPct = (parseFloat(el('dvGrowth').value) || 0) / 100;
+  const taxPct = (parseFloat(el('dvTax').value) || 0) / 100;
+  const years = parseInt(el('dvYears').value) || 1;
+
+  // Portfolio grows: share price + monthly additions + dividend reinvestment
+  let portfolio = P;
+  let sharePrice = 100; // baseline
+  let totalInvested = P;
+  let totalDividends = 0;
+  const history = [{ year: 0, value: portfolio, invested: P, dividends: 0 }];
+
+  const monthlyGrowth = Math.pow(1 + growthPct, 1/12) - 1;
+
+  for (let y = 1; y <= years; y++) {
+    // Monthly simulation
+    let annualDividends = 0;
+    for (let m = 0; m < 12; m++) {
+      portfolio += M;
+      totalInvested += M;
+      sharePrice *= (1 + monthlyGrowth);
+
+      // Monthly dividend (annual yield / 12)
+      const shares = portfolio / sharePrice;
+      const monthlyDividend = shares * sharePrice * (yieldPct / 12);
+      const afterTax = monthlyDividend * (1 - taxPct);
+      portfolio += afterTax;
+      annualDividends += afterTax;
+    }
+    totalDividends += annualDividends;
+
+    const recordEvery = years <= 5 ? 1 : (years <= 15 ? 2 : 3);
+    if (y % recordEvery === 0 || y === years) {
+      history.push({ year: y, value: portfolio, invested: totalInvested, dividends: totalDividends });
+    }
+  }
+
+  const year1Income = (P / 100) * sharePrice * yieldPct * (1 - taxPct);
+
+  el('dvFinal').textContent = '$' + portfolio.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  el('dvInvested').textContent = '$' + totalInvested.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  el('dvDividends').textContent = '$' + totalDividends.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  el('dvYear1').textContent = '$' + year1Income.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  el('dvResults').classList.add('dv-visible');
+
+  chartData = history; renderChart();
+}
+
+function renderChart() {
+  if (!chartData || chartData.length === 0) return;
+  const ctx = el('dvChart').getContext('2d');
+  if (chart) chart.destroy();
+
+  const labels = chartData.map(d => d.year === 0 ? 'Start' : 'Year ' + d.year);
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const gc = isDark ? 'rgba(148,163,184,0.15)' : 'rgba(100,116,139,0.15)';
+  const tc = isDark ? '#94a3b8' : '#64748b';
+
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Invested', data: chartData.map(d => d.invested), backgroundColor: '#3b82f6' },
+        { label: 'Dividends', data: chartData.map(d => d.dividends), backgroundColor: '#eab308' },
+        { label: 'Growth', data: chartData.map(d => d.value - d.invested - d.dividends), backgroundColor: '#22c55e' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: tc, usePointStyle: true, padding: 16 } },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) } }
+      },
+      scales: {
+        x: { stacked: true, grid: { color: gc }, ticks: { color: tc, maxTicksLimit: 12 } },
+        y: { stacked: true, grid: { color: gc }, ticks: { color: tc, callback: v => '$' + (v / 1000).toFixed(0) + 'k' } }
+      }
+    }
+  });
+}
+
+el('dvCalculate').addEventListener('click', calc);
+el('dvReset').addEventListener('click', () => {
+  el('dvInitial').value = 10000; el('dvMonthly').value = 300; el('dvYield').value = 4;
+  el('dvGrowth').value = 6; el('dvTax').value = 15; el('dvYears').value = 10;
+  el('dvResults').classList.remove('dv-visible');
+  if (chart) { chart.destroy(); chart = null; }
+});
+calc();
+
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+  if (chart) renderChart();
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is dividend reinvestment calculator compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does dividend reinvestment calculator store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use dividend reinvestment calculator on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does dividend reinvestment calculator show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed dividend reinvestment calculator on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does dividend reinvestment calculator work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Dividend Reinvestment Calculator — Free Online Financial Tool","item":"https://toolstand.io/tools/dividend-calculator/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

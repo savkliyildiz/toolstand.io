@@ -1,0 +1,409 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Dockerfile & Docker Compose Generator — Generate Free | ToolStand</title>
+<meta name="description" content="Generate Dockerfile and docker-compose.yml for any tech stack. Select your framework, ports, env vars, and database. No Docker experience needed.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#2496ed">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/dockerfile-generator/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": ["WebApplication", "SoftwareApplication"], "name": "Dockerfile & Docker Compose Generator", "alternateName": "dockerfile-generator", "url": "https://toolstand.io/tools/dockerfile-generator/", "description": "Generate Dockerfile and docker-compose.yml for any tech stack. Select your framework, ports, env vars, and database. No Docker experience needed.", "applicationCategory": "DeveloperApplication", "operatingSystem": "All", "browserRequirements": "Requires JavaScript. Works in all modern browsers.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Organization", "name": "ToolStand", "url": "https://toolstand.io"}, "keywords": "developer,generator", "softwareVersion": "1.0", "isAccessibleForFree": true}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.dfg-form { display: flex; flex-direction: column; gap: 16px; max-width: 100%; }
+.dfg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .dfg-row { grid-template-columns: 1fr; } }
+.dfg-field { display: flex; flex-direction: column; gap: 4px; }
+.dfg-field label { font-weight: 700; font-size: 0.82rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.dfg-field select, .dfg-field input { width: 100%; padding: 10px 14px; font-size: 0.9rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-family: inherit; box-sizing: border-box; }
+.dfg-field select:focus, .dfg-field input:focus { outline: none; border-color: #2496ed; }
+.dfg-tabs { display: flex; gap: 0; margin-bottom: -2px; }
+.dfg-tab { padding: 10px 20px; font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border); background: var(--bg-card); color: var(--text-secondary); cursor: pointer; border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; }
+.dfg-tab.active { background: var(--bg); color: #2496ed; border-color: #2496ed; }
+.dfg-output-textarea { width: 100%; min-height: 320px; padding: 14px; font-size: 0.85rem; border: 2px solid var(--border); border-radius: 0 var(--radius) var(--radius) var(--radius); background: var(--bg-card); color: var(--text); font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; box-sizing: border-box; line-height: 1.5; resize: vertical; }
+.dfg-output-textarea:focus { outline: none; border-color: #2496ed; }
+.dfg-btn { padding: 10px 22px; font-weight: 700; border: none; border-radius: var(--radius); cursor: pointer; font-size: 0.9rem; transition: opacity 0.15s; }
+.dfg-btn-primary { background: #2496ed; color: white; }
+.dfg-btn-primary:hover { opacity: 0.9; }
+.dfg-btn-outline { background: var(--bg-card); border: 1px solid var(--border); color: var(--text); }
+.dfg-btn-outline:hover { background: var(--border); }
+.dfg-env-list { display: flex; flex-direction: column; gap: 6px; }
+.dfg-env-row { display: flex; gap: 8px; align-items: center; }
+.dfg-env-row input { flex: 1; }
+.dfg-env-remove { background: #ef4444; color: white; border: none; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 0.8rem; }
+.dfg-env-add { align-self: flex-start; font-size: 0.8rem; color: #2496ed; cursor: pointer; text-decoration: underline; background: none; border: none; }
+.dfg-option { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+.dfg-option input[type="checkbox"] { accent-color: #2496ed; width: 16px; height: 16px; }
+.dfg-option label { cursor: pointer; }
+</style>
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/dockerfile-generator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/dockerfile-generator/" />
+<meta property="og:title" content="🐳 Dockerfile & Docker Compose Generator — Create Docker Configs Online | ToolStand">
+<meta property="og:description" content="Generate Dockerfile and docker-compose.yml for any tech stack. Select your framework, ports, env vars, and database. No Docker experience needed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/dockerfile-generator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🐳 Dockerfile & Docker Compose Generator — Create Docker Configs Online | ToolStand">
+<meta name="twitter:description" content="Generate Dockerfile and docker-compose.yml for any tech stack. Select your framework, ports, env vars, and database. No Docker experience needed.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-8632240779421770"
+    data-ad-slot="auto"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>🐳 Dockerfile & Docker Compose Generator — Create Docker Configs Online</h1>
+    <p>Generate production-ready Dockerfile and docker-compose.yml for Node.js, Python, Go, Java, Rust, PHP. Configure ports, env vars, database — no Docker expertise needed.</p>
+  </div>
+
+  <div class="dfg-form">
+    <div class="dfg-row">
+      <div class="dfg-field">
+        <label for="dfgFramework">🖥️ Framework / Language</label>
+        <select id="dfgFramework">
+          <option value="node">Node.js (Express/Fastify)</option>
+          <option value="python">Python (Flask/Django/FastAPI)</option>
+          <option value="go">Go (net/http/Gin)</option>
+          <option value="java">Java / Spring Boot</option>
+          <option value="rust">Rust (Actix/Axum)</option>
+          <option value="php">PHP (Laravel/Symfony)</option>
+        </select>
+      </div>
+      <div class="dfg-field">
+        <label for="dfgDatabase">🗄️ Database (optional)</label>
+        <select id="dfgDatabase">
+          <option value="none">None</option>
+          <option value="postgres">PostgreSQL</option>
+          <option value="mysql">MySQL</option>
+          <option value="redis">Redis</option>
+          <option value="mongodb">MongoDB</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="dfg-row">
+      <div class="dfg-field">
+        <label for="dfgPort">🔌 Port</label>
+        <input type="number" id="dfgPort" value="3000" placeholder="e.g. 3000, 8080">
+      </div>
+      <div class="dfg-field" style="justify-content:flex-end">
+        <div class="dfg-option"><input type="checkbox" id="dfgExposePort" checked><label for="dfgExposePort">Expose port in Dockerfile</label></div>
+        <div class="dfg-option" style="margin-top:4px"><input type="checkbox" id="dfgMultiStage"><label for="dfgMultiStage">Multi-stage build</label></div>
+      </div>
+    </div>
+
+    <div class="dfg-field">
+      <label>🔐 Environment Variables</label>
+      <div class="dfg-env-list" id="dfgEnvList">
+        <div class="dfg-env-row">
+          <input type="text" placeholder="Key (e.g. NODE_ENV)" class="dfg-env-key">
+          <input type="text" placeholder="Value (e.g. production)" class="dfg-env-val">
+          <button class="dfg-env-remove" onclick="this.parentElement.remove()">✕</button>
+        </div>
+      </div>
+      <button class="dfg-env-add" id="dfgEnvAdd">+ Add Environment Variable</button>
+    </div>
+
+    <div>
+      <button class="dfg-btn dfg-btn-primary" id="dfgGenerateBtn">🐳 Generate Docker Configs</button>
+      <button class="dfg-btn dfg-btn-outline" id="dfgClearBtn" style="margin-left:8px">🗑️ Clear</button>
+    </div>
+
+    <div>
+      <div class="dfg-tabs">
+        <button class="dfg-tab active" data-tab="dockerfile">📄 Dockerfile</button>
+        <button class="dfg-tab" data-tab="compose">📋 docker-compose.yml</button>
+      </div>
+      <textarea class="dfg-output-textarea" id="dfgOutput" readonly placeholder="Generated Docker config will appear here..."></textarea>
+      <div style="margin-top:8px">
+        <button class="dfg-btn dfg-btn-primary" id="dfgCopyBtn">📋 Copy</button>
+      </div>
+    </div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Dockerfile &amp; Docker Compose Generator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Dockerfile &amp; Docker Compose Generator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/dockerfile-generator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Dockerfile &amp; Docker Compose Generator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <section class="seo-content">
+    <h2>How to Use This Tool</h2>
+    <ol>
+      <li>Select your tech stack (Node.js, Python, Go, etc.) — Configure ports, environment variables — Choose a database (optional) — Copy the generated Dockerfile and docker-compose.yml</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>Can I generate dockerfile & docker compose generator online without downloading any software?</summary><p>Yes! The Dockerfile & Docker Compose Generator works 100% in your browser. No downloads, no installs, no apps. Just open the page and start. Everything runs locally on your device.</p></details>
+  <details><summary>Is the dockerfile & docker compose generator completely free to use with no limits?</summary><p>Completely free — no daily caps, no paywalls, no premium tiers. ToolStand believes essential utilities should be free forever.</p></details>
+  <details><summary>How do I save or download what I create?</summary><p>Look for the Download, Copy, or Export button after generating. Most generators let you save as PNG or copy to clipboard. Options vary by tool type.</p></details>
+  <details><summary>Does dockerfile & docker compose generator work on mobile phones and tablets?</summary><p>Yes, fully responsive. Works on iOS Safari, Android Chrome, and all modern mobile browsers. The interface adapts to your screen size automatically.</p></details>
+  <details><summary>Can I use the generated output for commercial projects?</summary><p>Absolutely. Everything you create is yours — use it for personal, commercial, or client work. No attribution required (though we appreciate a link!).</p></details>
+  <details><summary>How is dockerfile & docker compose generator different from other online generator tools?</summary><p>Unlike other tools, it runs entirely in your browser — your data never leaves your device. No ads blocking your work, no signup, no limits. Source code is open on GitHub.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <a href="/tools/cron-builder/">⏰ Cron Schedule Builder</a>
+      <a href="/tools/json-formatter/">{ } JSON Formatter</a>
+      <a href="/tools/yaml-validator/">📄 YAML Validator</a>
+      <a href="/tools/base64/">🔐 Base64 Encoder/Decoder</a>
+    </nav>
+  </section>
+</main>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I generate dockerfile & docker compose generator online without downloading any software?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! The Dockerfile & Docker Compose Generator works 100% in your browser. No downloads, no installs, no apps. Just open the page and start. Everything runs locally on your device."}}, {"@type": "Question", "name": "Is the dockerfile & docker compose generator completely free to use with no limits?", "acceptedAnswer": {"@type": "Answer", "text": "Completely free — no daily caps, no paywalls, no premium tiers. ToolStand believes essential utilities should be free forever."}}, {"@type": "Question", "name": "How do I save or download what I create?", "acceptedAnswer": {"@type": "Answer", "text": "Look for the Download, Copy, or Export button after generating. Most generators let you save as PNG or copy to clipboard. Options vary by tool type."}}, {"@type": "Question", "name": "Does dockerfile & docker compose generator work on mobile phones and tablets?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, fully responsive. Works on iOS Safari, Android Chrome, and all modern mobile browsers. The interface adapts to your screen size automatically."}}, {"@type": "Question", "name": "Can I use the generated output for commercial projects?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. Everything you create is yours — use it for personal, commercial, or client work. No attribution required (though we appreciate a link!)."}}, {"@type": "Question", "name": "How is dockerfile & docker compose generator different from other online generator tools?", "acceptedAnswer": {"@type": "Answer", "text": "Unlike other tools, it runs entirely in your browser — your data never leaves your device. No ads blocking your work, no signup, no limits. Source code is open on GitHub."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolstand.io/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://toolstand.io/"}, {"@type": "ListItem", "position": 3, "name": "Dockerfile & Docker Compose Generator", "item": "https://toolstand.io/tools/dockerfile-generator/"}]}</script>
+
+<script>
+(function() {
+  var currentTab = 'dockerfile';
+  var generatedDockerfile = '';
+  var generatedCompose = '';
+
+  var frameworks = {
+    node: { base: 'node:20-alpine', buildCmd: 'npm ci --only=production', runCmd: 'node dist/index.js', workdir: '/app', copySrc: '. .', expose: true },
+    python: { base: 'python:3.12-slim', buildCmd: 'pip install --no-cache-dir -r requirements.txt', runCmd: 'python app.py', workdir: '/app', copySrc: '. .', expose: true },
+    go: { base: 'golang:1.22-alpine AS builder', buildCmd: 'go build -o app .', runCmd: './app', workdir: '/app', copySrc: '. .', expose: true },
+    java: { base: 'eclipse-temurin:21-jre-alpine', buildCmd: './mvnw package -DskipTests', runCmd: 'java -jar target/app.jar', workdir: '/app', copySrc: 'target/app.jar app.jar', expose: true },
+    rust: { base: 'rust:1.78-alpine AS builder', buildCmd: 'cargo build --release', runCmd: './target/release/app', workdir: '/app', copySrc: '. .', expose: true },
+    php: { base: 'php:8.3-fpm-alpine', buildCmd: 'composer install --no-dev', runCmd: 'php-fpm', workdir: '/var/www/html', copySrc: '. .', expose: true }
+  };
+
+  var dbServices = {
+    postgres: '\n  postgres:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_DB: app\n      POSTGRES_USER: postgres\n      POSTGRES_PASSWORD: postgres\n    ports:\n      - "5432:5432"\n    volumes:\n      - pgdata:/var/lib/postgresql/data',
+    mysql: '\n  mysql:\n    image: mysql:8.0\n    environment:\n      MYSQL_ROOT_PASSWORD: root\n      MYSQL_DATABASE: app\n    ports:\n      - "3306:3306"\n    volumes:\n      - mysqldata:/var/lib/mysql',
+    redis: '\n  redis:\n    image: redis:7-alpine\n    ports:\n      - "6379:6379"\n    volumes:\n      - redisdata:/data',
+    mongodb: '\n  mongodb:\n    image: mongo:7\n    environment:\n      MONGO_INITDB_DATABASE: app\n    ports:\n      - "27017:27017"\n    volumes:\n      - mongodata:/data/db'
+  };
+
+  var dbVolumes = {
+    postgres: '\n  pgdata:',
+    mysql: '\n  mysqldata:',
+    redis: '\n  redisdata:',
+    mongodb: '\n  mongodata:'
+  };
+
+  document.getElementById('dfgEnvAdd').addEventListener('click', function() {
+    var row = document.createElement('div');
+    row.className = 'dfg-env-row';
+    row.innerHTML = '<input type="text" placeholder="Key (e.g. NODE_ENV)" class="dfg-env-key"><input type="text" placeholder="Value (e.g. production)" class="dfg-env-val"><button class="dfg-env-remove" onclick="this.parentElement.remove()">✕</button>';
+    document.getElementById('dfgEnvList').appendChild(row);
+  });
+
+  document.querySelectorAll('.dfg-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.dfg-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentTab = tab.dataset.tab;
+      updateOutput();
+    });
+  });
+
+  function updateOutput() {
+    var output = currentTab === 'dockerfile' ? generatedDockerfile : generatedCompose;
+    document.getElementById('dfgOutput').value = output || (currentTab === 'dockerfile' ? 'Click "Generate Docker Configs" to create your configuration.' : 'Click "Generate Docker Configs" to create your configuration.');
+  }
+
+  function getEnvVars() {
+    var rows = document.querySelectorAll('.dfg-env-row');
+    var envs = [];
+    rows.forEach(function(row) {
+      var key = row.querySelector('.dfg-env-key').value.trim();
+      var val = row.querySelector('.dfg-env-val').value.trim();
+      if (key) envs.push({ key: key, val: val });
+    });
+    return envs;
+  }
+
+  function generateDockerfile(fw, port, exposePort, multiStage, envVars) {
+    var lines = [];
+    var fwCfg = frameworks[fw];
+
+    if (multiStage) {
+      lines.push('# ── Build Stage ──');
+      lines.push('FROM ' + fwCfg.base + ' AS builder');
+      lines.push('WORKDIR ' + fwCfg.workdir);
+      lines.push('COPY ' + fwCfg.copySrc);
+      lines.push('RUN ' + fwCfg.buildCmd);
+      lines.push('');
+      lines.push('# ── Runtime Stage ──');
+      if (fw === 'node') {
+        lines.push('FROM node:20-alpine');
+      } else if (fw === 'python') {
+        lines.push('FROM python:3.12-slim');
+      } else if (fw === 'go') {
+        lines.push('FROM alpine:3.20');
+      } else if (fw === 'java') {
+        lines.push('FROM eclipse-temurin:21-jre-alpine');
+      } else if (fw === 'rust') {
+        lines.push('FROM alpine:3.20');
+      } else if (fw === 'php') {
+        lines.push('FROM php:8.3-fpm-alpine');
+      }
+      lines.push('WORKDIR ' + fwCfg.workdir);
+      lines.push('COPY --from=builder ' + fwCfg.workdir + ' ' + fwCfg.workdir);
+    } else {
+      lines.push('FROM ' + fwCfg.base);
+      lines.push('WORKDIR ' + fwCfg.workdir);
+      lines.push('COPY ' + fwCfg.copySrc);
+      lines.push('RUN ' + fwCfg.buildCmd);
+    }
+
+    if (envVars.length > 0) {
+      lines.push('');
+      envVars.forEach(function(env) {
+        lines.push('ENV ' + env.key + '=' + (env.val || '""'));
+      });
+    }
+
+    if (exposePort && fwCfg.expose && port) {
+      lines.push('');
+      lines.push('EXPOSE ' + port);
+    }
+
+    lines.push('');
+    lines.push('CMD ["' + fwCfg.runCmd.split(' ').join('", "') + '"]');
+    return lines.join('\n');
+  }
+
+  function generateCompose(fw, port, db, envVars) {
+    var lines = [];
+    lines.push('version: "3.8"');
+    lines.push('');
+    lines.push('services:');
+    lines.push('  app:');
+    lines.push('    build: .');
+
+    if (port) {
+      lines.push('    ports:');
+      lines.push('      - "' + port + ':' + port + '"');
+    }
+
+    if (envVars.length > 0) {
+      lines.push('    environment:');
+      envVars.forEach(function(env) {
+        lines.push('      - ' + env.key + '=' + (env.val || '""'));
+      });
+    }
+
+    if (db && db !== 'none') {
+      lines.push('    depends_on:');
+      lines.push('      - ' + db);
+    }
+
+    if (db && db !== 'none') {
+      lines.push(dbServices[db]);
+    }
+
+    if (db && db !== 'none' && dbVolumes[db]) {
+      lines.push('');
+      lines.push('volumes:' + dbVolumes[db]);
+    }
+
+    return lines.join('\n');
+  }
+
+  document.getElementById('dfgGenerateBtn').addEventListener('click', function() {
+    var fw = document.getElementById('dfgFramework').value;
+    var db = document.getElementById('dfgDatabase').value;
+    var port = document.getElementById('dfgPort').value || '3000';
+    var exposePort = document.getElementById('dfgExposePort').checked;
+    var multiStage = document.getElementById('dfgMultiStage').checked;
+    var envVars = getEnvVars();
+
+    generatedDockerfile = generateDockerfile(fw, port, exposePort, multiStage, envVars);
+    generatedCompose = generateCompose(fw, port, db, envVars);
+    updateOutput();
+    window._dfgLastDockerfile = generatedDockerfile;
+    window._dfgLastCompose = generatedCompose;
+  });
+
+  document.getElementById('dfgCopyBtn').addEventListener('click', function() {
+    var output = document.getElementById('dfgOutput').value;
+    if (!output) return;
+    navigator.clipboard.writeText(output).then(function() {
+      var btn = document.getElementById('dfgCopyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(function() { btn.textContent = '📋 Copy'; }, 1500);
+    });
+  });
+
+  document.getElementById('dfgClearBtn').addEventListener('click', function() {
+    document.getElementById('dfgFramework').value = 'node';
+    document.getElementById('dfgDatabase').value = 'none';
+    document.getElementById('dfgPort').value = '3000';
+    document.getElementById('dfgExposePort').checked = true;
+    document.getElementById('dfgMultiStage').checked = false;
+    document.getElementById('dfgEnvList').innerHTML = '<div class="dfg-env-row"><input type="text" placeholder="Key (e.g. NODE_ENV)" class="dfg-env-key"><input type="text" placeholder="Value (e.g. production)" class="dfg-env-val"><button class="dfg-env-remove" onclick="this.parentElement.remove()">✕</button></div>';
+    generatedDockerfile = '';
+    generatedCompose = '';
+    document.getElementById('dfgOutput').value = '';
+    window._dfgLastDockerfile = '';
+    window._dfgLastCompose = '';
+  });
+
+  // Tab switching via data-tab attribute already handled above
+})();
+</script>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+var themeToggle = document.getElementById('themeToggle');
+var savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle && themeToggle.addEventListener('click', function() {
+  var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body></html>

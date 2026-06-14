@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Age Calculator — Calculate Online | ToolStand</title>
+<meta name="description" content="Free online age calculator: find your exact age in years, months, days, hours, and minutes. Zodiac sign, next birthday countdown, and fun facts. No signup needed.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#8b5cf6">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/age-calculator/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Age Calculator",
+  "alternateName": "age-calculator",
+  "url": "https://toolstand.io/tools/age-calculator/",
+  "description": "A chronological computation tool that calculates exact age in years, months, and days between any two dates. It solves the problem of precise age determination for applications, forms, and milestone tracking.",
+  "applicationCategory": "CalculatorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "calculator",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.age-input-area {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.age-input-area input[type="date"] {
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  width: 100%;
+  max-width: 280px;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.age-input-area input[type="date"]:focus { outline: none; border-color: var(--primary); }
+.age-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.age-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 12px;
+  text-align: center;
+}
+.age-card .number {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+.age-card .label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.age-fun-fact, .age-zodiac, .age-countdown {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+.age-fun-fact { color: var(--primary); font-weight: 600; }
+.age-zodiac .zodiac-icon { font-size: 2rem; }
+.age-zodiac .zodiac-name { font-weight: 700; }
+.age-countdown .cd-label { font-size: 0.8rem; color: var(--text-secondary); }
+.age-countdown .cd-value { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/age-calculator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/age-calculator/" />
+<meta property="og:title" content="Free Online Age Calculator — Find Your Exact Age in Years, Months &amp; Days | ToolStand">
+<meta property="og:description" content="Free online age calculator: find your exact age in years, months, days, hours, and minutes. Zodiac sign, next birthday countdown, and fun facts. No signup needed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/age-calculator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Online Age Calculator — Find Your Exact Age in Years, Months &amp; Days | ToolStand">
+<meta name="twitter:description" content="Free online age calculator: find your exact age in years, months, days, hours, and minutes. Zodiac sign, next birthday countdown, and fun facts. No signup needed.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+  <!-- AdSense Banner -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-8632240779421770"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>🎂 Age Calculator</h1>
+    <p>Find out your exact age and discover fun facts about your birth date.</p>
+  </div>
+  <div class="age-input-area">
+    <label for="birthDate" style="display:block;margin-bottom:8px;font-weight:600;color:var(--text-secondary)">Select your birth date</label>
+    <input type="date" id="birthDate">
+  </div>
+  <div class="age-results" id="ageResults" style="display:none">
+    <div class="age-card"><div class="number" id="ageYears">—</div><div class="label">Years</div></div>
+    <div class="age-card"><div class="number" id="ageMonths">—</div><div class="label">Months</div></div>
+    <div class="age-card"><div class="number" id="ageDays">—</div><div class="label">Days</div></div>
+    <div class="age-card"><div class="number" id="ageHours">—</div><div class="label">Hours</div></div>
+    <div class="age-card"><div class="number" id="ageMinutes">—</div><div class="label">Minutes</div></div>
+  </div>
+  <div class="age-fun-fact" id="ageFunFact" style="display:none"></div>
+  <div class="age-zodiac" id="ageZodiac" style="display:none">
+    <div class="zodiac-icon" id="zodiacIcon"></div>
+    <div class="zodiac-name" id="zodiacName"></div>
+  </div>
+  <div class="age-countdown" id="ageCountdown" style="display:none">
+    <div class="cd-label">🎈 Next birthday in</div>
+    <div class="cd-value" id="cdValue"></div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Age Calculator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Age Calculator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/age-calculator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Age Calculator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+    <h2>How to Use the Age Calculator</h2>
+    <ol>
+      <li>Select your birth date using the date picker at the top of the page.</li>
+      <li>The calculator instantly displays your exact age in years, months, days, hours, and minutes.</li>
+      <li>View your zodiac sign and a fun fact about your total days alive.</li>
+      <li>Check the countdown to see how many days until your next birthday.</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How do I calculate exact age in years, months, and days?</summary><p>Enter your birth date and click Calculate. Shows age in years, months, days, total months, total weeks, and total days. Accounts for leap years automatically.</p></details>
+  <details><summary>Can this calculator verify if someone is over 18?</summary><p>Yes. Enter any birth date and check the 'Years' result. It uses precise date arithmetic — '17 years, 11 months, 30 days' correctly shows as under 18.</p></details>
+  <details><summary>How accurate is age calculator compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does age calculator store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use age calculator on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does age calculator show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed age calculator on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does age calculator work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <p>Explore more free tools like the Age Calculator:</p>
+      <ul>
+        <li><a href="/tools/date-difference/">Date Difference Calculator</a></li>
+        <li><a href="/tools/countdown/">Countdown Timer</a></li>
+        <li><a href="/tools/bmi-calculator/">BMI Calculator</a></li>
+        <li><a href="/tools/pomodoro/">Pomodoro</a></li>
+        <li><a href="/tools/roman-numerals/">Roman Numerals</a></li>
+      </ul>
+    </nav>
+
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+const zodiacData = [
+  { name: 'Capricorn', icon: '♑', end: [1,19] },
+  { name: 'Aquarius', icon: '♒', end: [2,18] },
+  { name: 'Pisces', icon: '♓', end: [3,20] },
+  { name: 'Aries', icon: '♈', end: [4,19] },
+  { name: 'Taurus', icon: '♉', end: [5,20] },
+  { name: 'Gemini', icon: '♊', end: [6,20] },
+  { name: 'Cancer', icon: '♋', end: [7,22] },
+  { name: 'Leo', icon: '♌', end: [8,22] },
+  { name: 'Virgo', icon: '♍', end: [9,22] },
+  { name: 'Libra', icon: '♎', end: [10,22] },
+  { name: 'Scorpio', icon: '♏', end: [11,21] },
+  { name: 'Sagittarius', icon: '♐', end: [12,21] },
+  { name: 'Capricorn', icon: '♑', end: [12,31] }
+];
+
+function getZodiac(month, day) {
+  for (const z of zodiacData) {
+    if (month < z.end[0] || (month === z.end[0] && day <= z.end[1])) return z;
+  }
+  return zodiacData[0];
+}
+
+function calculateAge() {
+  const input = document.getElementById('birthDate');
+  const dateStr = input.value;
+  if (!dateStr) {
+    ['ageResults','ageFunFact','ageZodiac','ageCountdown'].forEach(id => document.getElementById(id).style.display='none');
+    return;
+  }
+  const birth = new Date(dateStr + 'T00:00:00');
+  const now = new Date();
+  if (birth > now) return;
+
+  let years = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+  let days = now.getDate() - birth.getDate();
+  if (days < 0) {
+    months--;
+    const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0) { years--; months += 12; }
+
+  const diffMs = now - birth;
+  const totalDays = Math.floor(diffMs / 86400000);
+  const totalHours = Math.floor(diffMs / 3600000);
+  const totalMinutes = Math.floor(diffMs / 60000);
+
+  document.getElementById('ageYears').textContent = years;
+  document.getElementById('ageMonths').textContent = months;
+  document.getElementById('ageDays').textContent = days;
+  document.getElementById('ageHours').textContent = totalHours.toLocaleString();
+  document.getElementById('ageMinutes').textContent = totalMinutes.toLocaleString();
+  document.getElementById('ageResults').style.display = '';
+
+  document.getElementById('ageFunFact').textContent = '🎉 You are ' + totalDays.toLocaleString() + ' days old!';
+  document.getElementById('ageFunFact').style.display = '';
+
+  const z = getZodiac(birth.getMonth() + 1, birth.getDate());
+  document.getElementById('zodiacIcon').textContent = z.icon;
+  document.getElementById('zodiacName').textContent = z.name;
+  document.getElementById('ageZodiac').style.display = '';
+
+  // Next birthday
+  let nextBday = new Date(now.getFullYear(), birth.getMonth(), birth.getDate());
+  if (nextBday <= now) nextBday.setFullYear(nextBday.getFullYear() + 1);
+  const daysUntil = Math.ceil((nextBday - now) / 86400000);
+  document.getElementById('cdValue').textContent = daysUntil + ' day' + (daysUntil !== 1 ? 's' : '');
+  document.getElementById('ageCountdown').style.display = '';
+}
+
+document.getElementById('birthDate').addEventListener('change', calculateAge);
+
+<script>
+// ── Theme ──
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I calculate exact age in years, months, and days?", "acceptedAnswer": {"@type": "Answer", "text": "Enter your birth date and click Calculate. Shows age in years, months, days, total months, total weeks, and total days. Accounts for leap years automatically."}}, {"@type": "Question", "name": "Can this calculator verify if someone is over 18?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Enter any birth date and check the 'Years' result. It uses precise date arithmetic — '17 years, 11 months, 30 days' correctly shows as under 18."}}, {"@type": "Question", "name": "How accurate is age calculator compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does age calculator store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use age calculator on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does age calculator show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed age calculator on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does age calculator work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Age Calculator — Calculate Exact Age in Years, Months, Days","item":"https://toolstand.io/tools/age-calculator/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

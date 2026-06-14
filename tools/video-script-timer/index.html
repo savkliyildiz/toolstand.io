@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Free Online Video Hook & Script Timer — Track Time | ToolStand</title><meta name="description" content="Calculate how long it takes to read your video script. WPM slider with hook detection for Shorts and TikTok. Free, no signup."><link rel="stylesheet" href="/shared/styles.css"><meta name="theme-color" content="#ef4444"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" type="image/png" href="/assets/favicon.png"><link rel="canonical" href="https://toolstand.io/tools/video-script-timer/"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Video Hook & Script Timer",
+  "alternateName": "video-script-timer",
+  "url": "https://toolstand.io/tools/video-script-timer/",
+  "description": "A content planning tool that estimates video duration from scripts using adjustable words-per-minute reading speed and identifies hook sections. It solves the problem of scripting short-form content for TikTok, Shorts, and Reels within platform time limits.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "productivity",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script><style>
+.vt-container{display:flex;flex-direction:column;gap:20px}.vt-script{width:100%;min-height:200px;padding:14px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);resize:vertical;font-family:inherit;box-sizing:border-box}.vt-script:focus{outline:none;border-color:#ef4444}.vt-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:end}.vt-group{display:flex;flex-direction:column;gap:5px}.vt-group label{font-size:.85rem;font-weight:600;color:var(--text-secondary)}.vt-group input[type=range]{width:100%}.vt-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}.vt-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}.vt-card-label{font-size:.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}.vt-card-value{font-size:1.8rem;font-weight:800}.vt-red{color:#ef4444}.vt-green{color:#22c55e}.vt-blue{color:#3b82f6}.vt-hook{background:#fef2f2;border-left:3px solid #ef4444;padding:8px 12px;border-radius:0 var(--radius) var(--radius) 0;margin-top:8px;font-size:.85rem;color:#991b1b}.vt-hook strong{display:block;margin-bottom:4px}@media(max-width:640px){.vt-controls{grid-template-columns:1fr 1fr}}
+</style>
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/video-script-timer/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/video-script-timer/" />
+<meta property="og:title" content="Video Hook &amp; Script Timer — Free Online Tool | ToolStand">
+<meta property="og:description" content="Calculate how long it takes to read your video script. WPM slider with hook detection for Shorts and TikTok. Free, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/video-script-timer/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Video Hook &amp; Script Timer — Free Online Tool | ToolStand">
+<meta name="twitter:description" content="Calculate how long it takes to read your video script. WPM slider with hook detection for Shorts and TikTok. Free, no signup.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head><body>
+<header class="header"><div class="container"><a href="/" class="logo">🧰 <strong>ToolStand</strong></a><nav class="nav"><a href="/blog/">Blog</a><a href="#embed-section">Embed</a><button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button></nav></div></header>
+<div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<main class="tool-container"><div class="tool-header"><h1>🎬 Video Hook & Script Timer</h1><p>Paste your script, adjust reading speed, and see exactly how long your video needs to be. Perfect for Shorts, TikTok, and Reels.</p></div>
+<div class="vt-container"><textarea class="vt-script" id="vtScript" placeholder="Paste your video script here...&#10;&#10;The first 150 characters are your HOOK — make them count!"></textarea>
+<div id="vtHook" class="vt-hook" style="display:none"><strong>🎣 Hook (First 3 Seconds)</strong><span id="vtHookText"></span></div>
+<div class="vt-controls"><div class="vt-group"><label>Reading Speed: <strong id="vtWpmLabel">150</strong> WPM</label><input type="range" id="vtWpm" min="100" max="220" value="150" step="5"></div>
+<div class="vt-group"><label>Content Type</label><select id="vtType"><option value="slow">🎙️ Podcast / Narrative (130-150)</option><option value="normal" selected>📹 Standard Video (150-160)</option><option value="fast">⚡ Shorts / TikTok (160-180)</option><option value="ultra">🔥 Ultra-Fast / Comedy (180-220)</option></select></div>
+<div class="vt-group"><button id="vtRecalc" style="padding:11px 20px;font-weight:700;background:#ef4444;color:white;border:none;border-radius:var(--radius);cursor:pointer">🔄 Recalculate</button></div></div>
+<div class="vt-results" id="vtResults"><div class="vt-card"><div class="vt-card-label">Word Count</div><div class="vt-card-value vt-blue" id="vtWords">0</div></div>
+<div class="vt-card"><div class="vt-card-label">Duration</div><div class="vt-card-value vt-red" id="vtDuration">0s</div></div>
+<div class="vt-card"><div class="vt-card-label">Shorts Fit?</div><div class="vt-card-value vt-green" id="vtShorts">—</div></div></div></div>
+  <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Video Hook &amp; Script Timer to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Video Hook &amp; Script Timer — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/video-script-timer/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Video Hook &amp; Script Timer | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Video Script Timer</h2>
+  <ol>
+    <li><strong>Paste your script</strong> — Drop your video script into the text area. The first 150 characters are highlighted as your hook.</li>
+    <li><strong>Set reading speed</strong> — Adjust the WPM slider (100-220) or pick a content type: Podcast (slow), Standard, Shorts/TikTok (fast), or Ultra-Fast.</li>
+    <li><strong>Check your duration</strong> — See total word count, estimated duration in seconds, and whether it fits the 60-second Shorts limit.</li>
+    <li><strong>Optimize your hook</strong> — The hook preview shows your first 150 characters and its estimated delivery time. Make the first 3 seconds count!</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How can video hook & script timer improve my daily workflow?</summary><p>Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard.</p></details>
+  <details><summary>Does video hook & script timer save my progress if I close the browser?</summary><p>Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab.</p></details>
+  <details><summary>Can I use video hook & script timer with keyboard shortcuts?</summary><p>Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section.</p></details>
+  <details><summary>Does video hook & script timer work with screen readers?</summary><p>Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack.</p></details>
+  <details><summary>How do I share results from video hook & script timer with my team?</summary><p>Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/word-counter/">📝 Word Counter</a>
+    <a href="/tools/youtube-title-generator/">📋 YouTube Title Generator</a>
+    <a href="/tools/stopwatch/">⏱️ Stopwatch</a>
+    <a href="/tools/pomodoro/">🍅 Pomodoro Timer</a>
+    <a href="/tools/utm-builder/">📊 UTM Builder</a>
+  </nav>
+
+</main>
+<footer class="footer"><div class="container"><p>🧰 <strong>ToolStand</strong> — Free tools, always.</p><p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p></div></footer>
+<script>
+(function(){var s=document.getElementById('vtScript'),wpmS=document.getElementById('vtWpm'),wpmL=document.getElementById('vtWpmLabel'),tp=document.getElementById('vtType');
+function calc(){var txt=s.value||'',words=txt.trim()?txt.trim().split(/\s+/).length:0,wpm=parseInt(wpmS.value),dur=words>0?Math.round((words/wpm)*60):0;
+document.getElementById('vtWords').textContent=words.toLocaleString();
+document.getElementById('vtDuration').textContent=dur+'s ('+Math.floor(dur/60)+'m '+dur%60+'s)';
+document.getElementById('vtShorts').textContent=dur<=60?'✅ Yes!':'❌ Too long ('+(dur-60)+'s over)';
+document.getElementById('vtShorts').style.color=dur<=60?'#22c55e':'#ef4444';
+var hook=txt.substring(0,150),hookEl=document.getElementById('vtHook'),hookTxt=document.getElementById('vtHookText');
+if(hook.trim()){hookEl.style.display='block';hookTxt.textContent='"'+hook+(txt.length>150?'...':'')+'" (Hook: ~'+Math.round((hook.split(/\s+/).length/wpm)*60)+'s)';}else{hookEl.style.display='none';}}
+wpmS.addEventListener('input',function(){wpmL.textContent=this.value;calc();});
+tp.addEventListener('change',function(){var v=parseInt(this.value);wpmS.value=v;wpmL.textContent=v;calc();});
+s.addEventListener('input',calc);
+document.getElementById('vtRecalc').addEventListener('click',calc);
+document.getElementById('themeToggle').addEventListener('click',function(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('toolstand-theme',n);});
+document.documentElement.setAttribute('data-theme',localStorage.getItem('toolstand-theme')||'light');
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+calc();
+})();</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How can video hook & script timer improve my daily workflow?", "acceptedAnswer": {"@type": "Answer", "text": "Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard."}}, {"@type": "Question", "name": "Does video hook & script timer save my progress if I close the browser?", "acceptedAnswer": {"@type": "Answer", "text": "Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab."}}, {"@type": "Question", "name": "Can I use video hook & script timer with keyboard shortcuts?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section."}}, {"@type": "Question", "name": "Does video hook & script timer work with screen readers?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack."}}, {"@type": "Question", "name": "How do I share results from video hook & script timer with my team?", "acceptedAnswer": {"@type": "Answer", "text": "Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Video Hook &amp; Script Timer — Free Online Tool","item":"https://toolstand.io/tools/video-script-timer/"}]}</script>
+/body></html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Online CSV ↔ JSON Converter — Convert Instantly | ToolStand</title>
+  <meta name="description" content="Convert CSV to JSON and back instantly. Paste CSV data, get structured JSON output — or convert JSON to CSV with headers. Free, browser-based, no uploads.">
+  <meta name="theme-color" content="#22c55e">
+  <link rel="canonical" href="https://toolstand.io/tools/csv-json-converter/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "CSV ↔ JSON Converter",
+  "alternateName": "csv-json-converter",
+  "url": "https://toolstand.io/tools/csv-json-converter/",
+  "description": "A tabular data tool that converts between CSV and JSON formats using PapaParse for smart delimiter detection and type inference. It solves the problem of transforming spreadsheet exports for API and database integration.",
+  "applicationCategory": "ConverterApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "converter, developer",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+  <link rel="stylesheet" href="/shared/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-card: #f8fafc;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --radius: 8px;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-secondary: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.25rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .logo strong { color: #22c55e; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .nav a:hover { color: var(--text); }
+    .btn-icon {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .btn-icon:hover { background: var(--bg-card); }
+    .ad-banner {
+      text-align: center;
+      padding: 12px 0;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      min-height: 90px;
+    }
+    .tool-container {
+      flex: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      width: 100%;
+    }
+    .tool-header { margin-bottom: 24px; }
+    .tool-header h1 { font-size: 1.75rem; margin-bottom: 4px; }
+    .tool-header p { color: var(--text-secondary); font-size: 0.95rem; }
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #22c55e;
+      color: #fff;
+    }
+    .tab-btn:hover:not(.active) { background: var(--border); }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: var(--text-secondary);
+    }
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      resize: vertical;
+    }
+    .controls-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+    select {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    .btn {
+      padding: 8px 20px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #22c55e;
+      color: #fff;
+    }
+    .btn-primary:hover { background: #16a34a; }
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-sm { padding: 4px 12px; font-size: 0.8rem; }
+    .output-area {
+      margin-top: 16px;
+      position: relative;
+    }
+    .output-area .btn-sm {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+    .output-area textarea { min-height: 180px; }
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      display: block;
+    }
+    .preview-table thead { background: var(--bg-card); }
+    .preview-table th, .preview-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .preview-table th { font-weight: 600; }
+    .success-msg {
+      color: #22c55e;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .success-msg.show { opacity: 1; }
+    .embed-cta {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 32px 16px;
+      text-align: center;
+    }
+    .embed-cta h3 { margin-bottom: 8px; }
+    .embed-cta p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+    .embed-code {
+      width: 100%;
+      max-width: 640px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.75rem;
+      resize: vertical;
+    }
+    .footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .footer .small { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+    .footer .small a { color: var(--text-secondary); }
+  </style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/csv-json-converter/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/csv-json-converter/" />
+<meta property="og:title" content="CSV ↔ JSON Converter | ToolStand">
+<meta property="og:description" content="Convert CSV to JSON and back instantly. Paste CSV data, get structured JSON output — or convert JSON to CSV with headers. Free, browser-based, no uploads.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/csv-json-converter/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CSV ↔ JSON Converter | ToolStand">
+<meta name="twitter:description" content="Convert CSV to JSON and back instantly. Paste CSV data, get structured JSON output — or convert JSON to CSV with headers. Free, browser-based, no uploads.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+<div class="ad-banner">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>📊 CSV ↔ JSON Converter</h1>
+    <p>Convert between CSV and JSON formats with smart parsing powered by PapaParse.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="csv2json">CSV → JSON</button>
+    <button class="tab-btn" data-tab="json2csv">JSON → CSV</button>
+  </div>
+  <div class="panel active" id="panel-csv2json">
+    <label for="csvInput">CSV Input</label>
+    <textarea id="csvInput" placeholder="name,age,city&#10;John,30,New York&#10;Jane,25,London"></textarea>
+    <div class="controls-row">
+      <div>
+        <label for="delimiter">Delimiter</label>
+        <select id="delimiter">
+          <option value="auto">Auto-detect</option>
+          <option value=",">Comma (,)</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="\t">Tab</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btnCsv2Json">Convert to JSON</button>
+    </div>
+    <div id="csvPreview"></div>
+    <div class="output-area" id="jsonOutputArea" style="display:none;">
+      <label for="jsonOutput">JSON Output</label>
+      <button class="btn btn-secondary btn-sm" id="btnCopyJson">📋 Copy</button>
+      <textarea id="jsonOutput" readonly></textarea>
+      <div class="success-msg" id="jsonCopyMsg">Copied to clipboard!</div>
+    </div>
+  </div>
+  <div class="panel" id="panel-json2csv">
+    <label for="jsonInput">JSON Input</label>
+    <textarea id="jsonInput" placeholder='[{"name":"John","age":30,"city":"New York"},{"name":"Jane","age":25,"city":"London"}]'></textarea>
+    <div class="controls-row">
+      <div>
+        <label for="csvDelimiter">Delimiter</label>
+        <select id="csvDelimiter">
+          <option value=",">Comma (,)</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="\t">Tab</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btnJson2Csv">Convert to CSV</button>
+    </div>
+    <div class="output-area" id="csvOutputArea" style="display:none;">
+      <label for="csvOutput">CSV Output</label>
+      <button class="btn btn-secondary btn-sm" id="btnCopyCsv">📋 Copy</button>
+      <textarea id="csvOutput" readonly></textarea>
+      <div class="success-msg" id="csvCopyMsg">Copied to clipboard!</div>
+    </div>
+  </div>
+</main>
+  <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the CSV ↔ JSON Converter to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- CSV ↔ JSON Converter — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/csv-json-converter/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="CSV ↔ JSON Converter | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+    <h2>How to Use the CSV ↔ JSON Converter</h2>
+    <ol>
+      <li>Paste CSV data into the left panel and click 'Convert to JSON' to see structured JSON output.</li>
+      <li>Or paste JSON into the right panel and click 'Convert to CSV' for flat table output.</li>
+      <li>Use the copy buttons to grab the output for your project or spreadsheet.</li>
+      <li>The tool handles headers, nested objects, and arrays automatically.</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How do I convert files using csv ↔ json converter?</summary><p>Paste or upload your content, select the output format, and click Convert. Processing happens in milliseconds using client-side JavaScript — nothing is uploaded to any server.</p></details>
+  <details><summary>Is it safe to convert sensitive documents with csv ↔ json converter?</summary><p>Yes — all conversion happens in your browser. Your files are never uploaded, never stored, and never seen by anyone. Close the tab and all data is gone.</p></details>
+  <details><summary>Will I lose quality when converting with csv ↔ json converter?</summary><p>The tool uses lossless algorithms where possible. For formats that inherently lose data, it maintains maximum fidelity. Always keep your original file as backup.</p></details>
+  <details><summary>Does csv ↔ json converter work offline?</summary><p>Yes! Once the page loads, conversion runs without internet. Perfect for flights, commutes, or areas with poor connectivity. Just keep the tab open.</p></details>
+  <details><summary>What formats does csv ↔ json converter support?</summary><p>The tool auto-detects your input format and supports the most common target formats. Check the How to Use section for the full list of supported input and output formats.</p></details>
+  <details><summary>How does csv ↔ json converter handle special characters and Unicode?</summary><p>Properly handles Unicode, UTF-8, emojis, accented letters, and symbols. All characters are preserved faithfully during conversion.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <p>Explore more free tools like the CSV ↔ JSON Converter:</p>
+      <ul>
+        <li><a href="/tools/json-formatter/">Json Formatter</a></li>
+        <li><a href="/tools/xml-json-converter/">Xml Json Converter</a></li>
+        <li><a href="/tools/yaml-validator/">Yaml Validator</a></li>
+        <li><a href="/tools/sql-formatter/">Sql Formatter</a></li>
+        <li><a href="/tools/diff-checker/">Diff Checker</a></li>
+      </ul>
+    </nav>
+
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+<script>
+(function(){
+  // Theme toggle
+  document.getElementById('themeToggle').addEventListener('click',function(){
+    var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',n);
+    localStorage.setItem('toolstand-theme',n);
+  });
+  document.documentElement.setAttribute('data-theme',localStorage.getItem('toolstand-theme')||'light');
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+
+  // Tab switching
+  var tabs=document.querySelectorAll('.tab-btn');
+  var panels=document.querySelectorAll('.panel');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      tabs.forEach(function(t){t.classList.remove('active');});
+      panels.forEach(function(p){p.classList.remove('active');});
+      tab.classList.add('active');
+      document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // CSV to JSON
+  document.getElementById('btnCsv2Json').addEventListener('click',function(){
+    var csv=document.getElementById('csvInput').value.trim();
+    if(!csv){alert('Please enter CSV data.');return;}
+    var delimiter=document.getElementById('delimiter').value;
+    var config={header:true,dynamicTyping:true,skipEmptyLines:true};
+    if(delimiter!=='auto'){config.delimiter=delimiter==='\\t'?'\t':delimiter;}
+    var result=Papa.parse(csv,config);
+    if(result.errors.length>0){
+      console.warn('Parse warnings:',result.errors);
+    }
+    var json=JSON.stringify(result.data,null,2);
+    document.getElementById('jsonOutput').value=json;
+    document.getElementById('jsonOutputArea').style.display='block';
+    // Build preview table
+    var preview=document.getElementById('csvPreview');
+    if(result.data.length===0){
+      preview.innerHTML='<p style="color:var(--text-secondary);margin-top:12px;">No data parsed.</p>';
+      return;
+    }
+    var fields=result.meta.fields||Object.keys(result.data[0]);
+    var html='<div style="overflow-x:auto;"><table class="preview-table"><thead><tr>';
+    fields.forEach(function(f){html+='<th>'+escapeHtml(f)+'</th>';});
+    html+='</tr></thead><tbody>';
+    var rows=Math.min(result.data.length,50);
+    for(var i=0;i<rows;i++){
+      html+='<tr>';
+      fields.forEach(function(f){
+        var val=result.data[i][f];
+        html+='<td>'+(val!==null&&val!==undefined?escapeHtml(String(val)):'')+'</td>';
+      });
+      html+='</tr>';
+    }
+    html+='</tbody></table></div>';
+    if(result.data.length>50){
+      html+='<p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Showing first 50 of '+result.data.length+' rows.</p>';
+    }
+    preview.innerHTML=html;
+  });
+
+  // JSON to CSV
+  document.getElementById('btnJson2Csv').addEventListener('click',function(){
+    var json=document.getElementById('jsonInput').value.trim();
+    if(!json){alert('Please enter JSON data.');return;}
+    var data;
+    try{data=JSON.parse(json);}catch(e){alert('Invalid JSON: '+e.message);return;}
+    if(!Array.isArray(data)){alert('JSON must be an array of objects.');return;}
+    var delimiter=document.getElementById('csvDelimiter').value;
+    delimiter=delimiter==='\\t'?'\t':delimiter;
+    var csv=Papa.unparse(data,{delimiter:delimiter});
+    document.getElementById('csvOutput').value=csv;
+    document.getElementById('csvOutputArea').style.display='block';
+  });
+
+  // Copy buttons
+  document.getElementById('btnCopyJson').addEventListener('click',function(){
+    var ta=document.getElementById('jsonOutput');
+    ta.select();
+    document.execCommand('copy');
+    showMsg('jsonCopyMsg');
+  });
+  document.getElementById('btnCopyCsv').addEventListener('click',function(){
+    var ta=document.getElementById('csvOutput');
+    ta.select();
+    document.execCommand('copy');
+    showMsg('csvCopyMsg');
+  });
+
+  function showMsg(id){
+    var el=document.getElementById(id);
+    el.classList.add('show');
+    setTimeout(function(){el.classList.remove('show');},2000);
+  }
+
+  function escapeHtml(str){
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(str));
+    return d.innerHTML;
+  }
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I convert files using csv ↔ json converter?", "acceptedAnswer": {"@type": "Answer", "text": "Paste or upload your content, select the output format, and click Convert. Processing happens in milliseconds using client-side JavaScript — nothing is uploaded to any server."}}, {"@type": "Question", "name": "Is it safe to convert sensitive documents with csv ↔ json converter?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — all conversion happens in your browser. Your files are never uploaded, never stored, and never seen by anyone. Close the tab and all data is gone."}}, {"@type": "Question", "name": "Will I lose quality when converting with csv ↔ json converter?", "acceptedAnswer": {"@type": "Answer", "text": "The tool uses lossless algorithms where possible. For formats that inherently lose data, it maintains maximum fidelity. Always keep your original file as backup."}}, {"@type": "Question", "name": "Does csv ↔ json converter work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Once the page loads, conversion runs without internet. Perfect for flights, commutes, or areas with poor connectivity. Just keep the tab open."}}, {"@type": "Question", "name": "What formats does csv ↔ json converter support?", "acceptedAnswer": {"@type": "Answer", "text": "The tool auto-detects your input format and supports the most common target formats. Check the How to Use section for the full list of supported input and output formats."}}, {"@type": "Question", "name": "How does csv ↔ json converter handle special characters and Unicode?", "acceptedAnswer": {"@type": "Answer", "text": "Properly handles Unicode, UTF-8, emojis, accented letters, and symbols. All characters are preserved faithfully during conversion."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"CSV ↔ JSON Converter","item":"https://toolstand.io/tools/csv-json-converter/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

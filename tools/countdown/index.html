@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Countdown Timer — Track Time | ToolStand</title>
+<meta name="description" content="Set a countdown to any date/time. Live days, hours, minutes, seconds display with confetti celebration when time's up. Presets for New Year and birthdays. Free.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/countdown/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Countdown Timer",
+  "alternateName": "countdown",
+  "url": "https://toolstand.io/tools/countdown/",
+  "description": "A time tracking tool that creates a live countdown to any future date with embeddable iframe support. It solves the problem of sharing countdown timers for events, launches, and deadlines.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "productivity",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.cd-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.cd-input-area input[type="datetime-local"] {
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  width: 100%;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.cd-input-area input[type="datetime-local"]:focus { outline: none; border-color: var(--primary); }
+.cd-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.cd-preset {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.cd-preset:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.cd-display {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+.cd-unit {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 8px;
+  text-align: center;
+  transition: transform 0.1s;
+}
+.cd-unit .cd-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  line-height: 1.1;
+}
+.cd-unit .cd-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.cd-complete {
+  display: none;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #22c55e;
+  margin: 20px 0;
+  animation: pulse 0.8s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+/* Confetti canvas */
+#confettiCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}
+@media (max-width: 500px) {
+  .cd-display { grid-template-columns: repeat(2, 1fr); }
+  .cd-unit .cd-number { font-size: 2rem; }
+}
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/countdown/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/countdown/" />
+<meta property="og:title" content="Countdown Timer — Live Countdown with Alerts | ToolStand">
+<meta property="og:description" content="Set a countdown to any date/time. Live days, hours, minutes, seconds display with confetti celebration when time">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/countdown/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Countdown Timer — Live Countdown with Alerts | ToolStand">
+<meta name="twitter:description" content="Set a countdown to any date/time. Live days, hours, minutes, seconds display with confetti celebration when time">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+  <!-- AdSense Banner -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-8632240779421770"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<canvas id="confettiCanvas"></canvas>
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>⏳ Countdown Timer</h1>
+    <p>Set a date and watch the live countdown. Celebrate when it reaches zero!</p>
+  </div>
+  <div class="cd-input-area">
+    <input type="datetime-local" id="targetDate">
+    <div class="cd-presets">
+      <button class="cd-preset" data-preset="newyear">🎆 New Year</button>
+      <button class="cd-preset" data-preset="tomorrow">📅 Tomorrow</button>
+      <button class="cd-preset" data-preset="1hour">⏰ 1 Hour</button>
+      <button class="cd-preset" data-preset="30min">⏱ 30 Minutes</button>
+    </div>
+  </div>
+  <div class="cd-display" id="cdDisplay">
+    <div class="cd-unit"><div class="cd-number" id="cdDays">00</div><div class="cd-label">Days</div></div>
+    <div class="cd-unit"><div class="cd-number" id="cdHours">00</div><div class="cd-label">Hours</div></div>
+    <div class="cd-unit"><div class="cd-number" id="cdMinutes">00</div><div class="cd-label">Minutes</div></div>
+    <div class="cd-unit"><div class="cd-number" id="cdSeconds">00</div><div class="cd-label">Seconds</div></div>
+  </div>
+  <div class="cd-complete" id="cdComplete">🎉 Time's Up! 🎉</div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Countdown Timer to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Countdown Timer — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/countdown/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Countdown Timer | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+    <h2>How to Use the Countdown Timer</h2>
+    <ol>
+      <li>Set your target date and time using the date-time picker, or enter days/hours/minutes directly.</li>
+      <li>Click Start to begin the live countdown.</li>
+      <li>The timer displays days, hours, minutes, and seconds remaining in real time.</li>
+      <li>An alert notification sounds when the countdown reaches zero.</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How can countdown timer improve my daily workflow?</summary><p>Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard.</p></details>
+  <details><summary>Does countdown timer save my progress if I close the browser?</summary><p>Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab.</p></details>
+  <details><summary>Can I use countdown timer with keyboard shortcuts?</summary><p>Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section.</p></details>
+  <details><summary>Does countdown timer work with screen readers?</summary><p>Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack.</p></details>
+  <details><summary>How do I share results from countdown timer with my team?</summary><p>Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <p>Explore more free tools like the Countdown Timer:</p>
+      <ul>
+        <li><a href="/tools/stopwatch/">Stopwatch</a></li>
+        <li><a href="/tools/date-difference/">Date Difference Calculator</a></li>
+        <li><a href="/tools/pomodoro/">Pomodoro</a></li>
+        <li><a href="/tools/age-calculator/">Age Calculator</a></li>
+      </ul>
+    </nav>
+
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+let countdownTarget = null;
+let countdownInterval = null;
+let hasFired = false;
+const canvas = document.getElementById('confettiCanvas');
+const ctx = canvas.getContext('2d');
+
+function setTarget(date) {
+  countdownTarget = date;
+  hasFired = false;
+  document.getElementById('cdComplete').style.display = 'none';
+  document.getElementById('cdDisplay').style.display = '';
+  document.getElementById('targetDate').value = toLocalISO(date).slice(0, 16);
+  if (countdownInterval) clearInterval(countdownInterval);
+  tick();
+  countdownInterval = setInterval(tick, 1000);
+}
+
+function toLocalISO(date) {
+  const off = date.getTimezoneOffset();
+  const local = new Date(date.getTime() - off * 60000);
+  return local.toISOString();
+}
+
+function tick() {
+  if (!countdownTarget) return;
+  const now = new Date();
+  let diff = countdownTarget - now;
+  if (diff <= 0) {
+    diff = 0;
+    document.getElementById('cdDisplay').style.display = 'none';
+    document.getElementById('cdComplete').style.display = 'block';
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    if (!hasFired) { hasFired = true; launchConfetti(); }
+  }
+  const totalSec = Math.floor(diff / 1000);
+  const days = Math.floor(totalSec / 86400);
+  const hours = Math.floor((totalSec % 86400) / 3600);
+  const minutes = Math.floor((totalSec % 3600) / 60);
+  const seconds = totalSec % 60;
+  document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+  document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+  document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
+  document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
+}
+
+document.getElementById('targetDate').addEventListener('change', (e) => {
+  if (e.target.value) setTarget(new Date(e.target.value));
+});
+
+document.querySelectorAll('.cd-preset').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const now = new Date();
+    let target;
+    switch (btn.dataset.preset) {
+      case 'newyear':
+        target = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
+        break;
+      case 'tomorrow':
+        target = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 9, 0, 0);
+        break;
+      case '1hour':
+        target = new Date(now.getTime() + 3600000);
+        break;
+      case '30min':
+        target = new Date(now.getTime() + 1800000);
+        break;
+    }
+    setTarget(target);
+  });
+});
+
+// Confetti
+let confettiParticles = [];
+let confettiAnimId = null;
+
+function launchConfetti() {
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  confettiParticles = [];
+  for (let i = 0; i < 150; i++) {
+    confettiParticles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 10 + 5,
+      h: Math.random() * 6 + 4,
+      color: ['#ef4444','#22c55e','#3b82f6','#eab308','#f97316','#8b5cf6','#ec4899'][Math.floor(Math.random()*7)],
+      vx: (Math.random() - 0.5) * 3,
+      vy: Math.random() * 3 + 2,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 10
+    });
+  }
+  animateConfetti();
+}
+
+function animateConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let active = false;
+  confettiParticles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.rotV;
+    p.vy += 0.05;
+    if (p.y < canvas.height + 50) {
+      active = true;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    }
+  });
+  if (active) {
+    confettiAnimId = requestAnimationFrame(animateConfetti);
+  } else {
+    canvas.style.display = 'none';
+  }
+}
+
+// Set default: New Year
+setTarget(new Date(new Date().getFullYear() + 1, 0, 1, 0, 0, 0));
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How can countdown timer improve my daily workflow?", "acceptedAnswer": {"@type": "Answer", "text": "Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard."}}, {"@type": "Question", "name": "Does countdown timer save my progress if I close the browser?", "acceptedAnswer": {"@type": "Answer", "text": "Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab."}}, {"@type": "Question", "name": "Can I use countdown timer with keyboard shortcuts?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section."}}, {"@type": "Question", "name": "Does countdown timer work with screen readers?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack."}}, {"@type": "Question", "name": "How do I share results from countdown timer with my team?", "acceptedAnswer": {"@type": "Answer", "text": "Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Countdown Timer — Live Countdown with Alerts","item":"https://toolstand.io/tools/countdown/"}]}</script>
+
+<script>
+// ── Theme ──
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

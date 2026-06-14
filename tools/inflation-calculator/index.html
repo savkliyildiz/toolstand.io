@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Inflation Calculator — Calculate Online | ToolStand</title>
+<meta name="description" content="Calculate how inflation erodes purchasing power over time. Adjust past amounts to today's value using CPI data. See what $100 in 1990 is worth now — free online.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#ef4444">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/inflation-calculator/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Inflation Calculator",
+  "alternateName": "inflation-calculator",
+  "url": "https://toolstand.io/tools/inflation-calculator/",
+  "description": "An economic analysis tool that computes the future value of money given an inflation rate and time horizon. It solves the problem of understanding long-term purchasing power erosion for financial planning.",
+  "applicationCategory": "CalculatorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "calculator, finance",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.ic-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 12px; }
+.ic-input-group { display: flex; flex-direction: column; gap: 5px; }
+.ic-input-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+.ic-input-group input { padding: 11px 14px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 1rem; background: var(--bg); color: var(--text); transition: border-color 0.15s; }
+.ic-input-group input:focus { outline: none; border-color: #ef4444; }
+.ic-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.ic-btn-calc { padding: 12px 36px; font-size: 1rem; font-weight: 700; background: #ef4444; color: white; border: none; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; }
+.ic-btn-calc:hover { background: #dc2626; }
+.ic-btn-reset { padding: 12px 24px; font-size: 1rem; font-weight: 600; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); cursor: pointer; transition: background 0.15s; }
+.ic-btn-reset:hover { background: var(--bg-card); }
+.ic-results { display: none; margin-top: 12px; }
+.ic-results.ic-visible { display: block; }
+.ic-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.ic-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+.ic-card-label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+.ic-card-value { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+.ic-card-desc { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+.ic-card-value.ic-red { color: #ef4444; }
+.ic-card-value.ic-green { color: #22c55e; }
+.ic-card-value.ic-amber { color: #f59e0b; }
+.ic-info { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 8px; }
+.ic-info p { font-size: 0.88rem; color: var(--text-secondary); margin: 0; line-height: 1.6; }
+.ic-info strong { color: var(--text); }
+@media (max-width: 640px) { .ic-inputs { grid-template-columns: 1fr; } .ic-cards { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/inflation-calculator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/inflation-calculator/" />
+<meta property="og:title" content="Inflation Calculator — Free Online Financial Tool | ToolStand">
+<meta property="og:description" content="Calculate how inflation erodes purchasing power over time. Adjust past amounts to today">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/inflation-calculator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Inflation Calculator — Free Online Financial Tool | ToolStand">
+<meta name="twitter:description" content="Calculate how inflation erodes purchasing power over time. Adjust past amounts to today">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>💸 Inflation Calculator</h1>
+    <p>Enflasyon etkisi hesapla. See how inflation erodes your purchasing power over time — free, instant, no signup.</p>
+  </div>
+
+  <div class="ic-inputs">
+    <div class="ic-input-group"><label for="icAmount">Amount (₺)</label><input type="number" id="icAmount" value="10000" min="0" step="100"></div>
+    <div class="ic-input-group"><label for="icRate">Inflation Rate (%)</label><input type="number" id="icRate" value="15" min="0" max="100" step="0.1"></div>
+    <div class="ic-input-group"><label for="icYears">Years</label><input type="number" id="icYears" value="5" min="1" max="50" step="1"></div>
+  </div>
+
+  <div class="ic-actions">
+    <button class="ic-btn-calc" id="icCalcBtn">💸 Calculate</button>
+    <button class="ic-btn-reset" id="icResetBtn">↺ Reset</button>
+  </div>
+
+  <div class="ic-results" id="icResults">
+    <div class="ic-cards">
+      <div class="ic-card">
+        <div class="ic-card-label">Future Nominal Value</div>
+        <div class="ic-card-value ic-red" id="icFutureValue">—</div>
+        <div class="ic-card-desc">What you'll need in the future</div>
+      </div>
+      <div class="ic-card">
+        <div class="ic-card-label">Purchasing Power Loss</div>
+        <div class="ic-card-value ic-amber" id="icPowerLoss">—</div>
+        <div class="ic-card-desc">Value lost to inflation</div>
+      </div>
+      <div class="ic-card">
+        <div class="ic-card-label">Today's Real Value</div>
+        <div class="ic-card-value ic-green" id="icRealValue">—</div>
+        <div class="ic-card-desc">What today's money is worth then</div>
+      </div>
+    </div>
+    <div class="ic-info" id="icSummary"></div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Inflation Calculator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Inflation Calculator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/inflation-calculator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Inflation Calculator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Inflation Calculator</h2>
+  <ol>
+    <li><strong>Enter your amount</strong> — the sum of money you want to evaluate (default: 10,000 ₺). This represents today's purchasing power.</li>
+    <li><strong>Set the inflation rate</strong> — use your country's current annual inflation rate. For Turkey, recent rates have been 40–65%. For the US or EU, 2–4% is more typical.</li>
+    <li><strong>Choose the time horizon</strong> — how many years into the future you want to project. The calculator shows both future value needed and real purchasing power lost.</li>
+    <li><strong>Read the summary</strong> — the tool shows exactly how much you'll need in the future to match today's purchasing power, plus the percentage loss if you don't grow your money.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How accurate is inflation calculator compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does inflation calculator store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use inflation calculator on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does inflation calculator show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed inflation calculator on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does inflation calculator work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/compound-interest/">Compound Interest Calculator</a>
+    <a href="/tools/dca-calculator/">DCA Calculator</a>
+    <a href="/tools/loan-calculator/">Loan Calculator</a>
+    <a href="/tools/dividend-calculator/">Dividend Calculator</a>
+    <a href="/tools/retirement-calculator/">Retirement Calculator</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var el = function(id) { return document.getElementById(id); };
+  var icAmount = el('icAmount'), icRate = el('icRate'), icYears = el('icYears');
+  var icResults = el('icResults');
+
+  function format(n) {
+    return n.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺';
+  }
+
+  function calculate() {
+    var PV = parseFloat(icAmount.value) || 0;
+    var rate = (parseFloat(icRate.value) || 0) / 100;
+    var years = parseInt(icYears.value) || 1;
+
+    var FV = PV * Math.pow(1 + rate, years);
+    var realValue = PV / Math.pow(1 + rate, years);
+    var powerLoss = PV - realValue;
+
+    el('icFutureValue').textContent = format(FV);
+    el('icPowerLoss').textContent = format(powerLoss);
+    el('icRealValue').textContent = format(realValue);
+
+    var lossPct = ((powerLoss / PV) * 100).toFixed(1);
+    el('icSummary').innerHTML = '<p>📉 After <strong>' + years + ' years</strong> at <strong>' + (rate*100).toFixed(1) + '% inflation</strong>, your <strong>' + format(PV) + '</strong> today will have the purchasing power of just <strong>' + format(realValue) + '</strong>. You would need <strong>' + format(FV) + '</strong> to maintain the same purchasing power — a loss of <strong>%' + lossPct + '</strong>.</p>';
+
+    icResults.classList.add('ic-visible');
+  }
+
+  function handleInput() { calculate(); }
+
+  icAmount.addEventListener('input', handleInput);
+  icRate.addEventListener('input', handleInput);
+  icYears.addEventListener('input', handleInput);
+  el('icCalcBtn').addEventListener('click', calculate);
+  el('icResetBtn').addEventListener('click', function() {
+    icAmount.value = 10000; icRate.value = 15; icYears.value = 5;
+    icResults.classList.remove('ic-visible');
+  });
+
+  calculate();
+
+  var themeToggle = document.getElementById('themeToggle');
+  var savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('toolstand-theme', next);
+  });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is inflation calculator compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does inflation calculator store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use inflation calculator on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does inflation calculator show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed inflation calculator on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does inflation calculator work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Inflation Calculator — Free Online Financial Tool","item":"https://toolstand.io/tools/inflation-calculator/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

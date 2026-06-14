@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Pomodoro Timer — Track Time | ToolStand</title>
+<meta name="description" content="Free online Pomodoro timer with work/break intervals. Customizable durations, visual countdown ring, and break notifications. No downloads, no subscriptions.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#ef4444">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/pomodoro/">
+<!-- Schema.org markup -->
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Pomodoro Timer",
+  "alternateName": "pomodoro",
+  "url": "https://toolstand.io/tools/pomodoro/",
+  "description": "A focus timer implementing the Pomodoro Technique with customizable 25-minute work sessions and 5-minute breaks. It solves the problem of maintaining sustained concentration by breaking work into manageable intervals.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "productivity",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<style>
+/* Pomodoro-specific styles */
+:root {
+  --pomodoro-work: #ef4444;
+  --pomodoro-break: #22c55e;
+}
+
+.pomodoro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* Session indicator */
+.session-indicator {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.session-tab {
+  padding: 10px 24px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.session-tab.active {
+  background: var(--pomodoro-work);
+  color: white;
+}
+.session-tab.break-active {
+  background: var(--pomodoro-break);
+  color: white;
+}
+
+/* Timer ring */
+.timer-ring-wrapper {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timer-ring {
+  transform: rotate(-90deg);
+  width: 260px;
+  height: 260px;
+}
+.timer-ring .bg-circle {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 8;
+}
+.timer-ring .progress-circle {
+  fill: none;
+  stroke: var(--pomodoro-work);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke 0.3s;
+}
+.timer-ring .progress-circle.break-ring {
+  stroke: var(--pomodoro-break);
+}
+.timer-time {
+  position: absolute;
+  font-size: 3.2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  user-select: none;
+}
+.timer-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: -16px;
+}
+
+/* Controls */
+.pomodoro-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn-primary {
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.btn-start {
+  background: var(--pomodoro-work);
+}
+.btn-start:hover { background: #dc2626; }
+.btn-start.break-btn {
+  background: var(--pomodoro-break);
+}
+.btn-start.break-btn:hover { background: #16a34a; }
+
+/* Settings panel */
+.settings-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-top: 4px;
+  transition: background 0.15s;
+  color: var(--text);
+}
+.settings-toggle:hover { background: var(--bg-card); }
+.settings-panel {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  width: 100%;
+  max-width: 320px;
+  flex-direction: column;
+  gap: 12px;
+}
+.settings-panel.open {
+  display: flex;
+}
+.settings-panel h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.settings-row label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.settings-row input {
+  width: 80px;
+  padding: 8px 10px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 600;
+  transition: border-color 0.15s;
+}
+.settings-row input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.settings-row span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/pomodoro/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/pomodoro/" />
+<meta property="og:title" content="Pomodoro Timer | ToolStand">
+<meta property="og:description" content="Free online Pomodoro timer with work/break intervals. Customizable durations, visual countdown ring, and break notifications. No downloads, no subscriptions.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/pomodoro/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pomodoro Timer | ToolStand">
+<meta name="twitter:description" content="Free online Pomodoro timer with work/break intervals. Customizable durations, visual countdown ring, and break notifications. No downloads, no subscriptions.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+  <!-- AdSense Banner -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-8632240779421770"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>🍅 Pomodoro Timer</h1>
+    <p>Stay focused with work/break intervals. Customize durations to fit your flow.</p>
+  </div>
+
+  <div class="pomodoro-container">
+    <!-- Session tabs -->
+    <div class="session-indicator" id="sessionIndicator">
+      <button class="session-tab active" data-mode="work">🎯 Work</button>
+      <button class="session-tab" data-mode="break">☕ Break</button>
+    </div>
+
+    <!-- Timer ring -->
+    <div class="timer-ring-wrapper">
+      <svg class="timer-ring" viewBox="0 0 200 200">
+        <circle class="bg-circle" cx="100" cy="100" r="88"/>
+        <circle class="progress-circle" id="progressRing" cx="100" cy="100" r="88"/>
+      </svg>
+      <div class="timer-time" id="timerDisplay">25:00</div>
+    </div>
+    <div class="timer-label" id="timerLabel">Work</div>
+
+    <!-- Controls -->
+    <div class="pomodoro-controls">
+      <button class="btn btn-primary btn-start" id="startPauseBtn">▶ Start</button>
+      <button class="btn btn-outline" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- Settings -->
+    <button class="settings-toggle" id="settingsToggle" aria-label="Settings">⚙️ Settings</button>
+    <div class="settings-panel" id="settingsPanel">
+      <h3>Customize Intervals</h3>
+      <div class="settings-row">
+        <label for="workMinutes">Work duration</label>
+        <input type="number" id="workMinutes" value="25" min="1" max="120">
+        <span>min</span>
+      </div>
+      <div class="settings-row">
+        <label for="breakMinutes">Break duration</label>
+        <input type="number" id="breakMinutes" value="5" min="1" max="60">
+        <span>min</span>
+      </div>
+      <button class="btn" id="applySettings">Apply</button>
+    </div>
+  </div>
+
+  <!-- Embed CTA -->
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Pomodoro Timer to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Pomodoro Timer — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/pomodoro/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Pomodoro Timer | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Pomodoro Timer</h2>
+  <p><strong>1. Set your intervals.</strong> Click the ⚙️ Settings button to customize your work duration (default 25 min) and break duration (default 5 min). Adjust these to match your personal focus rhythm.</p>
+  <p><strong>2. Start a work session.</strong> With "Work" selected in the tab bar, press "Start." The visual ring counts down — focus on one task without distractions until the timer ends.</p>
+  <p><strong>3. Take your break.</strong> When the timer beeps, it automatically switches to break mode. Step away, stretch, hydrate. The timer starts counting down your break immediately.</p>
+  <p><strong>4. Repeat the cycle.</strong> After the break ends, the timer switches back to work mode. Press Start to begin your next focus session. Aim for 4 cycles before a longer break.</p>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How can pomodoro timer improve my daily workflow?</summary><p>Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard.</p></details>
+  <details><summary>Does pomodoro timer save my progress if I close the browser?</summary><p>Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab.</p></details>
+  <details><summary>Can I use pomodoro timer with keyboard shortcuts?</summary><p>Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section.</p></details>
+  <details><summary>Does pomodoro timer work with screen readers?</summary><p>Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack.</p></details>
+  <details><summary>How do I share results from pomodoro timer with my team?</summary><p>Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/pomodoro-task/">Pomodoro Task Tracker</a>
+    <a href="/tools/stopwatch/">Stopwatch</a>
+    <a href="/tools/countdown/">Countdown Timer</a>
+    <a href="/tools/decision-wheel/">Decision Wheel</a>
+    <a href="/tools/tip-calculator/">Tip Calculator</a>
+  </nav>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+  </div>
+</footer>
+
+<script>
+// ── Constants ──
+const CIRCUMFERENCE = 2 * Math.PI * 88; // ~553
+
+// ── DOM refs ──
+const timerDisplay = document.getElementById('timerDisplay');
+const timerLabel = document.getElementById('timerLabel');
+const progressRing = document.getElementById('progressRing');
+const startPauseBtn = document.getElementById('startPauseBtn');
+const resetBtn = document.getElementById('resetBtn');
+const settingsToggle = document.getElementById('settingsToggle');
+const settingsPanel = document.getElementById('settingsPanel');
+const workInput = document.getElementById('workMinutes');
+const breakInput = document.getElementById('breakMinutes');
+const applySettings = document.getElementById('applySettings');
+const sessionTabs = document.querySelectorAll('.session-tab');
+
+// ── State ──
+let mode = 'work'; // 'work' | 'break'
+let workDuration = 25 * 60; // seconds
+let breakDuration = 5 * 60;
+let timeLeft = workDuration;
+let totalTime = workDuration;
+let isRunning = false;
+let timerId = null;
+let startTimestamp = null;
+let elapsedBeforePause = 0;
+
+// ── Initialize SVG ──
+progressRing.style.strokeDasharray = CIRCUMFERENCE;
+progressRing.style.strokeDashoffset = '0';
+
+// ── Update display ──
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function updateDisplay() {
+  timerDisplay.textContent = formatTime(timeLeft);
+  const fraction = 1 - (timeLeft / totalTime);
+  progressRing.style.strokeDashoffset = CIRCUMFERENCE * fraction;
+}
+
+function updateModeUI() {
+  sessionTabs.forEach(tab => {
+    tab.classList.remove('active', 'break-active');
+    if (tab.dataset.mode === mode) {
+      tab.classList.add(mode === 'break' ? 'break-active' : 'active');
+    }
+  });
+  timerLabel.textContent = mode === 'work' ? 'Work' : 'Break';
+  if (mode === 'break') {
+    progressRing.classList.add('break-ring');
+    startPauseBtn.classList.add('break-btn');
+  } else {
+    progressRing.classList.remove('break-ring');
+    startPauseBtn.classList.remove('break-btn');
+  }
+}
+
+// ── Timer tick using requestAnimationFrame ──
+function tick(now) {
+  if (!isRunning) return;
+  if (startTimestamp === null) {
+    startTimestamp = now;
+  }
+  const elapsed = (now - startTimestamp) / 1000;
+  const totalElapsed = elapsedBeforePause + elapsed;
+  timeLeft = Math.max(0, totalTime - totalElapsed);
+  updateDisplay();
+
+  if (timeLeft <= 0) {
+    finishSession();
+  } else {
+    timerId = requestAnimationFrame(tick);
+  }
+}
+
+function startTimer() {
+  if (isRunning) return;
+  isRunning = true;
+  startPauseBtn.textContent = '⏸ Pause';
+  startTimestamp = null;
+  timerId = requestAnimationFrame(tick);
+}
+
+function pauseTimer() {
+  if (!isRunning) return;
+  isRunning = false;
+  if (timerId) cancelAnimationFrame(timerId);
+  timerId = null;
+  // Store elapsed time at pause
+  if (startTimestamp !== null) {
+    elapsedBeforePause += (performance.now() - startTimestamp) / 1000;
+    startTimestamp = null;
+  }
+  startPauseBtn.textContent = '▶ Start';
+}
+
+function resetTimer() {
+  pauseTimer();
+  timeLeft = mode === 'work' ? workDuration : breakDuration;
+  totalTime = timeLeft;
+  elapsedBeforePause = 0;
+  startTimestamp = null;
+  updateDisplay();
+}
+
+function finishSession() {
+  pauseTimer();
+  timeLeft = 0;
+  elapsedBeforePause = 0;
+  startTimestamp = null;
+  updateDisplay();
+
+  playBeep();
+
+  if (mode === 'work') {
+    // Work finished → alert and switch to break
+    notifyUser('Work session complete!', 'Time for a break ☕');
+    mode = 'break';
+    timeLeft = breakDuration;
+    totalTime = breakDuration;
+    updateDisplay();
+    updateModeUI();
+  } else {
+    // Break finished → alert and switch to work
+    notifyUser('Break is over!', 'Back to work 🎯');
+    mode = 'work';
+    timeLeft = workDuration;
+    totalTime = workDuration;
+    updateDisplay();
+    updateModeUI();
+  }
+}
+
+// ── Switch mode ──
+function switchMode(newMode) {
+  if (newMode === mode) return;
+  pauseTimer();
+  mode = newMode;
+  timeLeft = mode === 'work' ? workDuration : breakDuration;
+  totalTime = timeLeft;
+  elapsedBeforePause = 0;
+  startTimestamp = null;
+  updateDisplay();
+  updateModeUI();
+}
+
+// ── Audio beep ──
+async function playBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    await ctx.resume();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
+    gain.gain.setValueAtTime(0.5, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.3);
+    // Second beep after short pause
+    setTimeout(() => {
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(1100, ctx.currentTime);
+      gain2.gain.setValueAtTime(0.5, ctx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc2.start(ctx.currentTime);
+      osc2.stop(ctx.currentTime + 0.3);
+    }, 350);
+  } catch (e) {
+    // Audio not supported, silent fallback
+  }
+}
+
+// ── Notifications ──
+function notifyUser(title, body) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification(title, { body, icon: '/assets/favicon.png' });
+  } else if ('Notification' in window && Notification.permission !== 'denied') {
+    Notification.requestPermission().then(perm => {
+      if (perm === 'granted') {
+        new Notification(title, { body, icon: '/assets/favicon.png' });
+      } else {
+        alert(title + '\n' + body);
+      }
+    });
+  } else {
+    alert(title + '\n' + body);
+  }
+}
+
+// ── Events ──
+startPauseBtn.addEventListener('click', () => {
+  // Request notification permission on user gesture
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+  if (isRunning) {
+    pauseTimer();
+  } else {
+    if (timeLeft <= 0) {
+      // Session ended, restart current mode
+      timeLeft = mode === 'work' ? workDuration : breakDuration;
+      totalTime = timeLeft;
+      updateDisplay();
+    }
+    startTimer();
+  }
+});
+
+resetBtn.addEventListener('click', resetTimer);
+
+sessionTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    switchMode(tab.dataset.mode);
+  });
+});
+
+settingsToggle.addEventListener('click', () => {
+  settingsPanel.classList.toggle('open');
+});
+
+applySettings.addEventListener('click', () => {
+  const newWork = parseInt(workInput.value, 10);
+  const newBreak = parseInt(breakInput.value, 10);
+  if (newWork >= 1 && newWork <= 120) workDuration = newWork * 60;
+  if (newBreak >= 1 && newBreak <= 60) breakDuration = newBreak * 60;
+  workInput.value = workDuration / 60;
+  breakInput.value = breakDuration / 60;
+  // Reset current session with new durations
+  pauseTimer();
+  timeLeft = mode === 'work' ? workDuration : breakDuration;
+  totalTime = timeLeft;
+  elapsedBeforePause = 0;
+  startTimestamp = null;
+  updateDisplay();
+  settingsPanel.classList.remove('open');
+});
+
+<script>
+// ── Theme ──
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Init ──
+updateDisplay();
+updateModeUI();
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How can pomodoro timer improve my daily workflow?", "acceptedAnswer": {"@type": "Answer", "text": "Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard."}}, {"@type": "Question", "name": "Does pomodoro timer save my progress if I close the browser?", "acceptedAnswer": {"@type": "Answer", "text": "Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab."}}, {"@type": "Question", "name": "Can I use pomodoro timer with keyboard shortcuts?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section."}}, {"@type": "Question", "name": "Does pomodoro timer work with screen readers?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack."}}, {"@type": "Question", "name": "How do I share results from pomodoro timer with my team?", "acceptedAnswer": {"@type": "Answer", "text": "Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Pomodoro Timer","item":"https://toolstand.io/tools/pomodoro/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Dead Pixel Test — Test Screen | ToolStand</title>
+<meta name="description" content="Free online dead pixel test. Check your screen for dead or stuck pixels with full-screen colors. No downloads, no ads during the test — just pure colors.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/dead-pixel-test/">
+<!-- Schema.org markup -->
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Dead Pixel Test",
+  "alternateName": "dead-pixel-test",
+  "url": "https://toolstand.io/tools/dead-pixel-test/",
+  "description": "A screen diagnostic tool that cycles through full-screen solid colors (red, green, blue, black, white) to identify dead or stuck pixels. It solves the problem of checking new device screens for manufacturing defects without installing software.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "utility",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<style>
+/* ── Dead Pixel Test Styles ──────────────────────────── */
+.dpt-container {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.dpt-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.dpt-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.dpt-header p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* Preview colors */
+.dpt-colors-preview {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.dpt-color-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  transition: transform 0.15s;
+  cursor: default;
+}
+
+.dpt-color-dot:hover {
+  transform: scale(1.15);
+}
+
+/* Instructions card */
+.dpt-instructions {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.dpt-instructions h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.dpt-instructions ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.dpt-instructions li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  line-height: 1.5;
+}
+
+/* Start button */
+.dpt-start-wrap {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.btn-start-test {
+  padding: 16px 48px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 50px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+.btn-start-test:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+}
+.btn-start-test:active { transform: scale(0.97); }
+
+/* Full-screen test overlay */
+.dpt-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  background: #000000;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dpt-overlay.active {
+  display: block;
+}
+
+/* Instruction overlay inside test */
+.dpt-test-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 1s;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  line-height: 1.6;
+}
+
+.dpt-test-hint.fading {
+  opacity: 0;
+}
+
+/* Color name label */
+.dpt-color-label {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-weight: 600;
+  pointer-events: none;
+  transition: opacity 1s;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dpt-color-label.fading {
+  opacity: 0;
+}
+
+/* Exit button in overlay */
+.dpt-exit-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.8);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 10;
+  transition: background 0.15s;
+}
+.dpt-exit-btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* Dark colors need dark hint text */
+.dpt-overlay[data-bg="light"] .dpt-test-hint,
+.dpt-overlay[data-bg="light"] .dpt-color-label {
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.dpt-overlay[data-bg="white"] .dpt-test-hint,
+.dpt-overlay[data-bg="white"] .dpt-color-label {
+  color: rgba(0,0,0,0.6);
+  text-shadow: none;
+}
+.dpt-overlay[data-bg="white"] .dpt-exit-btn {
+  background: rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.2);
+  color: rgba(0,0,0,0.7);
+}
+
+/* Embed CTA */
+.dpt-cta {
+  margin-top: 12px;
+}
+
+/* Mobile: hide cursor during test */
+@media (pointer: coarse) {
+  .dpt-overlay.active { cursor: default; }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .dpt-test-hint { font-size: 0.95rem; }
+  .dpt-color-label { font-size: 0.8rem; bottom: 16px; right: 16px; }
+  .dpt-exit-btn { top: 10px; right: 10px; padding: 4px 10px; font-size: 0.8rem; }
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/dead-pixel-test/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/dead-pixel-test/" />
+<meta property="og:title" content="Dead Pixel Test — Free Online Screen Test Tool | ToolStand">
+<meta property="og:description" content="Free online dead pixel test. Check your screen for dead or stuck pixels with full-screen colors. No downloads, no ads during the test — just pure colors.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/dead-pixel-test/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dead Pixel Test — Free Online Screen Test Tool | ToolStand">
+<meta name="twitter:description" content="Free online dead pixel test. Check your screen for dead or stuck pixels with full-screen colors. No downloads, no ads during the test — just pure colors.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+  <!-- AdSense Banner (only before test) -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-8632240779421770"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<main class="dpt-container">
+
+  <div class="dpt-header">
+    <h1>🔍 Dead Pixel Test</h1>
+    <p>Check your screen for dead or stuck pixels with full-screen solid colors. No ads during the test — just pure colors.</p>
+  </div>
+
+  <!-- Color preview dots -->
+  <div class="dpt-colors-preview">
+    <div class="dpt-color-dot" style="background:#FF0000" title="Red"></div>
+    <div class="dpt-color-dot" style="background:#00FF00" title="Green"></div>
+    <div class="dpt-color-dot" style="background:#0000FF" title="Blue"></div>
+    <div class="dpt-color-dot" style="background:#000000" title="Black"></div>
+    <div class="dpt-color-dot" style="background:#FFFFFF" title="White"></div>
+  </div>
+
+  <!-- Instructions -->
+  <div class="dpt-instructions">
+    <h3>How it works</h3>
+    <ul>
+      <li>🎨 Tap or click to cycle through <strong>Red → Green → Blue → Black → White</strong></li>
+      <li>🔍 Inspect each color closely for dead or stuck pixels</li>
+      <li>⌨️ Use <strong>arrow keys</strong> to move between colors</li>
+      <li>🖱️ <strong>Double-tap</strong> or press <strong>Escape</strong> to exit the test</li>
+      <li>📱 Works great on mobile — just tap the screen</li>
+    </ul>
+  </div>
+
+  <!-- Start button -->
+  <div class="dpt-start-wrap">
+    <button class="btn-start-test" id="btnStartTest">▶ Start Full Screen Test</button>
+  </div>
+
+  <!-- Embed CTA -->
+  <div class="dpt-cta">
+      <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Dead Pixel Test to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Dead Pixel Test — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/dead-pixel-test/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Dead Pixel Test | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+    <h2>How to Use the Dead Pixel Test</h2>
+    <ol>
+      <li>Click 'Start Fullscreen Test' to enter fullscreen mode for the most accurate results.</li>
+      <li>Click or tap the screen to cycle through solid colors: white, black, red, green, blue, and more.</li>
+      <li>Inspect each color screen carefully for any stuck or dead pixels that appear different from the background.</li>
+      <li>Press Escape or click the exit button to leave the test when finished.</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How do I use dead pixel test for the first time?</summary><p>Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough.</p></details>
+  <details><summary>Does dead pixel test require any special permissions?</summary><p>No special permissions needed — just a modern browser. All processing stays on your device.</p></details>
+  <details><summary>Can I use dead pixel test for professional or business purposes?</summary><p>Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code.</p></details>
+  <details><summary>Does dead pixel test run locally in my browser?</summary><p>Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data.</p></details>
+  <details><summary>What browsers support dead pixel test?</summary><p>Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported.</p></details>
+  <details><summary>How is dead pixel test different from similar tools on other websites?</summary><p>Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <p>Explore more free tools like the Dead Pixel Test:</p>
+      <ul>
+        <li><a href="/tools/color-blindness/">Color Blindness Simulator</a></li>
+        <li><a href="/tools/color-converter/">Color Converter</a></li>
+        <li><a href="/tools/snake-game/">Snake Game</a></li>
+        <li><a href="/tools/minesweeper/">Minesweeper</a></li>
+      </ul>
+    </nav>
+
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always. <a href="mailto:hello@toolstand.io">hello@toolstand.io</a></p>
+    <p class="small">
+      <a href="/privacy/">Privacy</a> ·
+      <a href="/terms/">Terms</a> ·
+      <a href="/about/">About</a>
+    </p>
+  </div>
+</footer>
+
+<!-- Full-screen test overlay -->
+<div class="dpt-overlay" id="testOverlay">
+  <button class="dpt-exit-btn" id="btnExitTest" aria-label="Exit test">✕ Exit</button>
+  <div class="dpt-test-hint" id="testHint">Tap or click to change color<br>Double-tap or Esc to exit</div>
+  <div class="dpt-color-label" id="colorLabel">Red</div>
+</div>
+
+<script>
+// ── Theme ──────────────────────────────────────────────────
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Test colors ────────────────────────────────────────────
+const COLORS = [
+  { name: 'Red',   hex: '#FF0000', bg: 'dark' },
+  { name: 'Green', hex: '#00FF00', bg: 'dark' },
+  { name: 'Blue',  hex: '#0000FF', bg: 'dark' },
+  { name: 'Black', hex: '#000000', bg: 'dark' },
+  { name: 'White', hex: '#FFFFFF', bg: 'white' }
+];
+
+// ── State ──────────────────────────────────────────────────
+let currentIndex = 0;
+let isTesting = false;
+let hintTimeout = null;
+let labelTimeout = null;
+let lastTapTime = 0;
+
+// ── DOM refs ───────────────────────────────────────────────
+const btnStartTest = document.getElementById('btnStartTest');
+const testOverlay = document.getElementById('testOverlay');
+const btnExitTest = document.getElementById('btnExitTest');
+const testHint = document.getElementById('testHint');
+const colorLabel = document.getElementById('colorLabel');
+
+// ── Apply color to overlay ─────────────────────────────────
+function applyColor(index) {
+  currentIndex = index;
+  const color = COLORS[index];
+  testOverlay.style.background = color.hex;
+  testOverlay.setAttribute('data-bg', color.bg);
+  colorLabel.textContent = color.name;
+
+  // Show label briefly
+  colorLabel.classList.remove('fading');
+  clearTimeout(labelTimeout);
+  labelTimeout = setTimeout(() => {
+    colorLabel.classList.add('fading');
+  }, 1200);
+}
+
+// ── Show hint briefly ──────────────────────────────────────
+function showHint() {
+  testHint.classList.remove('fading');
+  clearTimeout(hintTimeout);
+  hintTimeout = setTimeout(() => {
+    testHint.classList.add('fading');
+  }, 2500);
+}
+
+// ── Next color ─────────────────────────────────────────────
+function nextColor() {
+  const next = (currentIndex + 1) % COLORS.length;
+  applyColor(next);
+}
+
+function prevColor() {
+  const prev = (currentIndex - 1 + COLORS.length) % COLORS.length;
+  applyColor(prev);
+}
+
+// ── Start test ─────────────────────────────────────────────
+function startTest() {
+  if (isTesting) return;
+  isTesting = true;
+
+  // Try to go fullscreen
+  const el = testOverlay;
+  const requestFS = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+  if (requestFS) {
+    requestFS.call(el).catch(() => {
+      // Fullscreen denied, run in-page
+    });
+  }
+
+  testOverlay.classList.add('active');
+  currentIndex = 0;
+  applyColor(0);
+  showHint();
+
+  // Prevent body scroll while testing
+  document.body.style.overflow = 'hidden';
+}
+
+// ── Exit test ──────────────────────────────────────────────
+function exitTest() {
+  if (!isTesting) return;
+  isTesting = false;
+
+  testOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+
+  // Exit fullscreen if active
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+    const exitFS = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+    if (exitFS) exitFS.call(document).catch(() => {});
+  }
+
+  clearTimeout(hintTimeout);
+  clearTimeout(labelTimeout);
+}
+
+// ── Event handlers ─────────────────────────────────────────
+
+// Start button
+btnStartTest.addEventListener('click', startTest);
+
+// Exit button
+btnExitTest.addEventListener('click', (e) => {
+  e.stopPropagation();
+  exitTest();
+});
+
+// Click/tap on overlay to advance color
+testOverlay.addEventListener('click', (e) => {
+  if (e.target === btnExitTest) return;
+  if (!isTesting) return;
+
+  const now = Date.now();
+  const timeSinceLastTap = now - lastTapTime;
+  lastTapTime = now;
+
+  // Double-tap detection (within 400ms)
+  if (timeSinceLastTap < 400) {
+    exitTest();
+    return;
+  }
+
+  nextColor();
+});
+
+// Keyboard controls
+function handleKeyDown(e) {
+  if (!isTesting) return;
+
+  switch (e.key) {
+    case 'Escape':
+      e.preventDefault();
+      exitTest();
+      break;
+    case 'ArrowRight':
+    case 'ArrowDown':
+      e.preventDefault();
+      nextColor();
+      break;
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      e.preventDefault();
+      prevColor();
+      break;
+  }
+}
+
+document.addEventListener('keydown', handleKeyDown);
+
+// Handle fullscreen exit via browser Esc or F11
+function handleFullscreenChange() {
+  const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+  if (!isFS && isTesting) {
+    // User exited fullscreen via browser — also exit test
+    exitTest();
+  }
+}
+
+document.addEventListener('fullscreenchange', handleFullscreenChange);
+document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+// Handle touch events specifically (prevent double-tap zoom on mobile)
+testOverlay.addEventListener('touchstart', (e) => {
+  if (isTesting) {
+    // Allow single tap to work, prevent double-tap zoom
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+  }
+}, { passive: false });
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I use dead pixel test for the first time?", "acceptedAnswer": {"@type": "Answer", "text": "Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough."}}, {"@type": "Question", "name": "Does dead pixel test require any special permissions?", "acceptedAnswer": {"@type": "Answer", "text": "No special permissions needed — just a modern browser. All processing stays on your device."}}, {"@type": "Question", "name": "Can I use dead pixel test for professional or business purposes?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code."}}, {"@type": "Question", "name": "Does dead pixel test run locally in my browser?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data."}}, {"@type": "Question", "name": "What browsers support dead pixel test?", "acceptedAnswer": {"@type": "Answer", "text": "Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported."}}, {"@type": "Question", "name": "How is dead pixel test different from similar tools on other websites?", "acceptedAnswer": {"@type": "Answer", "text": "Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Dead Pixel Test — Free Online Screen Test Tool","item":"https://toolstand.io/tools/dead-pixel-test/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

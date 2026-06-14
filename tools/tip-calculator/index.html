@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Tip Calculator — Calculate Online | ToolStand</title>
+<meta name="description" content="Free tip calculator — enter your bill, choose tip percentage, split between people. Supports USD, EUR, GBP, TRY. Round up option. Instant calculations.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/tip-calculator/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Tip Calculator",
+  "alternateName": "tip-calculator",
+  "url": "https://toolstand.io/tools/tip-calculator/",
+  "description": "A gratuity computation tool that calculates tip amounts based on bill total and percentage, with bill-splitting among multiple people. It solves the problem of quickly determining fair tip amounts in restaurant and service settings.",
+  "applicationCategory": "CalculatorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "calculator",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.tip-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.tip-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.tip-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tip-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.tip-group input, .tip-group select {
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  width: 140px;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.tip-group select { cursor: pointer; }
+.tip-group input:focus, .tip-group select:focus { outline: none; border-color: var(--primary); }
+.tip-percentages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.tip-pct-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.tip-pct-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.tip-pct-btn:hover:not(.active) { background: var(--border); }
+.tip-custom-pct {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tip-custom-pct input {
+  width: 70px;
+  padding: 8px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  text-align: center;
+  background: var(--bg);
+  color: var(--text);
+}
+.tip-custom-pct input:focus { outline: none; border-color: var(--primary); }
+.tip-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.tip-checkbox input { accent-color: var(--primary); width: 18px; height: 18px; }
+.tip-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+.tip-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.tip-result-card .tip-amount {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+.tip-result-card .tip-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.tip-total {
+  background: var(--primary);
+  color: white;
+}
+.tip-total .tip-amount { color: white; }
+.tip-total .tip-label { color: rgba(255,255,255,0.8); }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/tip-calculator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/tip-calculator/" />
+<meta property="og:title" content="Tip Calculator — Split Bills &amp; Calculate Tips | ToolStand">
+<meta property="og:description" content="Free tip calculator — enter your bill, choose tip percentage, split between people. Supports USD, EUR, GBP, TRY. Round up option. Instant calculations.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/tip-calculator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tip Calculator — Split Bills &amp; Calculate Tips | ToolStand">
+<meta name="twitter:description" content="Free tip calculator — enter your bill, choose tip percentage, split between people. Supports USD, EUR, GBP, TRY. Round up option. Instant calculations.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+  <!-- AdSense Banner -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-8632240779421770"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>💵 Tip Calculator</h1>
+    <p>Calculate the perfect tip, split the bill, and see what everyone owes.</p>
+  </div>
+  <div class="tip-inputs">
+    <div class="tip-row">
+      <div class="tip-group">
+        <label for="tipCurrency">Currency</label>
+        <select id="tipCurrency">
+          <option value="$">USD ($)</option>
+          <option value="€">EUR (€)</option>
+          <option value="£">GBP (£)</option>
+          <option value="₺">TRY (₺)</option>
+        </select>
+      </div>
+      <div class="tip-group">
+        <label for="tipBill">Bill Amount</label>
+        <input type="number" id="tipBill" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="tip-group">
+        <label for="tipPeople">People</label>
+        <input type="number" id="tipPeople" value="1" min="1" max="100">
+      </div>
+    </div>
+    <div class="tip-percentages" id="tipPresets">
+      <button class="tip-pct-btn" data-pct="10">10%</button>
+      <button class="tip-pct-btn active" data-pct="15">15%</button>
+      <button class="tip-pct-btn" data-pct="18">18%</button>
+      <button class="tip-pct-btn" data-pct="20">20%</button>
+      <button class="tip-pct-btn" data-pct="25">25%</button>
+    </div>
+    <div class="tip-custom-pct" style="justify-content:center">
+      <span style="font-size:0.85rem;color:var(--text-secondary)">Custom:</span>
+      <input type="number" id="tipCustomPct" placeholder="15" min="0" max="100" step="0.1" value="15">
+      <span style="font-size:0.85rem">%</span>
+    </div>
+    <div class="tip-checkbox" style="justify-content:center">
+      <input type="checkbox" id="tipRoundUp">
+      <label for="tipRoundUp">Round up tip</label>
+    </div>
+  </div>
+  <div class="tip-results" id="tipResults">
+    <div class="tip-result-card">
+      <div class="tip-amount" id="tipAmount">$0.00</div>
+      <div class="tip-label">Tip Amount</div>
+    </div>
+    <div class="tip-result-card tip-total">
+      <div class="tip-amount" id="tipTotal">$0.00</div>
+      <div class="tip-label">Total</div>
+    </div>
+    <div class="tip-result-card">
+      <div class="tip-amount" id="tipPerPerson">$0.00</div>
+      <div class="tip-label">Per Person</div>
+    </div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Tip Calculator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Tip Calculator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/tip-calculator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Tip Calculator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Tip Calculator</h2>
+  <ol>
+    <li><strong>Choose currency</strong> — Select USD ($), EUR (€), GBP (£), or TRY (₺) from the dropdown.</li>
+    <li><strong>Enter the bill</strong> — Type the total bill amount. Decimals are supported for precise amounts.</li>
+    <li><strong>Pick tip percentage</strong> — Click a preset (10%, 15%, 18%, 20%, 25%) or type a custom percentage. 15% is selected by default.</li>
+    <li><strong>Split the bill</strong> — Change the number of people to divide the total equally. The "Per Person" amount updates instantly. Toggle "Round up tip" for even numbers.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How accurate is tip calculator compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does tip calculator store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use tip calculator on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does tip calculator show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed tip calculator on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does tip calculator work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/invoice-generator/">🧾 Invoice Generator</a>
+    <a href="/tools/currency-converter/">💱 Currency Converter</a>
+    <a href="/tools/loan-calculator/">🏦 Loan Calculator</a>
+    <a href="/tools/savings/">💰 Savings Calculator</a>
+    <a href="/tools/compound-interest/">📈 Compound Interest</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+let tipPct = 15;
+const currencySymbol = () => document.getElementById('tipCurrency').value;
+
+function formatMoney(amount) {
+  return currencySymbol() + amount.toFixed(2);
+}
+
+function calculateTip() {
+  const bill = parseFloat(document.getElementById('tipBill').value) || 0;
+  const people = parseInt(document.getElementById('tipPeople').value) || 1;
+  const roundUp = document.getElementById('tipRoundUp').checked;
+
+  let tip = bill * (tipPct / 100);
+  if (roundUp) tip = Math.ceil(tip);
+  const total = bill + tip;
+  const perPerson = total / people;
+
+  document.getElementById('tipAmount').textContent = formatMoney(tip);
+  document.getElementById('tipTotal').textContent = formatMoney(total);
+  document.getElementById('tipPerPerson').textContent = formatMoney(perPerson);
+}
+
+// Presets
+document.getElementById('tipPresets').addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('.tip-pct-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  tipPct = parseInt(e.target.dataset.pct);
+  document.getElementById('tipCustomPct').value = tipPct;
+  calculateTip();
+});
+
+// Custom percentage
+document.getElementById('tipCustomPct').addEventListener('input', (e) => {
+  tipPct = parseFloat(e.target.value) || 0;
+  document.querySelectorAll('.tip-pct-btn').forEach(b => b.classList.remove('active'));
+  calculateTip();
+});
+
+// Other inputs
+['tipBill', 'tipPeople', 'tipCurrency'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calculateTip);
+  document.getElementById(id).addEventListener('change', calculateTip);
+});
+document.getElementById('tipRoundUp').addEventListener('change', calculateTip);
+
+// Initial calc
+calculateTip();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is tip calculator compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does tip calculator store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use tip calculator on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does tip calculator show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed tip calculator on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does tip calculator work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Tip Calculator — Split Bills &amp; Calculate Tips","item":"https://toolstand.io/tools/tip-calculator/"}]}</script>
+
+<script>
+// ── Theme ──
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

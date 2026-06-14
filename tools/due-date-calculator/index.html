@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Pregnancy Due Date Calculator — Calculate Online | ToolStand</title>
+<meta name="description" content="Calculate your estimated due date from last period or conception date. Week-by-week pregnancy timeline with trimester breakdown. Free, private, no data stored.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#f472b6">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/due-date-calculator/">
+<!-- Schema.org markup -->
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Pregnancy Due Date Calculator",
+  "alternateName": "due-date-calculator",
+  "url": "https://toolstand.io/tools/due-date-calculator/",
+  "description": "A pregnancy estimation tool that calculates expected delivery dates using Naegele's rule and ultrasound dating inputs. It solves the problem of estimating important prenatal milestones with medical-standard formulas.",
+  "applicationCategory": "CalculatorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "calculator",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+<style>
+:root {
+  --ddc-soft: #f472b6;
+  --ddc-warm: #f9a8d4;
+  --ddc-bg: #fdf2f8;
+  --ddc-accent: #ec4899;
+}
+[data-theme="dark"] {
+  --ddc-bg: #2d1b2e;
+}
+
+.ddc-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Method tabs */
+.ddc-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ddc-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: var(--bg-card);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.ddc-tab.active {
+  background: var(--ddc-soft);
+  color: white;
+}
+.ddc-tab:not(.active):hover {
+  background: var(--border);
+}
+
+/* Input area */
+.ddc-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ddc-input-group label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.ddc-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+.ddc-input:focus {
+  outline: none;
+  border-color: var(--ddc-soft);
+}
+.ddc-input-row {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+}
+.ddc-input-row .ddc-input {
+  flex: 1;
+}
+.ddc-input-small {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.15s;
+  font-family: inherit;
+  text-align: center;
+}
+.ddc-input-small:focus {
+  outline: none;
+  border-color: var(--ddc-soft);
+}
+
+/* Results grid */
+.ddc-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.ddc-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ddc-result-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.ddc-result-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ddc-accent);
+}
+.ddc-result-value.large {
+  font-size: 1.6rem;
+}
+
+/* Progress bar */
+.ddc-progress-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.ddc-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.ddc-progress-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.ddc-progress-pct {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ddc-accent);
+}
+.ddc-progress-track {
+  width: 100%;
+  height: 16px;
+  background: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.ddc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ddc-warm), var(--ddc-soft), var(--ddc-accent));
+  border-radius: 20px;
+  transition: width 0.5s ease;
+  min-width: 0;
+}
+.ddc-trimester-markers {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+.ddc-trimester-markers span {
+  position: relative;
+}
+.ddc-trimester-markers .active-marker {
+  color: var(--ddc-accent);
+  font-weight: 700;
+}
+
+/* Disclaimer */
+.ddc-disclaimer {
+  background: var(--ddc-bg);
+  border: 1px solid var(--ddc-warm);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* No results state */
+.ddc-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 30px 0;
+  font-size: 1rem;
+}
+
+.ddc-panel {
+  display: none;
+}
+.ddc-panel.active {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .ddc-results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ddc-result-value {
+    font-size: 1.1rem;
+  }
+  .ddc-result-value.large {
+    font-size: 1.3rem;
+  }
+}
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/due-date-calculator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/due-date-calculator/" />
+<meta property="og:title" content="Pregnancy Due Date Calculator | ToolStand">
+<meta property="og:description" content="Calculate your estimated due date from last period or conception date. Week-by-week pregnancy timeline with trimester breakdown. Free, private, no data stored.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/due-date-calculator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pregnancy Due Date Calculator | ToolStand">
+<meta name="twitter:description" content="Calculate your estimated due date from last period or conception date. Week-by-week pregnancy timeline with trimester breakdown. Free, private, no data stored.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+  <!-- AdSense Banner -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-8632240779421770"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>🤰 Pregnancy Due Date Calculator</h1>
+    <p>Estimate your due date, track your pregnancy week by week, and know which trimester you're in — all in your browser.</p>
+  </div>
+
+  <div class="ddc-container">
+    <!-- Method tabs -->
+    <div class="ddc-tabs">
+      <button class="ddc-tab active" data-panel="lmp">📅 Last Period (LMP)</button>
+      <button class="ddc-tab" data-panel="ultrasound">🩺 Ultrasound Dating</button>
+    </div>
+
+    <!-- LMP Panel -->
+    <div id="panel-lmp" class="ddc-panel active">
+      <div class="ddc-input-group">
+        <label for="lmpDate">First day of your last menstrual period</label>
+        <input type="date" id="lmpDate" class="ddc-input">
+      </div>
+    </div>
+
+    <!-- Ultrasound Panel -->
+    <div id="panel-ultrasound" class="ddc-panel">
+      <div class="ddc-input-group">
+        <label for="ultrasoundDate">Date of ultrasound</label>
+        <input type="date" id="ultrasoundDate" class="ddc-input">
+      </div>
+      <div class="ddc-input-group">
+        <label for="gestationalWeeks">Gestational age from ultrasound (weeks + days)</label>
+        <div class="ddc-input-row">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span style="font-size:0.8rem;color:var(--text-secondary)">Weeks</span>
+            <input type="number" id="gaWeeks" class="ddc-input-small" value="8" min="1" max="42" placeholder="Weeks">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span style="font-size:0.8rem;color:var(--text-secondary)">Days</span>
+            <input type="number" id="gaDays" class="ddc-input-small" value="0" min="0" max="6" placeholder="Days">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="ddcResults" class="ddc-empty">
+      <p>👆 Enter your dates above to calculate</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="ddc-progress-section" id="progressSection" style="display:none;">
+      <div class="ddc-progress-header">
+        <span class="ddc-progress-label">Pregnancy Progress</span>
+        <span class="ddc-progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="ddc-progress-track">
+        <div class="ddc-progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="ddc-trimester-markers">
+        <span id="markerT1">1st Trimester</span>
+        <span id="markerT2">2nd Trimester</span>
+        <span id="markerT3">3rd Trimester</span>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="ddc-disclaimer">
+      ⚕️ <strong>Disclaimer:</strong> This is an estimate based on standard pregnancy dating methods. Every pregnancy is unique. Always consult your healthcare provider for personalized medical advice.
+    </div>
+  </div>
+
+  <!-- Embed CTA -->
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Pregnancy Due Date Calculator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Pregnancy Due Date Calculator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/due-date-calculator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Pregnancy Due Date Calculator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Pregnancy Due Date Calculator</h2>
+  <ol>
+    <li><strong>Choose your dating method</strong> — select "Last Period (LMP)" if you know the first day of your last menstrual period, or "Ultrasound Dating" if you have results from a scan.</li>
+    <li><strong>Enter your date</strong> — for LMP, just pick the date. For ultrasound dating, enter the scan date and the gestational age in weeks + days from the report.</li>
+    <li><strong>Review your estimated due date</strong> — the calculator applies Naegele's rule (LMP + 280 days) and shows your current week, days until due, trimester, and conception estimate.</li>
+    <li><strong>Check your pregnancy progress bar</strong> — the visual tracker shows how far along you are with trimester markers highlighted.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How accurate is pregnancy due date calculator compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does pregnancy due date calculator store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use pregnancy due date calculator on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does pregnancy due date calculator show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed pregnancy due date calculator on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does pregnancy due date calculator work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/bmi-calculator/">BMI Calculator</a>
+    <a href="/tools/calorie-calculator/">Calorie Calculator</a>
+    <a href="/tools/water-intake/">Water Intake Calculator</a>
+    <a href="/tools/keto-calculator/">Keto Calculator</a>
+    <a href="/tools/body-fat-calculator/">Body Fat Calculator</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always. <a href="mailto:hello@toolstand.io">hello@toolstand.io</a></p>
+    <p class="small">
+      <a href="/privacy/">Privacy</a> ·
+      <a href="/terms/">Terms</a> ·
+      <a href="/about/">About</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+// Theme toggle
+const themeToggle = document.getElementById('themeToggle');
+const saved = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', saved);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Panel switching ──
+const tabs = document.querySelectorAll('.ddc-tab');
+const panels = document.querySelectorAll('.ddc-panel');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+    calculateAll();
+  });
+});
+
+// ── Date helpers ──
+function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function daysBetween(d1, d2) {
+  return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+}
+
+function formatDate(date) {
+  return date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function formatDateShort(date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function getWeek(daysPregnant) {
+  return Math.floor(daysPregnant / 7);
+}
+
+function getDaysIntoWeek(daysPregnant) {
+  return daysPregnant % 7;
+}
+
+function getTrimester(week) {
+  if (week <= 13) return '1st Trimester';
+  if (week <= 26) return '2nd Trimester';
+  return '3rd Trimester';
+}
+
+// ── DOM refs ──
+const lmpInput = document.getElementById('lmpDate');
+const usDateInput = document.getElementById('ultrasoundDate');
+const gaWeeksInput = document.getElementById('gaWeeks');
+const gaDaysInput = document.getElementById('gaDays');
+const resultsDiv = document.getElementById('ddcResults');
+const progressSection = document.getElementById('progressSection');
+const progressFill = document.getElementById('progressFill');
+const progressPct = document.getElementById('progressPct');
+
+// ── Calculate from LMP ──
+function calculateFromLMP(lmpDate) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const lmp = new Date(lmpDate);
+  lmp.setHours(0, 0, 0, 0);
+
+  const dueDate = addDays(lmp, 280); // Naegele's rule: LMP + 280 days
+  const conceptionDate = addDays(lmp, 14);
+  const daysPregnant = daysBetween(lmp, today);
+  const daysRemaining = daysBetween(today, dueDate);
+
+  return {
+    dueDate,
+    conceptionDate,
+    daysPregnant,
+    daysRemaining,
+    week: getWeek(daysPregnant),
+    weekDays: getDaysIntoWeek(daysPregnant),
+    trimester: getTrimester(getWeek(daysPregnant)),
+    progress: Math.min(100, Math.max(0, (daysPregnant / 280) * 100))
+  };
+}
+
+// ── Calculate from ultrasound ──
+function calculateFromUltrasound(usDateStr, gaWeeks, gaDays) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const usDate = new Date(usDateStr);
+  usDate.setHours(0, 0, 0, 0);
+
+  const totalDaysGA = gaWeeks * 7 + gaDays;
+  // On the ultrasound date, the gestational age was totalDaysGA days
+  // So LMP = ultrasound date - totalDaysGA
+  const lmpDate = addDays(usDate, -totalDaysGA);
+  return calculateFromLMP(lmpDate);
+}
+
+// ── Render results ──
+function renderResults(data) {
+  if (data.daysPregnant < 0) {
+    resultsDiv.className = 'ddc-empty';
+    resultsDiv.innerHTML = '<p>👶 Your pregnancy hasn\'t started yet based on these dates. Check your dates and try again.</p>';
+    progressSection.style.display = 'none';
+    return;
+  }
+
+  if (data.daysPregnant > 300) {
+    resultsDiv.className = 'ddc-empty';
+    resultsDiv.innerHTML = '<p>👶 Your due date appears to have passed. If you\'re still pregnant, please consult your healthcare provider.</p>';
+    progressSection.style.display = 'none';
+    return;
+  }
+
+  resultsDiv.className = 'ddc-results';
+
+  const weekLabel = data.daysPregnant >= 0
+    ? `${data.week} weeks, ${data.weekDays} days`
+    : '—';
+
+  const daysRemainingLabel = data.daysRemaining > 0
+    ? `${data.daysRemaining} days`
+    : data.daysRemaining === 0 ? 'Today! 🎉' : `${Math.abs(data.daysRemaining)} days ago`;
+
+  resultsDiv.innerHTML = `
+    <div class="ddc-result-card">
+      <span class="ddc-result-label">Estimated Due Date</span>
+      <span class="ddc-result-value large">${formatDate(data.dueDate)}</span>
+    </div>
+    <div class="ddc-result-card">
+      <span class="ddc-result-label">Current Week</span>
+      <span class="ddc-result-value">${weekLabel}</span>
+    </div>
+    <div class="ddc-result-card">
+      <span class="ddc-result-label">Days Until Due</span>
+      <span class="ddc-result-value">${daysRemainingLabel}</span>
+    </div>
+    <div class="ddc-result-card">
+      <span class="ddc-result-label">Trimester</span>
+      <span class="ddc-result-value">${data.trimester}</span>
+    </div>
+    <div class="ddc-result-card">
+      <span class="ddc-result-label">Conception Estimate</span>
+      <span class="ddc-result-value">${formatDateShort(data.conceptionDate)}</span>
+    </div>
+  `;
+
+  // Progress bar
+  progressSection.style.display = 'block';
+  const pct = Math.round(data.progress);
+  progressFill.style.width = pct + '%';
+  progressPct.textContent = pct + '%';
+
+  // Highlight active trimester marker
+  const t1 = document.getElementById('markerT1');
+  const t2 = document.getElementById('markerT2');
+  const t3 = document.getElementById('markerT3');
+  [t1, t2, t3].forEach(m => m.classList.remove('active-marker'));
+  if (data.trimester === '1st Trimester') t1.classList.add('active-marker');
+  if (data.trimester === '2nd Trimester') t2.classList.add('active-marker');
+  if (data.trimester === '3rd Trimester') t3.classList.add('active-marker');
+
+  // Persist LMP to localStorage
+  if (data._lmpDate) {
+    localStorage.setItem('ddc-lmp-date', data._lmpDate);
+  }
+}
+
+// ── Main calculate ──
+function calculateAll() {
+  const activePanel = document.querySelector('.ddc-panel.active');
+  if (!activePanel) return;
+
+  if (activePanel.id === 'panel-lmp') {
+    const lmpVal = lmpInput.value;
+    if (!lmpVal) {
+      resultsDiv.className = 'ddc-empty';
+      resultsDiv.innerHTML = '<p>👆 Enter the first day of your last period to calculate</p>';
+      progressSection.style.display = 'none';
+      return;
+    }
+    const data = calculateFromLMP(lmpVal);
+    data._lmpDate = lmpVal;
+    renderResults(data);
+  } else {
+    const usVal = usDateInput.value;
+    const gaW = parseInt(gaWeeksInput.value, 10);
+    const gaD = parseInt(gaDaysInput.value, 10);
+    if (!usVal || isNaN(gaW) || isNaN(gaD)) {
+      resultsDiv.className = 'ddc-empty';
+      resultsDiv.innerHTML = '<p>👆 Enter your ultrasound date and gestational age to calculate</p>';
+      progressSection.style.display = 'none';
+      return;
+    }
+    if (gaW < 1 || gaW > 42 || gaD < 0 || gaD > 6) {
+      resultsDiv.className = 'ddc-empty';
+      resultsDiv.innerHTML = '<p>⚠️ Please enter a valid gestational age (1–42 weeks, 0–6 days)</p>';
+      progressSection.style.display = 'none';
+      return;
+    }
+    const data = calculateFromUltrasound(usVal, gaW, gaD);
+    renderResults(data);
+  }
+}
+
+// ── Event listeners ──
+lmpInput?.addEventListener('change', calculateAll);
+usDateInput?.addEventListener('change', calculateAll);
+gaWeeksInput?.addEventListener('input', calculateAll);
+gaDaysInput?.addEventListener('input', calculateAll);
+
+// ── Set defaults ──
+const today = new Date();
+const todayStr = today.toISOString().split('T')[0];
+if (!lmpInput.value) lmpInput.value = todayStr;
+if (!usDateInput.value) usDateInput.value = todayStr;
+
+// ── Restore from localStorage ──
+const savedLmp = localStorage.getItem('ddc-lmp-date');
+if (savedLmp) {
+  lmpInput.value = savedLmp;
+  // Activate LMP panel
+  tabs.forEach(t => t.classList.remove('active'));
+  panels.forEach(p => p.classList.remove('active'));
+  document.querySelector('.ddc-tab[data-panel="lmp"]').classList.add('active');
+  document.getElementById('panel-lmp').classList.add('active');
+  calculateAll();
+}
+
+// Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is pregnancy due date calculator compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does pregnancy due date calculator store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use pregnancy due date calculator on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does pregnancy due date calculator show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed pregnancy due date calculator on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does pregnancy due date calculator work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Pregnancy Due Date Calculator","item":"https://toolstand.io/tools/due-date-calculator/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

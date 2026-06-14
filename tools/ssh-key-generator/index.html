@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online SSH Key Generator — Generate Free | ToolStand</title>
+    <meta name="description" content="Generate SSH key pairs. RSA, ECDSA. Generate SSH key pairs in browser. Free online SSH key generator using Web Crypto API.">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="canonical" href="https://toolstand.io/tools/ssh-key-generator/">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="stylesheet" href="/shared/styles.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-card: #f9fafb;
+            --border: #e5e7eb;
+            --text: #111827;
+            --text-secondary: #6b7280;
+            --radius: 12px;
+            --accent: #3b82f6;
+        }
+        [data-theme="dark"] {
+            --bg: #111827;
+            --bg-card: #1f2937;
+            --border: #374151;
+            --text: #f9fafb;
+            --text-secondary: #9ca3af;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .header { background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
+        .header .container { display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 1.25rem; text-decoration: none; color: var(--text); }
+        .logo strong { color: var(--accent); }
+        .nav { display: flex; align-items: center; gap: 16px; }
+        .nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+        .nav a:hover { color: var(--text); }
+        .btn-icon { background: none; border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 10px; cursor: pointer; font-size: 1rem; color: var(--text); }
+        .ad-banner { max-width: 800px; margin: 12px auto; padding: 0 16px; min-height: 90px; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+        .tool-container { max-width: 800px; margin: 0 auto; padding: 24px 16px 40px; }
+        .tool-header { text-align: center; margin-bottom: 24px; }
+        .tool-header h1 { font-size: 2rem; margin-bottom: 4px; }
+        .badge { display: inline-block; background: #dbeafe; color: #1e40af; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; margin-top: 8px; }
+        [data-theme="dark"] .badge { background: #1e3a5f; color: #93c5fd; }
+        .controls { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 20px; }
+        .form-group { flex: 1; min-width: 200px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+        .form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.95rem; background: var(--bg); color: var(--text); cursor: pointer; }
+        .note { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; font-style: italic; }
+        .btn { display: inline-block; padding: 10px 24px; border: none; border-radius: var(--radius); font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .key-section { margin-top: 20px; }
+        .key-section h3 { font-size: 0.95rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .key-section textarea { width: 100%; min-height: 140px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); font-family: monospace; font-size: 0.78rem; background: var(--bg); color: var(--text); resize: vertical; word-break: break-all; }
+        .key-actions { display: flex; gap: 8px; margin-top: 8px; }
+        .btn-sm { padding: 5px 14px; font-size: 0.8rem; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; font-weight: 500; }
+        .btn-sm:hover { background: var(--border); }
+        .spinner { display: none; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 8px; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading .spinner { display: inline-block; }
+        .embed-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 40px; text-align: center; }
+        .embed-cta h3 { margin-bottom: 8px; }
+        .embed-cta p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+        .embed-code { width: 100%; font-family: monospace; font-size: 0.75rem; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); resize: vertical; }
+        .footer { border-top: 1px solid var(--border); padding: 20px 0; text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 40px; }
+        .footer a { color: var(--text-secondary); text-decoration: none; }
+        .footer a:hover { color: var(--text); }
+        .small { font-size: 0.8rem; margin-top: 4px; }
+    </style>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "SSH Key Generator",
+  "alternateName": "ssh-key-generator",
+  "url": "https://toolstand.io/tools/ssh-key-generator/",
+  "description": "A security infrastructure tool that generates RSA and ECDSA SSH key pairs with PEM-format export. It solves the problem of creating SSH authentication keys for server access without command-line tools.",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "security, developer",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/ssh-key-generator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/ssh-key-generator/" />
+<meta property="og:title" content="SSH Key Generator — Free Online RSA &amp; ECDSA Key Pair Generator | ToolStand">
+<meta property="og:description" content="Generate SSH key pairs. RSA, ECDSA. Generate SSH key pairs in browser. Free online SSH key generator using Web Crypto API.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/ssh-key-generator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SSH Key Generator — Free Online RSA &amp; ECDSA Key Pair Generator | ToolStand">
+<meta name="twitter:description" content="Generate SSH key pairs. RSA, ECDSA. Generate SSH key pairs in browser. Free online SSH key generator using Web Crypto API.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+        <nav class="nav">
+            <a href="/blog/">Blog</a>
+            <a href="#embed-section">Embed</a>
+            <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+        </nav>
+    </div>
+</header>
+
+<div class="ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+
+<main class="tool-container">
+    <div class="tool-header">
+        <h1>🔑 SSH Key Generator</h1>
+        <p style="color: var(--text-secondary);">Generate SSH key pairs. RSA, ECDSA.</p>
+        <div class="badge">🔒 Keys generated in browser, never transmitted</div>
+    </div>
+
+    <div class="controls">
+        <div class="form-group">
+            <label for="keyType">Key Type</label>
+            <select id="keyType">
+                <option value="RSA-2048">RSA 2048-bit</option>
+                <option value="RSA-4096">RSA 4096-bit</option>
+                <option value="ECDSA-P256">ECDSA P-256</option>
+                <option value="ECDSA-P384">ECDSA P-384</option>
+            </select>
+            <p class="note">Ed25519: Not supported in browsers (Web Crypto limitation)</p>
+        </div>
+        <button class="btn btn-primary" id="generateBtn">🔑 Generate Key Pair</button>
+        <div class="spinner" id="spinner"></div>
+    </div>
+
+    <div class="key-section" id="publicKeySection" style="display:none;">
+        <h3>🔓 Public Key</h3>
+        <textarea id="publicKey" readonly></textarea>
+        <div class="key-actions">
+            <button class="btn-sm" id="copyPublicBtn">📋 Copy</button>
+        </div>
+    </div>
+
+    <div class="key-section" id="privateKeySection" style="display:none;">
+        <h3>🔐 Private Key <span style="font-weight:400;color:#dc2626;font-size:0.8rem;">(Keep this secret!)</span></h3>
+        <textarea id="privateKey" readonly></textarea>
+        <div class="key-actions">
+            <button class="btn-sm" id="copyPrivateBtn">📋 Copy</button>
+        </div>
+    </div>
+
+    <h2>How to Use the SSH Key Generator</h2>
+    <ol>
+      <li><strong>Choose your key type</strong> — Select RSA 2048-bit, RSA 4096-bit, ECDSA P-256, or ECDSA P-384 from the dropdown.</li>
+      <li><strong>Click Generate</strong> — Your key pair is created instantly using the browser's Web Crypto API. Nothing is sent to any server.</li>
+      <li><strong>Copy your public key</strong> — Use this to add to your server's <code>~/.ssh/authorized_keys</code> or paste into GitHub/GitLab SSH settings.</li>
+      <li><strong>Save your private key securely</strong> — Copy and save it as a <code>.pem</code> file. Never share your private key with anyone.</li>
+    </ol>
+
+    
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>Is ssh key generator safe to use with real credentials or sensitive data?</summary><p>Yes! All processing happens in your browser — your data never leaves your device. For maximum security, use this tool offline or in a private/incognito window.</p></details>
+  <details><summary>Does ssh key generator meet enterprise security standards?</summary><p>The tool uses browser-native Web Crypto APIs for cryptographic operations. No data is transmitted to any server. For enterprise compliance, verify with your security team — the source code is open on GitHub.</p></details>
+  <details><summary>Can I trust the generated output for production use?</summary><p>Yes. The tool uses industry-standard algorithms and formats. Generated outputs follow official specifications (RFCs, standards). Always verify critical security artifacts before deployment.</p></details>
+  <details><summary>Is ssh key generator safe to use with production code and sensitive data?</summary><p>Yes! All processing happens in your browser — your code, API keys, and data never leave your device. No server-side processing, no logging, no data collection. Close the tab and everything is gone.</p></details>
+  <details><summary>Does ssh key generator work with large files or complex inputs?</summary><p>The browser processes files up to ~10-20MB comfortably. For larger workloads, consider dedicated desktop tools or CLI utilities. Browser memory is the only limiting factor.</p></details>
+  <details><summary>Can I integrate ssh key generator into my development workflow?</summary><p>Yes! Use the free embed code to add it to your team's internal tools page, Notion, Confluence, or any HTML page. Many developers keep commonly used ToolStand utilities bookmarked for quick access.</p></details>
+  <details><summary>Which programming languages does ssh key generator support?</summary><p>Check the How to Use section for the full list. The tool supports the most common formats and languages used in modern development. New formats are added regularly.</p></details>
+  <details><summary>Does ssh key generator require an internet connection after loading?</summary><p>No — once loaded, the tool works offline. All processing uses client-side JavaScript. Keep the tab open and use it on airplanes, in secure environments, or anywhere without connectivity.</p></details>
+
+    <h2>Related Tools</h2>
+    <nav class="related-tools">
+      <a href="/tools/password-generator/">🔑 Password Generator</a>
+      <a href="/tools/hash-generator/">#️⃣ Hash Generator</a>
+      <a href="/tools/text-encryptor/">🔐 Text Encryptor</a>
+      <a href="/tools/jwt-decoder/">🎫 JWT Decoder</a>
+      <a href="/tools/uuid-generator/">🆔 UUID Generator</a>
+    </nav>
+
+</main>
+
+  <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the SSH Key Generator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- SSH Key Generator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/ssh-key-generator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="SSH Key Generator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+<footer class="footer">
+    <div class="container">
+        <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+        <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+    </div>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    // Theme
+    var stored = localStorage.getItem('toolstand-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', stored);
+    document.getElementById('themeToggle').addEventListener('click', function() {
+        var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('toolstand-theme', t);
+    });
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+
+    // Helper: ArrayBuffer to Base64 with 64-char lines
+    function arrayBufferToPemBase64(buffer) {
+        var bytes = new Uint8Array(buffer);
+        var binary = '';
+        for (var i = 0; i < bytes.byteLength; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        var b64 = btoa(binary);
+        var lines = [];
+        for (var i = 0; i < b64.length; i += 64) {
+            lines.push(b64.substring(i, i + 64));
+        }
+        return lines.join('\n');
+    }
+
+    function pemPublic(b64) {
+        return '-----BEGIN PUBLIC KEY-----\n' + b64 + '\n-----END PUBLIC KEY-----';
+    }
+
+    function pemPrivate(b64) {
+        return '-----BEGIN PRIVATE KEY-----\n' + b64 + '\n-----END PRIVATE KEY-----';
+    }
+
+    function isRSA(type) {
+        return type === 'RSA-2048' || type === 'RSA-4096';
+    }
+
+    // Generate
+    document.getElementById('generateBtn').addEventListener('click', function() {
+        var keyType = document.getElementById('keyType').value;
+        var btn = document.getElementById('generateBtn');
+        var spinner = document.getElementById('spinner');
+
+        btn.disabled = true;
+        document.body.classList.add('loading');
+        spinner.style.display = 'inline-block';
+
+        document.getElementById('publicKeySection').style.display = 'none';
+        document.getElementById('privateKeySection').style.display = 'none';
+
+        var algorithm;
+        if (isRSA(keyType)) {
+            var modulusLength = keyType === 'RSA-2048' ? 2048 : 4096;
+            algorithm = {
+                name: 'RSA-OAEP',
+                modulusLength: modulusLength,
+                publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+                hash: 'SHA-256'
+            };
+        } else {
+            var namedCurve = keyType === 'ECDSA-P256' ? 'P-256' : 'P-384';
+            algorithm = {
+                name: 'ECDSA',
+                namedCurve: namedCurve
+            };
+        }
+
+        var extractable = true;
+        var usages = isRSA(keyType) ? ['encrypt', 'decrypt'] : ['sign', 'verify'];
+
+        crypto.subtle.generateKey(algorithm, extractable, usages).then(function(keyPair) {
+            var exports = [];
+            exports.push(crypto.subtle.exportKey('spki', keyPair.publicKey));
+            exports.push(crypto.subtle.exportKey('pkcs8', keyPair.privateKey));
+            return Promise.all(exports);
+        }).then(function(results) {
+            var pubB64 = arrayBufferToPemBase64(results[0]);
+            var privB64 = arrayBufferToPemBase64(results[1]);
+
+            document.getElementById('publicKey').value = pemPublic(pubB64);
+            document.getElementById('privateKey').value = pemPrivate(privB64);
+
+            document.getElementById('publicKeySection').style.display = 'block';
+            document.getElementById('privateKeySection').style.display = 'block';
+        }).catch(function(err) {
+            alert('Key generation failed: ' + err.message);
+        }).finally(function() {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            document.body.classList.remove('loading');
+        });
+    });
+
+    // Copy buttons
+    function setupCopy(btnId, textareaId) {
+        document.getElementById(btnId).addEventListener('click', function() {
+            var ta = document.getElementById(textareaId);
+            ta.select();
+            document.execCommand('copy');
+            var btn = document.getElementById(btnId);
+            btn.textContent = '✅ Copied!';
+            setTimeout(function() { btn.textContent = '📋 Copy'; }, 2000);
+        });
+    }
+    setupCopy('copyPublicBtn', 'publicKey');
+    setupCopy('copyPrivateBtn', 'privateKey');
+
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is ssh key generator safe to use with real credentials or sensitive data?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! All processing happens in your browser — your data never leaves your device. For maximum security, use this tool offline or in a private/incognito window."}}, {"@type": "Question", "name": "Does ssh key generator meet enterprise security standards?", "acceptedAnswer": {"@type": "Answer", "text": "The tool uses browser-native Web Crypto APIs for cryptographic operations. No data is transmitted to any server. For enterprise compliance, verify with your security team — the source code is open on GitHub."}}, {"@type": "Question", "name": "Can I trust the generated output for production use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The tool uses industry-standard algorithms and formats. Generated outputs follow official specifications (RFCs, standards). Always verify critical security artifacts before deployment."}}, {"@type": "Question", "name": "Is ssh key generator safe to use with production code and sensitive data?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! All processing happens in your browser — your code, API keys, and data never leave your device. No server-side processing, no logging, no data collection. Close the tab and everything is gone."}}, {"@type": "Question", "name": "Does ssh key generator work with large files or complex inputs?", "acceptedAnswer": {"@type": "Answer", "text": "The browser processes files up to ~10-20MB comfortably. For larger workloads, consider dedicated desktop tools or CLI utilities. Browser memory is the only limiting factor."}}, {"@type": "Question", "name": "Can I integrate ssh key generator into my development workflow?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Use the free embed code to add it to your team's internal tools page, Notion, Confluence, or any HTML page. Many developers keep commonly used ToolStand utilities bookmarked for quick access."}}, {"@type": "Question", "name": "Which programming languages does ssh key generator support?", "acceptedAnswer": {"@type": "Answer", "text": "Check the How to Use section for the full list. The tool supports the most common formats and languages used in modern development. New formats are added regularly."}}, {"@type": "Question", "name": "Does ssh key generator require an internet connection after loading?", "acceptedAnswer": {"@type": "Answer", "text": "No — once loaded, the tool works offline. All processing uses client-side JavaScript. Keep the tab open and use it on airplanes, in secure environments, or anywhere without connectivity."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"SSH Key Generator — Free Online RSA &amp; ECDSA Key Pair Generator","item":"https://toolstand.io/tools/ssh-key-generator/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

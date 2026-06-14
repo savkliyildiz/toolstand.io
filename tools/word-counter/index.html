@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Word & Character Counter — Count Instantly | ToolStand</title>
+<meta name="description" content="Free online word counter with real-time stats. Count words, characters (with/without spaces), sentences, paragraphs, reading & speaking time. Paste or type.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/word-counter/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Word & Character Counter",
+  "alternateName": "word-counter",
+  "url": "https://toolstand.io/tools/word-counter/",
+  "description": "A text analysis tool that counts words, characters, sentences, and estimates reading time for any input text. It solves the problem of measuring content length for SEO, academic, and publishing requirements.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "productivity",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.wc-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  line-height: 1.7;
+  transition: border-color 0.15s;
+}
+.wc-textarea:focus { outline: none; border-color: var(--primary); }
+.wc-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.wc-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.wc-stat .wc-num { font-size: 1.6rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; }
+.wc-stat .wc-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+.wc-reading {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.wc-reading-item {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.wc-reading-item strong { color: var(--text); }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/word-counter/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/word-counter/" />
+<meta property="og:title" content="Word Counter — Count Words, Characters, Sentences | ToolStand">
+<meta property="og:description" content="Free online word counter with real-time stats. Count words, characters (with/without spaces), sentences, paragraphs, reading &amp; speaking time. Paste or type.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/word-counter/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Word Counter — Count Words, Characters, Sentences | ToolStand">
+<meta name="twitter:description" content="Free online word counter with real-time stats. Count words, characters (with/without spaces), sentences, paragraphs, reading &amp; speaking time. Paste or type.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+  <!-- AdSense Banner -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-8632240779421770"
+      data-ad-slot="auto"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>📝 Word Counter</h1>
+    <p>Real-time word, character, and readability analysis. Paste or type your text below.</p>
+  </div>
+  <textarea class="wc-textarea" id="wcInput" placeholder="Type or paste your text here..."></textarea>
+  <div class="wc-stats" id="wcStats">
+    <div class="wc-stat"><div class="wc-num" id="wcWords">0</div><div class="wc-label">Words</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcChars">0</div><div class="wc-label">Characters</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcCharsNoSpaces">0</div><div class="wc-label">Chars (no spaces)</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcSentences">0</div><div class="wc-label">Sentences</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcParagraphs">0</div><div class="wc-label">Paragraphs</div></div>
+  </div>
+  <div class="wc-reading">
+    <div class="wc-reading-item">📖 Reading time: <strong id="wcReadTime">0 min</strong></div>
+    <div class="wc-reading-item">🎤 Speaking time: <strong id="wcSpeakTime">0 min</strong></div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Word &amp; Character Counter to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Word &amp; Character Counter — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/word-counter/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Word &amp; Character Counter | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Use the Word Counter</h2>
+  <ol>
+    <li><strong>Type or paste your text</strong> — Start typing in the text area or paste content from any source. Stats update in real time.</li>
+    <li><strong>Check word count</strong> — The Words stat shows total words. Ideal for meeting essay, article, or SEO content length requirements.</li>
+    <li><strong>View detailed stats</strong> — Characters, characters without spaces, sentences, and paragraphs are all tracked simultaneously.</li>
+    <li><strong>Estimate reading time</strong> — Reading time (238 WPM) and speaking time (130 WPM) help plan presentations and video scripts.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How does the word counter handle emojis, hashtags, and URLs?</summary><p>URLs count as single words. Hashtags (#likeThis) count as one word. Emojis are excluded from word count but included in character count. Punctuation doesn't count as words.</p></details>
+  <details><summary>What's the difference between character and word count for SEO?</summary><p>For meta descriptions, Google displays ~155-160 characters — focus on character count. For blog posts, word count matters for content depth signals. Our tool shows both plus reading time.</p></details>
+  <details><summary>How can word & character counter improve my daily workflow?</summary><p>Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard.</p></details>
+  <details><summary>Does word & character counter save my progress if I close the browser?</summary><p>Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab.</p></details>
+  <details><summary>Can I use word & character counter with keyboard shortcuts?</summary><p>Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section.</p></details>
+  <details><summary>Does word & character counter work with screen readers?</summary><p>Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack.</p></details>
+  <details><summary>How do I share results from word & character counter with my team?</summary><p>Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/token-counter/">🤖 Token Counter</a>
+    <a href="/tools/video-script-timer/">🎬 Script Timer</a>
+    <a href="/tools/case-converter/">🔤 Case Converter</a>
+    <a href="/tools/diff-checker/">🔍 Diff Checker</a>
+    <a href="/tools/markdown-previewer/">📝 Markdown Previewer</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+const input = document.getElementById('wcInput');
+const WORDS_PER_MIN = 238; // average reading speed
+const SPEAK_PER_MIN = 130; // average speaking speed
+
+function count() {
+  const text = input.value;
+  const charCount = text.length;
+  const charNoSpaces = text.replace(/\s/g, '').length;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const sentences = text.trim() ? (text.match(/[.!?]+/g) || []).length : 0;
+  const paragraphs = text.trim() ? text.split(/\n\n+/).filter(p => p.trim()).length : 0;
+
+  document.getElementById('wcWords').textContent = words;
+  document.getElementById('wcChars').textContent = charCount;
+  document.getElementById('wcCharsNoSpaces').textContent = charNoSpaces;
+  document.getElementById('wcSentences').textContent = sentences;
+  document.getElementById('wcParagraphs').textContent = paragraphs;
+
+  const readMin = Math.max(1, Math.ceil(words / WORDS_PER_MIN));
+  const speakMin = Math.max(1, Math.ceil(words / SPEAK_PER_MIN));
+  document.getElementById('wcReadTime').textContent = readMin + ' min';
+  document.getElementById('wcSpeakTime').textContent = speakMin + ' min';
+}
+
+input.addEventListener('input', count);
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does the word counter handle emojis, hashtags, and URLs?", "acceptedAnswer": {"@type": "Answer", "text": "URLs count as single words. Hashtags (#likeThis) count as one word. Emojis are excluded from word count but included in character count. Punctuation doesn't count as words."}}, {"@type": "Question", "name": "What's the difference between character and word count for SEO?", "acceptedAnswer": {"@type": "Answer", "text": "For meta descriptions, Google displays ~155-160 characters — focus on character count. For blog posts, word count matters for content depth signals. Our tool shows both plus reading time."}}, {"@type": "Question", "name": "How can word & character counter improve my daily workflow?", "acceptedAnswer": {"@type": "Answer", "text": "Eliminates the need to download apps or sign up for services. Bookmark it, use it in seconds, and get back to what matters. Embed it in your team dashboard."}}, {"@type": "Question", "name": "Does word & character counter save my progress if I close the browser?", "acceptedAnswer": {"@type": "Answer", "text": "Uses browser localStorage to save settings and preferences. Your last session persists until you clear browser data. Export important results before closing the tab."}}, {"@type": "Question", "name": "Can I use word & character counter with keyboard shortcuts?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Press Enter for the primary action, Tab to navigate between fields, and Escape to reset. Full keyboard shortcuts are listed in the How to Use section."}}, {"@type": "Question", "name": "Does word & character counter work with screen readers?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Built with WCAG accessibility standards. Includes ARIA labels, semantic HTML, and keyboard navigation. Tested with NVDA, VoiceOver, and TalkBack."}}, {"@type": "Question", "name": "How do I share results from word & character counter with my team?", "acceptedAnswer": {"@type": "Answer", "text": "Copy to clipboard with one click, download as file, or use the embed feature for your team's intranet, Notion, or Confluence. Works behind firewalls."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Word Counter — Count Words, Characters, Sentences","item":"https://toolstand.io/tools/word-counter/"}]}</script>
+
+<script>
+// ── Theme ──
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

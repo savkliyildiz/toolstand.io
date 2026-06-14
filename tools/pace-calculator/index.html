@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Pace & Running Calculator — Calculate Online | ToolStand</title>
+<meta name="description" content="Calculate your running pace, time, or distance. Includes common race distances and split times. Free online pace calculator for runners.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#f97316">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/pace-calculator/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Pace & Running Calculator",
+  "alternateName": "pace-calculator",
+  "url": "https://toolstand.io/tools/pace-calculator/",
+  "description": "A running analytics tool that computes pace, time, or distance from any two inputs with race split tables for 5K, 10K, half marathon, and marathon. It solves the problem of planning race pacing strategies for distance running.",
+  "applicationCategory": "CalculatorApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "calculator, health",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff;--surface:#f9fafb;--text:#111827;--text-secondary:#6b7280;--border:#e5e7eb;--accent:#f97316;--accent-hover:#ea580c;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,.1)}
+[data-theme="dark"]{--bg:#111827;--surface:#1f2937;--text:#f9fafb;--text-secondary:#9ca3af;--border:#374151;--shadow:0 1px 3px rgba(0,0,0,.4)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:0 16px}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:50}
+.header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.25rem;text-decoration:none;color:var(--text)}
+.nav{display:flex;gap:16px;align-items:center}
+.nav a{color:var(--text-secondary);text-decoration:none;font-size:.9rem}
+.nav a:hover{color:var(--accent)}
+.btn-icon{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;font-size:1.1rem;color:var(--text)}
+.ad-banner{max-width:1100px;margin:16px auto;padding:0 16px;min-height:90px;display:flex;align-items:center;justify-content:center}
+.tool-container{max-width:700px;margin:0 auto;padding:24px 16px}
+.tool-header{text-align:center;margin-bottom:28px}
+.tool-header h1{font-size:2rem;margin-bottom:6px}
+.tool-header p{color:var(--text-secondary);font-size:1.05rem}
+.mode-tabs{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.mode-tab{flex:1;padding:10px;text-align:center;cursor:pointer;background:var(--surface);color:var(--text-secondary);font-size:.85rem;font-weight:600;border:none;transition:all .2s}
+.mode-tab:not(:last-child){border-right:1px solid var(--border)}
+.mode-tab.active{background:var(--accent);color:#fff}
+.mode-tab:hover:not(.active){background:var(--bg)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-weight:600;font-size:.88rem;color:var(--text-secondary)}
+.form-group select,.form-group input{padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.95rem;width:100%}
+.form-group select:focus,.form-group input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(249,115,22,.2)}
+.form-group input:disabled{opacity:.5;cursor:not-allowed;background:var(--surface)}
+.time-inputs{display:flex;gap:8px;align-items:center}
+.time-inputs input{flex:1}
+.time-inputs span{color:var(--text-secondary);font-size:.85rem}
+.result-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:20px;display:none}
+.result-box.visible{display:block}
+.result-box .big-value{font-size:2rem;font-weight:700;color:var(--accent)}
+.result-box .label{font-size:.85rem;color:var(--text-secondary);margin-top:4px}
+.split-table{width:100%;border-collapse:collapse;display:none}
+.split-table.visible{display:table}
+.split-table th,.split-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem}
+.split-table th{color:var(--text-secondary);font-weight:600;font-size:.8rem;text-transform:uppercase}
+.split-table tr:hover{background:var(--surface)}
+.split-table .highlight{color:var(--accent);font-weight:600}
+.embed-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0;text-align:left}
+.embed-cta h3{margin-bottom:8px;font-size:1.1rem}
+.embed-cta p{color:var(--text-secondary);font-size:.9rem;margin-bottom:16px}
+.embed-code{width:100%;font-family:monospace;font-size:.78rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px 80px 14px 14px;color:var(--text);resize:vertical;line-height:1.5;white-space:pre;overflow-x:auto}
+.embed-code-wrapper{position:relative}
+.btn-copy-embed{position:absolute;top:8px;right:8px;padding:6px 14px;background:#083fa1;color:#fff;border:none;border-radius:4px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-copy-embed:hover{background:#062d7a}
+.footer{background:var(--surface);border-top:1px solid var(--border);padding:20px 0;margin-top:40px;text-align:center}
+.footer p{color:var(--text-secondary)}
+.footer .small{font-size:.8rem;margin-top:6px}
+.footer .small a{color:var(--text-secondary);text-decoration:none;margin:0 6px}
+.footer .small a:hover{color:var(--accent)}
+.btn{display:inline-block;padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:.95rem;font-weight:600;cursor:pointer;width:100%}
+.btn:hover{background:var(--accent-hover)}
+@media(max-width:500px){.form-grid{grid-template-columns:1fr}.tool-header h1{font-size:1.5rem}}
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/pace-calculator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/pace-calculator/" />
+<meta property="og:title" content="Pace Calculator — Free Running Pace Tool | ToolStand">
+<meta property="og:description" content="Calculate your running pace, time, or distance. Includes common race distances and split times. Free online pace calculator for runners.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/pace-calculator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pace Calculator — Free Running Pace Tool | ToolStand">
+<meta name="twitter:description" content="Calculate your running pace, time, or distance. Includes common race distances and split times. Free online pace calculator for runners.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header"><div class="container"><a href="/" class="logo">🧰 <strong>ToolStand</strong></a><nav class="nav"><a href="/blog/">Blog</a><a href="#embed-section">Embed</a><button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button></nav></div></header>
+<div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<main class="tool-container">
+  <div class="tool-header"><h1>🏃 Pace Calculator</h1><p>Calculate your running pace, time, or distance. Enter any two values to find the third.</p></div>
+  <div class="mode-tabs" id="pcModeTabs">
+    <button class="mode-tab active" data-mode="pace">Calculate Pace</button>
+    <button class="mode-tab" data-mode="time">Calculate Time</button>
+    <button class="mode-tab" data-mode="distance">Calculate Distance</button>
+  </div>
+  <div class="form-grid">
+    <div class="form-group" id="pcTimeGroup"><label for="pcHours">Time</label><div class="time-inputs"><input type="number" id="pcHours" min="0" value="0" placeholder="hrs"><span>hrs</span><input type="number" id="pcMinutes" min="0" max="59" value="25" placeholder="min"><span>min</span><input type="number" id="pcSeconds" min="0" max="59" value="0" placeholder="sec"><span>sec</span></div></div>
+    <div class="form-group" id="pcDistanceGroup"><label for="pcDistance">Distance</label><input type="number" id="pcDistance" min="0.01" step="0.01" value="5" placeholder="e.g. 5"></div>
+    <div class="form-group" id="pcPaceGroup"><label for="pcPaceMin">Pace (per unit)</label><div class="time-inputs"><input type="number" id="pcPaceMin" min="0" value="5" placeholder="min"><span>min</span><input type="number" id="pcPaceSec" min="0" max="59" value="0" placeholder="sec"><span>sec</span></div></div>
+    <div class="form-group"><label for="pcDistUnit">Distance Unit</label><select id="pcDistUnit"><option value="km">Kilometers (km)</option><option value="miles">Miles</option></select></div>
+    <div class="form-group"><label for="pcPaceUnit">Pace Unit</label><select id="pcPaceUnit"><option value="km">per km</option><option value="mile">per mile</option></select></div>
+    <div class="form-group full"><button class="btn" id="pcCalculate">Calculate</button></div>
+  </div>
+  <div class="result-box" id="pcResult">
+    <div class="big-value" id="pcResultValue">—</div>
+    <div class="label" id="pcResultLabel"></div>
+  </div>
+  <table class="split-table" id="pcSplitTable">
+    <thead><tr><th>Race Distance</th><th>Estimated Time</th><th>Pace</th></tr></thead>
+    <tbody id="pcSplitBody"></tbody>
+  </table>
+  <section id="embed-section" class="embed-cta"><h3>🔗 Embed this tool on your site</h3><p>Add this free pace calculator to your website.</p><textarea class="embed-code" rows="3" readonly onclick="this.select()">&lt;iframe src="https://toolstand.io/tools/pace-calculator/embed" width="100%" height="550" frameborder="0"&gt;&lt;/iframe&gt;
+&lt;p style="text-align:center;font-size:12px"&gt;Powered by &lt;a href="https://toolstand.io/tools/pace-calculator/"&gt;ToolStand Pace Calculator&lt;/a&gt;&lt;/p&gt;</textarea><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">Click to copy</p></section>
+
+  <h2>How to Use the Pace Calculator</h2>
+  <ol>
+    <li><strong>Choose your calculation mode</strong> — select "Calculate Pace" (find pace from time + distance), "Calculate Time" (find finish time from pace + distance), or "Calculate Distance" (find distance from time + pace).</li>
+    <li><strong>Enter your known values</strong> — fill in the two fields that aren't grayed out. For time, use hours:minutes:seconds. For pace, use minutes:seconds per km or mile.</li>
+    <li><strong>Select distance and pace units</strong> — choose kilometers or miles. The pace unit can differ from the distance unit, e.g., pace per km for a race measured in miles.</li>
+    <li><strong>Check the race split table</strong> — scroll down to see estimated finish times for 5K, 10K, half marathon, and marathon at your current pace.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How accurate is pace & running calculator compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does pace & running calculator store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use pace & running calculator on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does pace & running calculator show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed pace & running calculator on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does pace & running calculator work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/stopwatch/">Stopwatch</a>
+    <a href="/tools/countdown/">Countdown Timer</a>
+    <a href="/tools/unit-converter/">Unit Converter</a>
+    <a href="/tools/bmi-calculator/">BMI Calculator</a>
+    <a href="/tools/tip-calculator/">Tip Calculator</a>
+  </nav>
+
+</main>
+<footer class="footer"><div class="container"><p>🧰 <strong>ToolStand</strong> — Free tools, always.</p><p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p></div></footer>
+<script>
+(function() {
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle?.addEventListener('click', () => { const next = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('toolstand-theme', next); });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+
+  let currentMode = 'pace';
+
+  const raceDistances = {
+    km: [
+      { name: '5K', dist: 5 },
+      { name: '10K', dist: 10 },
+      { name: 'Half Marathon', dist: 21.0975 },
+      { name: 'Marathon', dist: 42.195 }
+    ],
+    miles: [
+      { name: '5K', dist: 3.10686 },
+      { name: '10K', dist: 6.21371 },
+      { name: 'Half Marathon', dist: 13.1094 },
+      { name: 'Marathon', dist: 26.2188 }
+    ]
+  };
+
+  function getTimeInSeconds() {
+    const h = parseInt(document.getElementById('pcHours').value) || 0;
+    const m = parseInt(document.getElementById('pcMinutes').value) || 0;
+    const s = parseInt(document.getElementById('pcSeconds').value) || 0;
+    return h * 3600 + m * 60 + s;
+  }
+
+  function getPaceInSeconds() {
+    const m = parseInt(document.getElementById('pcPaceMin').value) || 0;
+    const s = parseInt(document.getElementById('pcPaceSec').value) || 0;
+    return m * 60 + s;
+  }
+
+  function getDistance() {
+    return parseFloat(document.getElementById('pcDistance').value) || 0;
+  }
+
+  function formatTime(totalSeconds) {
+    if (totalSeconds < 0 || !isFinite(totalSeconds)) return '—';
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = Math.floor(totalSeconds % 60);
+    if (h > 0) return h + 'h ' + m + 'm ' + s + 's';
+    if (m > 0) return m + 'm ' + s + 's';
+    return s + 's';
+  }
+
+  function formatPace(paceSeconds) {
+    if (paceSeconds < 0 || !isFinite(paceSeconds)) return '—';
+    const m = Math.floor(paceSeconds / 60);
+    const s = Math.floor(paceSeconds % 60);
+    return m + ':' + String(s).padStart(2, '0');
+  }
+
+  function setTimeFields(totalSeconds) {
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = Math.floor(totalSeconds % 60);
+    document.getElementById('pcHours').value = h;
+    document.getElementById('pcMinutes').value = m;
+    document.getElementById('pcSeconds').value = s;
+  }
+
+  function setPaceFields(paceSeconds) {
+    const m = Math.floor(paceSeconds / 60);
+    const s = Math.floor(paceSeconds % 60);
+    document.getElementById('pcPaceMin').value = m;
+    document.getElementById('pcPaceSec').value = s;
+  }
+
+  function updateDisabledFields() {
+    const timeGroup = document.getElementById('pcTimeGroup');
+    const distGroup = document.getElementById('pcDistanceGroup');
+    const paceGroup = document.getElementById('pcPaceGroup');
+    const timeInputs = timeGroup.querySelectorAll('input');
+    const paceInputs = paceGroup.querySelectorAll('input');
+    const distInput = document.getElementById('pcDistance');
+
+    // Enable all first
+    timeInputs.forEach(i => i.disabled = false);
+    paceInputs.forEach(i => i.disabled = false);
+    distInput.disabled = false;
+
+    if (currentMode === 'pace') {
+      // Calculate pace: time + distance are inputs, pace is output
+      paceInputs.forEach(i => i.disabled = true);
+    } else if (currentMode === 'time') {
+      // Calculate time: pace + distance are inputs, time is output
+      timeInputs.forEach(i => i.disabled = true);
+    } else {
+      // Calculate distance: pace + time are inputs, distance is output
+      distInput.disabled = true;
+    }
+  }
+
+  function calculate() {
+    updateDisabledFields();
+
+    const distUnit = document.getElementById('pcDistUnit').value;
+    const paceUnit = document.getElementById('pcPaceUnit').value;
+    const distance = getDistance();
+    const timeSec = getTimeInSeconds();
+    const paceSec = getPaceInSeconds();
+
+    let resultValue = '—';
+    let resultLabel = '';
+
+    if (currentMode === 'pace') {
+      // pace = time / distance
+      if (distance > 0 && timeSec > 0) {
+        const pace = timeSec / distance;
+        resultValue = formatPace(pace);
+        resultLabel = 'per ' + (paceUnit === 'km' ? 'km' : 'mile');
+        setPaceFields(pace);
+        updateSplitTable(pace, distUnit);
+      }
+    } else if (currentMode === 'time') {
+      // time = pace * distance
+      if (distance > 0 && paceSec > 0) {
+        const totalSec = paceSec * distance;
+        resultValue = formatTime(totalSec);
+        resultLabel = 'total time';
+        setTimeFields(totalSec);
+        updateSplitTable(paceSec, distUnit);
+      }
+    } else {
+      // distance = time / pace
+      if (timeSec > 0 && paceSec > 0) {
+        const dist = timeSec / paceSec;
+        resultValue = dist.toFixed(2) + ' ' + distUnit;
+        resultLabel = 'total distance';
+        document.getElementById('pcDistance').value = dist.toFixed(2);
+        updateSplitTable(paceSec, distUnit);
+      }
+    }
+
+    document.getElementById('pcResultValue').textContent = resultValue;
+    document.getElementById('pcResultLabel').textContent = resultLabel;
+    document.getElementById('pcResult').classList.add('visible');
+  }
+
+  function updateSplitTable(paceSeconds, distUnit) {
+    const races = raceDistances[distUnit];
+    const tbody = document.getElementById('pcSplitBody');
+    tbody.innerHTML = races.map(r => {
+      const totalSec = paceSeconds * r.dist;
+      return '<tr><td>' + r.name + '</td><td class="highlight">' + formatTime(totalSec) + '</td><td>' + formatPace(paceSeconds) + ' /' + distUnit + '</td></tr>';
+    }).join('');
+    document.getElementById('pcSplitTable').classList.add('visible');
+  }
+
+  document.getElementById('pcModeTabs').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('mode-tab')) return;
+    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+    currentMode = e.target.dataset.mode;
+    calculate();
+  });
+
+  document.getElementById('pcCalculate').addEventListener('click', calculate);
+  ['pcHours','pcMinutes','pcSeconds','pcDistance','pcPaceMin','pcPaceSec','pcDistUnit','pcPaceUnit'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el.tagName === 'SELECT') el.addEventListener('change', calculate);
+    else el.addEventListener('input', calculate);
+  });
+
+  calculate();
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is pace & running calculator compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does pace & running calculator store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use pace & running calculator on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does pace & running calculator show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed pace & running calculator on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does pace & running calculator work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Pace Calculator — Free Running Pace Tool","item":"https://toolstand.io/tools/pace-calculator/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body></html>

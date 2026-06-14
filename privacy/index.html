@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — ToolStand</title>
+<meta name="description" content="ToolStand privacy policy — how we handle your data, cookies, and analytics.">
+<meta name="theme-color" content="#2563eb">
+<link rel="stylesheet" href="/shared/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy — ToolStand","description":"ToolStand privacy policy — how we handle your data, cookies, and analytics.","url":"https://toolstand.io/privacy/","isPartOf":{"@type":"WebSite","name":"ToolStand","url":"https://toolstand.io"}}
+</script>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/privacy/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/privacy/" />
+<meta property="og:title" content="Privacy Policy — ToolStand">
+<meta property="og:description" content="ToolStand privacy policy — how we handle your data, cookies, and analytics.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/privacy/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy Policy — ToolStand">
+<meta name="twitter:description" content="ToolStand privacy policy — how we handle your data, cookies, and analytics.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="/about.html">About</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>Privacy Policy</h1>
+    <p>Last updated: June 2026</p>
+  </div>
+
+  <section style="display:flex;flex-direction:column;gap:24px">
+    <div>
+      <h2>1. No Personal Data Collection</h2>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        ToolStand does not require accounts, logins, or any form of personal data submission.
+        We do not collect names, email addresses, phone numbers, or any other personally identifiable information.
+        All tools work entirely in your browser with no server-side data storage.
+      </p>
+    </div>
+
+    <div>
+      <h2>2. Cookies &amp; Third-Party Services</h2>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        <strong>Google AdSense:</strong> We may display advertisements via Google AdSense. AdSense uses cookies
+        to serve ads based on your prior visits to this site and other websites. Google's use of advertising cookies
+        enables it and its partners to serve ads based on your visit to ToolStand and/or other sites on the Internet.
+      </p>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        You may opt out of personalized advertising by visiting
+        <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ads Settings</a>
+        or by using the
+        <a href="https://optout.aboutads.info" target="_blank" rel="noopener">NAI opt-out tool</a>.
+      </p>
+    </div>
+
+    <div>
+      <h2>3. Analytics</h2>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        We may use privacy-focused analytics (such as Cloudflare Web Analytics or similar) that do not use cookies
+        and do not track individual users across sites. These services provide aggregated, anonymized metrics
+        like page view counts and referrer information. No personal data is collected or stored.
+      </p>
+    </div>
+
+    <div>
+      <h2>4. Local Storage</h2>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        Some tools use your browser's local storage to remember preferences (such as your light/dark theme choice).
+        This data never leaves your device and is not accessible to us.
+      </p>
+    </div>
+
+    <div>
+      <h2>5. Children's Privacy</h2>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        ToolStand does not knowingly collect any personal information from children under the age of 13.
+        All tools are designed to function without any data collection, making them safe for all ages.
+      </p>
+    </div>
+
+    <div>
+      <h2>6. Changes to This Policy</h2>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        We may update this privacy policy from time to time. Changes will be posted on this page
+        with an updated revision date.
+      </p>
+    </div>
+
+    <div>
+      <h2>7. Contact</h2>
+      <p style="color:var(--text-secondary);margin-top:8px">
+        If you have questions about this privacy policy, contact us at
+        <a href="mailto:hello@toolstand.io">hello@toolstand.io</a>.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always. <a href="mailto:hello@toolstand.io">hello@toolstand.io</a></p>
+    <p class="small">
+      <a href="/privacy.html">Privacy</a> ·
+      <a href="/terms.html">Terms</a> ·
+      <a href="/about.html">About</a>
+    </p>
+    <p class="small">Powered by clean code and coffee ☕</p>
+  </div>
+</footer>
+
+<script>
+const toggle = document.getElementById('themeToggle');
+const saved = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', saved);
+toggle.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://toolstand.io/privacy/"}]}</script>
+</body>
+</html>

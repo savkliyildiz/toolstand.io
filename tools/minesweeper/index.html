@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Minesweeper — Play Free | ToolStand</title>
+<meta name="description" content="Play classic Minesweeper in your browser. Flag mines, clear cells, and win. Free, no downloads — perfect as a 404 page replacement.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#8b5cf6">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/minesweeper/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Minesweeper",
+  "alternateName": "minesweeper",
+  "url": "https://toolstand.io/tools/minesweeper/",
+  "description": "A classic puzzle game implementation with three difficulty levels (Easy, Medium, Hard) featuring flag placement and flood-fill reveal mechanics. It solves the problem of providing an ad-free, distraction-free logic puzzle experience.",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "game",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+
+<style>
+.ms-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.ms-score { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.ms-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; background: var(--border); padding: 3px; border-radius: var(--radius); width: 100%; max-width: 400px; aspect-ratio: 1/1; }
+.ms-cell { background: var(--bg-card); border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: background 0.1s; color: var(--text); user-select: none; aspect-ratio: 1/1; padding: 0; }
+.ms-cell:hover { background: var(--border); }
+.ms-cell.ms-revealed { background: var(--bg); cursor: default; }
+.ms-cell.ms-revealed:hover { background: var(--bg); }
+.ms-cell.ms-flagged { background: #fef3c7; }
+.ms-cell.ms-mine { background: #fecaca; }
+.ms-num-1 { color: #3b82f6; } .ms-num-2 { color: #22c55e; } .ms-num-3 { color: #ef4444; } .ms-num-4 { color: #7c3aed; }
+.ms-num-5 { color: #b91c1c; } .ms-num-6 { color: #0891b2; } .ms-num-7 { color: #1e293b; } .ms-num-8 { color: #64748b; }
+.ms-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.ms-difficulty { display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.ms-diff-btn { padding: 8px 16px; border: none; cursor: pointer; font-size: 0.8rem; font-weight: 600; background: var(--bg-card); color: var(--text-secondary); transition: all 0.15s; }
+.ms-diff-btn.ms-active { background: #8b5cf6; color: white; }
+.ms-btn { padding: 10px 24px; font-size: 0.9rem; font-weight: 600; background: #8b5cf6; color: white; border: none; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; }
+.ms-btn:hover { background: #7c3aed; }
+.ms-win { display: none; font-size: 1.4rem; font-weight: 800; color: #22c55e; text-align: center; }
+.ms-win.ms-show { display: block; }
+@media (max-width: 500px) { .ms-grid { max-width: 320px; } }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/minesweeper/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/minesweeper/" />
+<meta property="og:title" content="Minesweeper — Free Online Game | ToolStand">
+<meta property="og:description" content="Play classic Minesweeper in your browser. Flag mines, clear cells, and win. Free, no downloads — perfect as a 404 page replacement.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/minesweeper/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Minesweeper — Free Online Game | ToolStand">
+<meta name="twitter:description" content="Play classic Minesweeper in your browser. Flag mines, clear cells, and win. Free, no downloads — perfect as a 404 page replacement.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="#embed-section">Embed</a>
+      <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>💣 Minesweeper</h1>
+    <p>Classic minesweeper right in your browser. Flag the mines, clear the board — perfect as a 404 page replacement. Free, no ads during play.</p>
+  </div>
+
+  <div class="ms-container">
+    <div class="ms-difficulty" id="msDifficulty">
+      <button class="ms-diff-btn ms-active" data-level="easy">Easy (9×9, 10)</button>
+      <button class="ms-diff-btn" data-level="medium">Medium (16×16, 40)</button>
+      <button class="ms-diff-btn" data-level="hard">Hard (30×16, 99)</button>
+    </div>
+
+    <div class="ms-score">💣 Mines: <span id="msMineCount">10</span> &nbsp;|&nbsp; 🚩 Flags: <span id="msFlagCount">0</span></div>
+    <div class="ms-grid" id="msGrid"></div>
+    <div class="ms-win" id="msWin">🎉 You Win! All mines flagged!</div>
+    <div class="ms-controls">
+      <button class="ms-btn" id="msNewGame">🔄 New Game</button>
+    </div>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Minesweeper to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Minesweeper — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/minesweeper/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Minesweeper | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <h2>How to Play Minesweeper</h2>
+  <ol>
+    <li><strong>Choose a difficulty</strong> — Easy (9×9, 10 mines), Medium (16×16, 40 mines), or Hard (30×16, 99 mines). Beginners should start with Easy.</li>
+    <li><strong>Click to reveal cells</strong> — numbers show how many mines touch that cell. Use logic to identify safe cells. If you click a mine, game over.</li>
+    <li><strong>Right-click (or long-press on mobile) to flag</strong> — mark cells you suspect contain mines. The flag counter tracks how many flags you've placed vs. total mines.</li>
+    <li><strong>Clear all safe cells to win</strong> — the game ends when every non-mine cell is revealed. A victory message appears. Click "New Game" to play again.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>Is minesweeper truly free to play?</summary><p>Yes, 100% free — no in-game purchases, no premium levels, no ads interrupting gameplay. Built for quick breaks and mental refreshment, not monetization.</p></details>
+  <details><summary>Does minesweeper work on mobile touchscreens?</summary><p>Yes! Supports both touch (tap, swipe) and keyboard/mouse controls. Controls adapt for comfortable one-handed play on phones.</p></details>
+  <details><summary>Can I play minesweeper offline?</summary><p>Yes — once loaded, the game works without internet. Perfect for flights, commutes, or waiting rooms. No data connection needed.</p></details>
+  <details><summary>Does minesweeper have multiple difficulty levels?</summary><p>Yes, multiple difficulty levels available. Beginners should start with Easy to learn the mechanics, then progress to harder levels.</p></details>
+  <details><summary>How is my high score saved?</summary><p>High scores save automatically in your browser's localStorage. Your top 10 scores are displayed locally. Challenge friends by sharing a screenshot!</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/snake-game/">Snake Game</a>
+    <a href="/tools/wordle-solver/">Wordle Solver</a>
+    <a href="/tools/dead-pixel-test/">Dead Pixel Test</a>
+    <a href="/tools/decision-wheel/">Decision Wheel</a>
+    <a href="/tools/random-number/">Random Number Generator</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>🧰 <strong>ToolStand</strong> — Free tools, always.</p>
+    <p class="small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+const DIFFICULTY = {
+  easy: { rows: 9, cols: 9, mines: 10 },
+  medium: { rows: 16, cols: 16, mines: 40 },
+  hard: { rows: 30, cols: 16, mines: 99 }
+};
+let currentLevel = 'easy';
+let rows, cols, mines;
+let grid = [], revealed = [], flagged = [], minePos = new Set();
+let gameOver = false, flagCount = 0;
+
+function setLevel(level) {
+  currentLevel = level;
+  const cfg = DIFFICULTY[level];
+  rows = cfg.rows; cols = cfg.cols; mines = cfg.mines;
+  document.querySelectorAll('.ms-diff-btn').forEach(b => b.classList.toggle('ms-active', b.dataset.level === level));
+  initGame();
+}
+
+function initGame() {
+  grid = Array.from({ length: rows }, () => Array(cols).fill(0));
+  revealed = Array.from({ length: rows }, () => Array(cols).fill(false));
+  flagged = Array.from({ length: rows }, () => Array(cols).fill(false));
+  minePos = new Set();
+  gameOver = false; flagCount = 0;
+
+  while (minePos.size < mines) {
+    const r = Math.floor(Math.random() * rows);
+    const c = Math.floor(Math.random() * cols);
+    minePos.add(r * cols + c);
+  }
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (minePos.has(r * cols + c)) { grid[r][c] = -1; continue; }
+      let count = 0;
+      for (let dr = -1; dr <= 1; dr++)
+        for (let dc = -1; dc <= 1; dc++)
+          if ((dr || dc) && r+dr >= 0 && r+dr < rows && c+dc >= 0 && c+dc < cols && minePos.has((r+dr)*cols+(c+dc))) count++;
+      grid[r][c] = count;
+    }
+  }
+  updateUI(); render();
+}
+
+function flood(r, c) {
+  if (r < 0 || r >= rows || c < 0 || c >= cols) return;
+  if (revealed[r][c] || flagged[r][c]) return;
+  revealed[r][c] = true;
+  if (grid[r][c] === 0) {
+    for (let dr = -1; dr <= 1; dr++)
+      for (let dc = -1; dc <= 1; dc++)
+        if (dr || dc) flood(r+dr, c+dc);
+  }
+}
+
+function reveal(r, c) {
+  if (gameOver || revealed[r][c] || flagged[r][c]) return;
+  if (minePos.has(r * cols + c)) {
+    gameOver = true;
+    minePos.forEach(pos => { revealed[Math.floor(pos/cols)][pos%cols] = true; });
+    render(); return;
+  }
+  flood(r, c);
+  checkWin(); render();
+}
+
+function toggleFlag(r, c) {
+  if (gameOver || revealed[r][c]) return;
+  if (flagged[r][c]) { flagged[r][c] = false; flagCount--; }
+  else { if (flagCount >= mines) return; flagged[r][c] = true; flagCount++; }
+  updateUI(); render();
+}
+
+function checkWin() {
+  let allSafe = true;
+  for (let r = 0; r < rows; r++)
+    for (let c = 0; c < cols; c++)
+      if (!minePos.has(r*cols+c) && !revealed[r][c]) allSafe = false;
+  if (allSafe) { gameOver = true; document.getElementById('msWin').classList.add('ms-show'); }
+}
+
+function updateUI() {
+  document.getElementById('msMineCount').textContent = mines;
+  document.getElementById('msFlagCount').textContent = flagCount;
+}
+
+function render() {
+  const gridEl = document.getElementById('msGrid');
+  gridEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  gridEl.innerHTML = '';
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const cell = document.createElement('button');
+      cell.className = 'ms-cell'; cell.dataset.row = r; cell.dataset.col = c;
+      if (revealed[r][c]) {
+        cell.classList.add('ms-revealed');
+        if (grid[r][c] === -1) { cell.classList.add('ms-mine'); cell.textContent = '💣'; }
+        else if (grid[r][c] > 0) { cell.textContent = grid[r][c]; cell.classList.add('ms-num-'+grid[r][c]); }
+      } else if (flagged[r][c]) { cell.classList.add('ms-flagged'); cell.textContent = '🚩'; }
+      gridEl.appendChild(cell);
+    }
+  }
+}
+
+const gridEl = document.getElementById('msGrid');
+gridEl.addEventListener('click', e => { const c = e.target.closest('.ms-cell'); if (c) reveal(parseInt(c.dataset.row), parseInt(c.dataset.col)); });
+gridEl.addEventListener('contextmenu', e => { e.preventDefault(); const c = e.target.closest('.ms-cell'); if (c) toggleFlag(parseInt(c.dataset.row), parseInt(c.dataset.col)); });
+// Long-press for flag on mobile
+let longPressTimer;
+gridEl.addEventListener('touchstart', e => {
+  const cell = e.target.closest('.ms-cell');
+  if (!cell) return;
+  const r = parseInt(cell.dataset.row), c = parseInt(cell.dataset.col);
+  longPressTimer = setTimeout(() => toggleFlag(r, c), 500);
+});
+gridEl.addEventListener('touchend', () => clearTimeout(longPressTimer));
+gridEl.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+
+document.getElementById('msNewGame').addEventListener('click', () => {
+  document.getElementById('msWin').classList.remove('ms-show');
+  initGame();
+});
+document.getElementById('msDifficulty').addEventListener('click', e => {
+  if (e.target.tagName === 'BUTTON' && e.target.dataset.level) setLevel(e.target.dataset.level);
+});
+
+setLevel('easy');
+
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+  render();
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is minesweeper truly free to play?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, 100% free — no in-game purchases, no premium levels, no ads interrupting gameplay. Built for quick breaks and mental refreshment, not monetization."}}, {"@type": "Question", "name": "Does minesweeper work on mobile touchscreens?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Supports both touch (tap, swipe) and keyboard/mouse controls. Controls adapt for comfortable one-handed play on phones."}}, {"@type": "Question", "name": "Can I play minesweeper offline?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — once loaded, the game works without internet. Perfect for flights, commutes, or waiting rooms. No data connection needed."}}, {"@type": "Question", "name": "Does minesweeper have multiple difficulty levels?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, multiple difficulty levels available. Beginners should start with Easy to learn the mechanics, then progress to harder levels."}}, {"@type": "Question", "name": "How is my high score saved?", "acceptedAnswer": {"@type": "Answer", "text": "High scores save automatically in your browser's localStorage. Your top 10 scores are displayed locally. Challenge friends by sharing a screenshot!"}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Minesweeper — Free Online Game","item":"https://toolstand.io/tools/minesweeper/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>

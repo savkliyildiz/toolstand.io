@@ -1,0 +1,847 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Savings Calculator — Calculate Online | ToolStand</title>
+<meta name="description" content="Calculate how your savings grow over time with compound interest. See final balance, total contributions, and interest earned with an interactive chart.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#22c55e">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/savings-calculator/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Savings Calculator",
+  "alternateName": "savings-calculator",
+  "url": "https://toolstand.io/tools/savings-calculator/",
+  "description": "A financial planning tool that projects savings growth over time using compound interest formulas. Calculates final balance, total contributions, and interest earned with an interactive line chart.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Organization", "name": "ToolStand", "url": "https://toolstand.io" },
+  "keywords": "calculator",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-card: #f9fafb;
+  --text: #111827;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --primary: #22c55e;
+  --primary-dark: #16a34a;
+  --primary-light: #dcfce7;
+  --accent: #22c55e;
+  --radius: 0.75rem;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border: #334155;
+  --primary: #4ade80;
+  --primary-dark: #22c55e;
+  --primary-light: #052e16;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.2s, color 0.2s;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.logo strong { color: var(--primary); }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.nav a:hover { color: var(--primary); }
+
+.btn-icon {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--text);
+  transition: background 0.15s;
+}
+
+.btn-icon:hover { background: var(--primary-light); }
+
+.ad-banner {
+  text-align: center;
+  padding: 0.75rem 0;
+  min-height: 90px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.ad-banner ins { display: block; }
+
+.tool-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+.tool-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.tool-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.tool-header p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Input Section */
+.inputs-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .inputs-grid { grid-template-columns: 1fr; }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.input-group input {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.15s;
+  outline: none;
+  width: 100%;
+}
+
+.input-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.input-group .input-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Output Cards */
+.outputs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .outputs-grid { grid-template-columns: 1fr; }
+}
+
+.output-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s;
+}
+
+.output-card:hover { transform: translateY(-2px); }
+
+.output-card .card-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.output-card .card-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  word-break: break-all;
+}
+
+.output-card.highlight .card-value {
+  font-size: 2rem;
+}
+
+/* Chart Container */
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.chart-container canvas {
+  width: 100%;
+  height: 360px;
+}
+
+/* Embed Section */
+.embed-section {
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.embed-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.embed-section p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.embed-code {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.embed-code textarea {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  min-height: 60px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+/* SEO Content */
+.seo-content {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.seo-content h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+.seo-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.seo-content p, .seo-content li {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.seo-content ol, .seo-content ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.seo-content .section-block {
+  margin-bottom: 2rem;
+}
+
+details {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+details summary {
+  font-weight: 600;
+  color: var(--text);
+  outline: none;
+  font-size: 0.95rem;
+}
+
+details p {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.related-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.related-tools a {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2rem;
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.related-tools a:hover { background: var(--primary-light); border-color: var(--primary); }
+
+/* Footer */
+.footer {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.footer a {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.footer a:hover { text-decoration: underline; }
+
+.footer .footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.footer .footer-links a {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.footer .footer-links a:hover { color: var(--primary-dark); }
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/savings-calculator/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/savings-calculator/" />
+<meta property="og:title" content="Savings Calculator — Free Online Savings Growth & Interest Calculator | ToolStand">
+<meta property="og:description" content="Calculate how your savings grow over time with compound interest. See final balance, total contributions, and interest earned with an interactive chart.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/savings-calculator/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Savings Calculator — Free Online Savings Growth & Interest Calculator | ToolStand">
+<meta name="twitter:description" content="Calculate how your savings grow over time with compound interest. See final balance, total contributions, and interest earned with an interactive chart.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+
+<body>
+<header class="header"><div class="container"><a href="/" class="logo">🧰 <strong>ToolStand</strong></a><nav class="nav"><a href="/blog/">Blog</a><a href="#embed-section">Embed</a><button id="themeToggle" class="btn-icon" aria-label="Toggle theme">🌓</button></nav></div></header>
+
+<div class="ad-banner">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-8632240779421770"
+       data-ad-slot="1234567890"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</div>
+
+<main class="tool-container">
+  <div class="tool-header">
+    <h1>💰 Savings Calculator</h1>
+    <p>Project how your savings grow over time with compound interest. See your final balance, total contributions, and interest earned — all in one interactive chart.</p>
+  </div>
+
+  <section class="inputs-section">
+    <div class="inputs-grid">
+      <div class="input-group">
+        <label for="initialDeposit">Initial Deposit ($)</label>
+        <input type="number" id="initialDeposit" value="5000" min="0" step="0.01" placeholder="e.g. 5000">
+        <span class="input-hint">Starting amount you already have saved</span>
+      </div>
+      <div class="input-group">
+        <label for="monthlyContribution">Monthly Contribution ($)</label>
+        <input type="number" id="monthlyContribution" value="200" min="0" step="0.01" placeholder="e.g. 200">
+        <span class="input-hint">Amount you add each month</span>
+      </div>
+      <div class="input-group">
+        <label for="interestRate">Annual Interest Rate (%)</label>
+        <input type="number" id="interestRate" value="5" min="0" step="0.01" placeholder="e.g. 5">
+        <span class="input-hint">Expected yearly return (e.g. 5 for 5%)</span>
+      </div>
+      <div class="input-group">
+        <label for="years">Number of Years</label>
+        <input type="number" id="years" value="20" min="1" step="1" placeholder="e.g. 20">
+        <span class="input-hint">How long you plan to save</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="outputs-grid">
+    <div class="output-card highlight">
+      <div class="card-label">Final Balance</div>
+      <div class="card-value" id="finalBalance">$0.00</div>
+    </div>
+    <div class="output-card">
+      <div class="card-label">Total Contributions</div>
+      <div class="card-value" id="totalContributions">$0.00</div>
+    </div>
+    <div class="output-card">
+      <div class="card-label">Interest Earned</div>
+      <div class="card-value" id="interestEarned">$0.00</div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="savingsChart"></canvas>
+  </div>
+
+    <section class="embed-cta">
+    <h3>📌 Embed This Tool</h3>
+    <p>Add the Savings Calculator to your website for free. Just copy and paste the code below.</p>
+    <div class="embed-code-wrapper">
+      <textarea class="embed-code" readonly rows="5" id="embedCodeInput">&lt;!-- Savings Calculator — Embed by ToolStand --&gt;
+&lt;div style="position:relative;width:100%;max-width:100%;overflow:hidden;"&gt;
+  &lt;iframe src="https://toolstand.io/tools/savings-calculator/embed.html" 
+    width="100%" height="500" frameborder="0"
+    style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;"
+    loading="lazy" 
+    title="Savings Calculator | ToolStand"
+    allow="clipboard-write"
+    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+      <button class="btn-copy-embed" onclick="copyEmbedCode()" title="Copy embed code">📋 Copy</button>
+    </div>
+  </section>
+
+  <section class="seo-content">
+    <div class="section-block">
+      <h2>📖 How to Use the Savings Calculator</h2>
+      <ol>
+        <li><strong>Enter your starting point</strong> — Input how much you already have saved as your Initial Deposit. If you're starting from zero, just leave it at $0.</li>
+        <li><strong>Set your monthly contribution</strong> — Enter the amount you plan to save each month. Even small, consistent contributions add up significantly over time thanks to compounding.</li>
+        <li><strong>Choose your interest rate and timeline</strong> — Input your expected annual interest rate (e.g., 5% for a high-yield savings account or conservative investment) and how many years you'll save.</li>
+        <li><strong>Review your results</strong> — The calculator instantly shows your final balance, total money you put in, and how much came from interest. Use the chart to see your savings trajectory year by year.</li>
+      </ol>
+    </div>
+
+    <div class="section-block">
+      <h2>❓ Frequently Asked Questions</h2>
+      <details>
+        <summary>How is compound interest calculated?</summary>
+        <p>This calculator uses the future value formula with monthly compounding: FV = P × (1 + r)^n + PMT × ((1 + r)^n − 1) / r, where P is your initial deposit, PMT is your monthly contribution, r is the monthly interest rate (annual rate ÷ 12), and n is the total number of months.</p>
+      </details>
+      <details>
+        <summary>Does this account for inflation or taxes?</summary>
+        <p>No, this calculator shows nominal (pre-inflation) values. It does not account for taxes on interest or investment gains. For inflation-adjusted projections, check out our Inflation Calculator.</p>
+      </details>
+      <details>
+        <summary>What interest rate should I use?</summary>
+        <p>This depends on your savings vehicle. High-yield savings accounts currently offer around 3–5% APY. Conservative investment portfolios historically return 5–7% annually. Use a rate that matches your actual savings or investment strategy.</p>
+      </details>
+      <details>
+        <summary>Can I use this for retirement planning?</summary>
+        <p>Absolutely! While this calculator gives you a straightforward savings projection, for retirement-specific planning with tax advantages and withdrawal strategies, try our dedicated Retirement Calculator.</p>
+      </details>
+    </div>
+
+    <div class="section-block">
+      <h2>🔗 Related Tools</h2>
+      <div class="related-tools">
+        <a href="/tools/retirement-calculator/">Retirement Calculator</a>
+        <a href="/tools/compound-interest/">Compound Interest</a>
+        <a href="/tools/loan-calculator/">Loan Calculator</a>
+        <a href="/tools/dca-calculator/">DCA Calculator</a>
+        <a href="/tools/inflation-calculator/">Inflation Calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How accurate is savings calculator compared to professional calculators?</summary><p>Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional.</p></details>
+  <details><summary>Does savings calculator store my input data or calculation results?</summary><p>No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter.</p></details>
+  <details><summary>Can I use savings calculator on my phone?</summary><p>Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed.</p></details>
+  <details><summary>Why does savings calculator show a different result than another website?</summary><p>Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units.</p></details>
+  <details><summary>Can I embed savings calculator on my own website?</summary><p>Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site.</p></details>
+  <details><summary>Does savings calculator work offline?</summary><p>Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas.</p></details>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Service</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <p>© 2026 <a href="/">ToolStand</a>. All calculators are free to use. No sign-up required.</p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // --- DOM refs ---
+  var initialEl   = document.getElementById('initialDeposit');
+  var monthlyEl   = document.getElementById('monthlyContribution');
+  var rateEl      = document.getElementById('interestRate');
+  var yearsEl     = document.getElementById('years');
+  var finalBalEl  = document.getElementById('finalBalance');
+  var totalContEl = document.getElementById('totalContributions');
+  var interestEl  = document.getElementById('interestEarned');
+  var chartCtx    = document.getElementById('savingsChart').getContext('2d');
+
+  // --- Helpers ---
+  function fmtCurrency(val) {
+    return '$' + val.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function getInputs() {
+    return {
+      P:   parseFloat(initialEl.value)   || 0,
+      PMT: parseFloat(monthlyEl.value)   || 0,
+      r:   (parseFloat(rateEl.value)     || 0) / 100 / 12, // monthly rate
+      n:   (parseInt(yearsEl.value, 10)  || 0) * 12          // total months
+    };
+  }
+
+  // FV = P * (1+r)^n + PMT * ((1+r)^n - 1) / r
+  function calcFV(P, r, n, PMT) {
+    if (r === 0) return P + PMT * n;
+    var factor = Math.pow(1 + r, n);
+    return P * factor + PMT * (factor - 1) / r;
+  }
+
+  function getChartColors() {
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return {
+      line:   isDark ? '#4ade80' : '#22c55e',
+      fill:   isDark ? 'rgba(74, 222, 128, 0.18)' : 'rgba(34, 197, 94, 0.15)',
+      grid:   isDark ? 'rgba(148, 163, 184, 0.12)' : 'rgba(107, 114, 128, 0.12)',
+      text:   isDark ? '#94a3b8' : '#6b7280',
+    };
+  }
+
+  // --- Chart ---
+  var chart = new Chart(chartCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Balance',
+        data: [],
+        borderColor: '#22c55e',
+        backgroundColor: 'rgba(34, 197, 94, 0.15)',
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 3,
+        pointBackgroundColor: '#22c55e',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 1.5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          titleFont: { size: 13 },
+          bodyFont: { size: 12 },
+          padding: 10,
+          callbacks: {
+            label: function(ctx) {
+              return 'Balance: ' + fmtCurrency(ctx.parsed.y);
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Years', font: { size: 12, weight: '600' } },
+          grid: { color: 'rgba(107, 114, 128, 0.12)', drawBorder: false },
+          ticks: { padding: 8, color: '#6b7280' }
+        },
+        y: {
+          title: { display: true, text: 'Balance ($)', font: { size: 12, weight: '600' } },
+          grid: { color: 'rgba(107, 114, 128, 0.12)', drawBorder: false },
+          ticks: {
+            padding: 8,
+            color: '#6b7280',
+            callback: function(val) {
+              if (val >= 1e6) return '$' + (val / 1e6).toFixed(1) + 'M';
+              if (val >= 1e3) return '$' + (val / 1e3).toFixed(0) + 'K';
+              return '$' + val;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Update ---
+  function update() {
+    var inp  = getInputs();
+    var fv   = calcFV(inp.P, inp.r, inp.n, inp.PMT);
+    var totalContrib = inp.P + inp.PMT * inp.n;
+    var interestEarned = fv - totalContrib;
+
+    finalBalEl.textContent  = fmtCurrency(fv);
+    totalContEl.textContent = fmtCurrency(totalContrib);
+    interestEl.textContent  = fmtCurrency(interestEarned);
+
+    // Build yearly data points
+    var yearsTotal = parseInt(yearsEl.value, 10) || 0;
+    var labels = [];
+    var data = [];
+
+    for (var y = 0; y <= yearsTotal; y++) {
+      labels.push('Year ' + y);
+      var months = y * 12;
+      data.push(calcFV(inp.P, inp.r, months, inp.PMT));
+    }
+
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = data;
+
+    var colors = getChartColors();
+    chart.data.datasets[0].borderColor = colors.line;
+    chart.data.datasets[0].backgroundColor = colors.fill;
+    chart.data.datasets[0].pointBackgroundColor = colors.line;
+    chart.options.scales.x.ticks.color = colors.text;
+    chart.options.scales.x.title.color = colors.text;
+    chart.options.scales.y.ticks.color = colors.text;
+    chart.options.scales.y.title.color = colors.text;
+    chart.options.scales.x.grid.color = colors.grid;
+    chart.options.scales.y.grid.color = colors.grid;
+
+    chart.update();
+  }
+
+  // --- Event listeners ---
+  [initialEl, monthlyEl, rateEl, yearsEl].forEach(function(el) {
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+
+  // --- Copy embed code ---
+  document.getElementById('copyEmbedBtn').addEventListener('click', function() {
+    var ta = document.getElementById('embedCode');
+    ta.select();
+    ta.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(ta.value).then(function() {
+      var btn = document.getElementById('copyEmbedBtn');
+      var orig = btn.textContent;
+      btn.textContent = '✅ Copied!';
+      setTimeout(function() { btn.textContent = orig; }, 2000);
+    }).catch(function() {
+      alert('Copy failed. Please select and copy manually.');
+    });
+  });
+
+  // --- Watch theme changes (for chart colors) ---
+  var themeObserver = new MutationObserver(function() {
+    update();
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // --- Initial render ---
+  update();
+})();
+</script>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is savings calculator compared to professional calculators?", "acceptedAnswer": {"@type": "Answer", "text": "Uses standard mathematical formulas identical to professional-grade tools. For critical decisions (financial, medical, legal), always cross-reference with a qualified professional."}}, {"@type": "Question", "name": "Does savings calculator store my input data or calculation results?", "acceptedAnswer": {"@type": "Answer", "text": "No. All calculations happen in your browser using JavaScript. Your numbers never leave your device — ToolStand doesn't collect, store, or transmit any data you enter."}}, {"@type": "Question", "name": "Can I use savings calculator on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Fully mobile-responsive. Open toolstand.io on your phone browser — Chrome on Android, Safari on iPhone. No app download needed."}}, {"@type": "Question", "name": "Why does savings calculator show a different result than another website?", "acceptedAnswer": {"@type": "Answer", "text": "Small differences can occur from rounding precision or formula variants. Our tools use widely-accepted standard formulas. If the difference is large, double-check your input units."}}, {"@type": "Question", "name": "Can I embed savings calculator on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Every ToolStand tool has a free embed option. Scroll to the 'Embed This Tool' section, copy the code, and paste it on your site."}}, {"@type": "Question", "name": "Does savings calculator work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page loads, the tool works without internet. Calculations run in your browser. Keep the tab open and use it anywhere — airplane, subway, remote areas."}}]}</script>
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolstand.io/" },
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://toolstand.io/tools/" },
+    { "@type": "ListItem", "position": 3, "name": "Savings Calculator", "item": "https://toolstand.io/tools/savings-calculator/" }
+  ]
+}</script>
+
+<script>
+// --- Theme Toggle ---
+(function() {
+  var toggle = document.getElementById('themeToggle');
+  var html = document.documentElement;
+
+  // Load saved theme
+  var saved = localStorage.getItem('toolstand-theme');
+  if (saved === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+  } else if (saved === 'light') {
+    html.removeAttribute('data-theme');
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    html.setAttribute('data-theme', 'dark');
+  }
+
+  toggle.addEventListener('click', function() {
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('toolstand-theme', 'light');
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('toolstand-theme', 'dark');
+    }
+  });
+})();
+</script>
+
+<script>
+// --- Service Worker Registration ---
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+      console.log('ServiceWorker registered with scope:', reg.scope);
+    }).catch(function(err) {
+      console.log('ServiceWorker registration failed:', err);
+    });
+  });
+}
+</script>
+
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body></html>

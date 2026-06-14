@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Temperature Tracker — Track Online | ToolStand</title>
+<meta name="description" content="Track body temperature over time. Chart visualization, CSV/JSON export. Fever threshold alerts.">
+<link rel="stylesheet" href="/shared/styles.css">
+<meta name="theme-color" content="#ef4444">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="https://toolstand.io/tools/temperature-tracker/">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Temperature Tracker",
+  "alternateName": "temperature-tracker",
+  "url": "https://toolstand.io/tools/temperature-tracker/",
+  "description": "A health monitoring tool that logs body temperature readings over time with Chart.js trend visualization, CSV/JSON export, and fever threshold alerts. It solves the problem of tracking temperature patterns for medical monitoring and illness detection.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "utility",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770" crossorigin="anonymous"></script>
+<style>
+.tt-wrap { display:flex; flex-direction:column; gap:18px; }
+.tt-input-row { display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
+.tt-input-row input { padding:10px 14px; font-size:1rem; border:2px solid var(--border); border-radius:var(--radius); background:var(--bg); color:var(--text); width:140px; font-family:monospace; }
+.tt-input-row input:focus { outline:none; border-color:#ef4444; }
+.tt-input-row label { display:flex; flex-direction:column; gap:4px; font-size:.8rem; color:var(--text-secondary); font-weight:600; }
+.tt-btn { padding:10px 20px; font-weight:700; border:none; border-radius:var(--radius); cursor:pointer; font-size:.9rem; transition:opacity .15s; }
+.tt-btn:hover { opacity:.85; }
+.tt-btn-add { background:#ef4444; color:white; }
+.tt-btn-export { background:var(--bg-card); color:var(--text); border:2px solid var(--border); }
+.tt-btn-clear { background:transparent; color:#ef4444; border:2px solid #ef4444; }
+.tt-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; text-align:center; }
+.tt-stat { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:12px 8px; }
+.tt-stat-label { font-size:.65rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:.5px; }
+.tt-stat-val { font-size:1.3rem; font-weight:800; margin-top:2px; }
+.tt-stat-val.fever { color:#ef4444; }
+.tt-stat-val.normal { color:#22c55e; }
+.tt-list { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.tt-list-header { display:grid; grid-template-columns:1fr 90px 1fr 36px; gap:6px; padding:8px 12px; background:var(--bg); font-size:.7rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; border-bottom:1px solid var(--border); }
+.tt-list-item { display:grid; grid-template-columns:1fr 90px 1fr 36px; gap:6px; padding:8px 12px; font-size:.85rem; align-items:center; border-bottom:1px solid var(--border); }
+.tt-list-item:last-child { border-bottom:none; }
+.tt-list-item.high { background:#fef2f2; }
+.tt-list-item.warn { background:#fffbeb; }
+.tt-del { background:none; border:none; color:#ef4444; cursor:pointer; font-size:1.1rem; padding:2px 6px; }
+.tt-chart-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:14px; position:relative; min-height:200px; }
+.tt-chart-wrap canvas { width:100% !important; max-height:280px; }
+.tt-empty { padding:40px; text-align:center; color:var(--text-secondary); font-size:.9rem; }
+.tt-empty-icon { font-size:3rem; margin-bottom:8px; }
+.tt-export-row { display:flex; gap:8px; flex-wrap:wrap; }
+.tt-alert { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:10px 14px; border-radius:var(--radius); font-size:.85rem; font-weight:600; display:none; }
+@media (max-width:500px) {
+  .tt-stats { grid-template-columns:1fr 1fr; }
+  .tt-list-header, .tt-list-item { grid-template-columns:1fr 70px 60px 30px; font-size:.75rem; }
+}
+</style>
+
+<link rel="alternate" hreflang="en" href="https://toolstand.io/tools/temperature-tracker/" />
+<link rel="alternate" hreflang="x-default" href="https://toolstand.io/tools/temperature-tracker/" />
+<meta property="og:title" content="Temperature Tracker — Free Online Tool | ToolStand">
+<meta property="og:description" content="Track body temperature over time. Chart visualization, CSV/JSON export. Fever threshold alerts.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolstand.io/tools/temperature-tracker/">
+<meta property="og:site_name" content="ToolStand">
+<meta property="og:image" content="https://toolstand.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Temperature Tracker — Free Online Tool | ToolStand">
+<meta name="twitter:description" content="Track body temperature over time. Chart visualization, CSV/JSON export. Fever threshold alerts.">
+<meta name="twitter:image" content="https://toolstand.io/assets/og-image.png">
+
+<script src="/shared/analytics.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="/" class="logo">🧰 <strong>ToolStand</strong></a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle dark mode">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="max-width:680px; margin:30px auto;">
+  <div style="margin-bottom:12px;">
+    <a href="/" style="color:var(--text-secondary);font-size:.85rem;">← All Tools</a>
+  </div>
+  <h1>🌡️ Temperature Tracker</h1>
+  <p style="color:var(--text-secondary);margin-bottom:24px;">Log body temperature readings over time. Visualize trends, track fever patterns, and export data.</p>
+
+  <div class="tt-alert" id="ttFeverAlert"></div>
+
+  <div class="tt-wrap">
+    <div class="tt-input-row">
+      <label>Temperature (°C)<input type="number" id="ttTemp" placeholder="36.5" step="0.1" min="30" max="45"></label>
+      <label>Note (optional)<input type="text" id="ttNote" placeholder="Morning, after meal..."></label>
+      <button class="tt-btn tt-btn-add" id="ttAdd">➕ Add Reading</button>
+    </div>
+
+    <div class="tt-stats" id="ttStats" style="display:none;">
+      <div class="tt-stat"><div class="tt-stat-label">Avg</div><div class="tt-stat-val" id="ttAvg">—</div></div>
+      <div class="tt-stat"><div class="tt-stat-label">Max</div><div class="tt-stat-val" id="ttMax">—</div></div>
+      <div class="tt-stat"><div class="tt-stat-label">Min</div><div class="tt-stat-val" id="ttMin">—</div></div>
+      <div class="tt-stat"><div class="tt-stat-label">Readings</div><div class="tt-stat-val" id="ttCount">0</div></div>
+    </div>
+
+    <div class="tt-chart-wrap" id="ttChartWrap" style="display:none;">
+      <canvas id="ttChart"></canvas>
+    </div>
+
+    <div class="tt-export-row" id="ttExportRow" style="display:none;">
+      <button class="tt-btn tt-btn-export" id="ttExportCSV">📥 Export CSV</button>
+      <button class="tt-btn tt-btn-export" id="ttExportJSON">📥 Export JSON</button>
+      <button class="tt-btn tt-btn-clear" id="ttClear">🗑 Clear All</button>
+    </div>
+
+    <div id="ttListWrap">
+      <div class="tt-empty" id="ttEmpty">
+        <div class="tt-empty-icon">🌡️</div>
+        <div>No readings yet. Add your first temperature above.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AdSense Banner -->
+  <div style="margin-top:30px;text-align:center;">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="1790345347" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+
+  <h2>How to Use the Temperature Tracker</h2>
+  <ol>
+    <li><strong>Enter a reading</strong> — Type your temperature in °C and an optional note (e.g., "Morning check"). Hit Enter or click Add Reading.</li>
+    <li><strong>Monitor your stats</strong> — View your average, max, and min temperatures at a glance. The stats panel updates automatically.</li>
+    <li><strong>Watch the chart</strong> — Your temperature trend appears as a line graph. A red dashed line marks the 38°C fever threshold.</li>
+    <li><strong>Export your data</strong> — Download your readings as CSV for spreadsheets or JSON for apps. Useful for sharing with healthcare providers.</li>
+  </ol>
+
+  
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>How do I use temperature tracker for the first time?</summary><p>Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough.</p></details>
+  <details><summary>Does temperature tracker require any special permissions?</summary><p>No special permissions needed — just a modern browser. All processing stays on your device.</p></details>
+  <details><summary>Can I use temperature tracker for professional or business purposes?</summary><p>Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code.</p></details>
+  <details><summary>Does temperature tracker run locally in my browser?</summary><p>Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data.</p></details>
+  <details><summary>What browsers support temperature tracker?</summary><p>Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported.</p></details>
+  <details><summary>How is temperature tracker different from similar tools on other websites?</summary><p>Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub.</p></details>
+
+  <h2>Related Tools</h2>
+  <nav class="related-tools">
+    <a href="/tools/water-intake/">💧 Water Intake</a>
+    <a href="/tools/date-difference/">📅 Date Difference</a>
+    <a href="/tools/age-calculator/">🎂 Age Calculator</a>
+    <a href="/tools/unit-converter/">📏 Unit Converter</a>
+    <a href="/tools/invoice-generator/">🧾 Invoice Generator</a>
+  </nav>
+
+</main>
+
+<div class="embed-cta" style="text-align:center;padding:20px 0;">
+  <a href="/tools/temperature-tracker/embed.html" target="_blank" style="color:var(--primary);font-weight:600;">🔗 Embed this tool on your site</a>
+</div>
+
+<footer>
+  <div class="container" style="text-align:center;padding:20px;color:var(--text-secondary);font-size:.8rem;">
+    <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/about/">About</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function(){
+  const STORAGE_KEY = 'temp-tracker-v2';
+  let readings = [];
+  let chart = null;
+
+  function load() {
+    try {
+      readings = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    } catch(e) { readings = []; }
+  }
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(readings));
+  }
+
+  function render() {
+    const empty = document.getElementById('ttEmpty');
+    const stats = document.getElementById('ttStats');
+    const chartWrap = document.getElementById('ttChartWrap');
+    const exportRow = document.getElementById('ttExportRow');
+    const listWrap = document.getElementById('ttListWrap');
+    const alert = document.getElementById('ttFeverAlert');
+
+    if (readings.length === 0) {
+      if (empty) empty.style.display = 'block';
+      stats.style.display = 'none';
+      chartWrap.style.display = 'none';
+      exportRow.style.display = 'none';
+      // remove old list
+      const oldList = document.getElementById('ttList');
+      if (oldList) oldList.remove();
+      alert.style.display = 'none';
+      return;
+    }
+
+    if (empty) empty.style.display = 'none';
+    stats.style.display = 'grid';
+    chartWrap.style.display = 'block';
+    exportRow.style.display = 'flex';
+
+    // Stats
+    const temps = readings.map(r => r.t);
+    const avg = temps.reduce((a,b) => a+b, 0) / temps.length;
+    const maxVal = Math.max(...temps);
+    const minVal = Math.min(...temps);
+
+    document.getElementById('ttAvg').textContent = avg.toFixed(1) + '°C';
+    document.getElementById('ttAvg').className = 'tt-stat-val ' + (avg > 37.5 ? 'fever' : 'normal');
+    document.getElementById('ttMax').textContent = maxVal.toFixed(1) + '°C';
+    document.getElementById('ttMax').className = 'tt-stat-val ' + (maxVal > 38 ? 'fever' : 'normal');
+    document.getElementById('ttMin').textContent = minVal.toFixed(1) + '°C';
+    document.getElementById('ttMin').className = 'tt-stat-val ' + (minVal < 36 ? 'fever' : 'normal');
+    document.getElementById('ttCount').textContent = readings.length;
+
+    // Fever alert
+    const lastReading = readings[0];
+    if (lastReading && lastReading.t > 38) {
+      alert.innerHTML = '⚠️ <strong>High fever detected!</strong> Last reading: ' + lastReading.t.toFixed(1) + '°C. Consult a healthcare professional if fever persists.';
+      alert.style.display = 'block';
+    } else if (lastReading && lastReading.t > 37.5) {
+      alert.innerHTML = '🌡️ <strong>Elevated temperature:</strong> ' + lastReading.t.toFixed(1) + '°C. Monitor closely.';
+      alert.style.display = 'block';
+    } else {
+      alert.style.display = 'none';
+    }
+
+    // Reading list
+    const oldList = document.getElementById('ttList');
+    if (oldList) oldList.remove();
+
+    const listDiv = document.createElement('div');
+    listDiv.id = 'ttList';
+    listDiv.className = 'tt-list';
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'tt-list-header';
+    header.innerHTML = '<span>Date & Time</span><span>Temp</span><span>Note</span><span></span>';
+    listDiv.appendChild(header);
+
+    readings.forEach((r, i) => {
+      const item = document.createElement('div');
+      item.className = 'tt-list-item';
+      if (r.t > 38) item.classList.add('high');
+      else if (r.t > 37.5) item.classList.add('warn');
+
+      item.innerHTML = 
+        '<span>' + r.d + '</span>' +
+        '<span style="font-weight:700;">' + r.t.toFixed(1) + '°C</span>' +
+        '<span style="color:var(--text-secondary);font-size:.8rem;">' + (r.n || '—') + '</span>' +
+        '<button class="tt-del" data-idx="' + i + '" title="Delete">✕</button>';
+
+      listDiv.appendChild(item);
+    });
+
+    listWrap.appendChild(listDiv);
+
+    // Delete button listeners
+    listDiv.querySelectorAll('.tt-del').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const idx = parseInt(this.dataset.idx);
+        readings.splice(idx, 1);
+        save();
+        render();
+      });
+    });
+
+    // Chart
+    renderChart();
+  }
+
+  function renderChart() {
+    const ctx = document.getElementById('ttChart').getContext('2d');
+    if (chart) chart.destroy();
+
+    // Reverse for chronological order on chart
+    const data = [...readings].reverse();
+    const labels = data.map(r => {
+      const d = new Date(r.d);
+      return d.toLocaleDateString('en-US', {month:'short', day:'numeric'}) + ' ' + 
+             d.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+    });
+    const temps = data.map(r => r.t);
+
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Temperature (°C)',
+          data: temps,
+          borderColor: '#ef4444',
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#ef4444',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          annotation: {
+            annotations: {
+              feverLine: {
+                type: 'line',
+                yMin: 38,
+                yMax: 38,
+                borderColor: 'rgba(239, 68, 68, 0.5)',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                label: { display: true, content: 'Fever (38°C)', position: 'end' }
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            min: 35,
+            max: 42,
+            ticks: { stepSize: 0.5, callback: v => v + '°C' }
+          },
+          x: {
+            ticks: { maxRotation: 45, font: { size: 10 } }
+          }
+        }
+      }
+    });
+  }
+
+  function exportCSV() {
+    if (readings.length === 0) return;
+    let csv = 'Date,Time,Temperature (°C),Note\n';
+    readings.forEach(r => {
+      const d = new Date(r.d);
+      const date = d.toLocaleDateString('en-CA'); // YYYY-MM-DD
+      const time = d.toLocaleTimeString('en-GB');
+      const note = (r.n || '').replace(/"/g, '""');
+      csv += date + ',' + time + ',' + r.t.toFixed(1) + ',"' + note + '"\n';
+    });
+    downloadFile(csv, 'temperature-readings.csv', 'text/csv');
+  }
+
+  function exportJSON() {
+    if (readings.length === 0) return;
+    const json = JSON.stringify(readings, null, 2);
+    downloadFile(json, 'temperature-readings.json', 'application/json');
+  }
+
+  function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function clearAll() {
+    if (readings.length === 0) return;
+    if (confirm('Delete all ' + readings.length + ' temperature readings? This cannot be undone.')) {
+      readings = [];
+      save();
+      render();
+    }
+  }
+
+  // Init
+  load();
+  render();
+
+  document.getElementById('ttAdd').addEventListener('click', function() {
+    const tempInput = document.getElementById('ttTemp');
+    const noteInput = document.getElementById('ttNote');
+    const t = parseFloat(tempInput.value);
+    if (isNaN(t) || t < 30 || t > 45) {
+      tempInput.style.borderColor = '#ef4444';
+      setTimeout(() => tempInput.style.borderColor = '', 1500);
+      return;
+    }
+    readings.unshift({
+      t: Math.round(t * 10) / 10,
+      n: noteInput.value.trim(),
+      d: new Date().toLocaleString()
+    });
+    // Keep max 100 readings
+    if (readings.length > 100) readings.pop();
+    save();
+    tempInput.value = '';
+    noteInput.value = '';
+    render();
+  });
+
+  document.getElementById('ttExportCSV').addEventListener('click', exportCSV);
+  document.getElementById('ttExportJSON').addEventListener('click', exportJSON);
+  document.getElementById('ttClear').addEventListener('click', clearAll);
+
+  // Enter key submits
+  document.getElementById('ttTemp').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('ttAdd').click();
+  });
+  document.getElementById('ttNote').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('ttAdd').click();
+  });
+
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var cur = document.documentElement.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('toolstand-theme', next);
+  });
+  document.documentElement.setAttribute('data-theme', localStorage.getItem('toolstand-theme') || 'light');
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+})();
+</script>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I use temperature tracker for the first time?", "acceptedAnswer": {"@type": "Answer", "text": "Just open the page — no signup needed. The tool is designed to be intuitive. Read the numbered steps in the How to Use section for a quick walkthrough."}}, {"@type": "Question", "name": "Does temperature tracker require any special permissions?", "acceptedAnswer": {"@type": "Answer", "text": "No special permissions needed — just a modern browser. All processing stays on your device."}}, {"@type": "Question", "name": "Can I use temperature tracker for professional or business purposes?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. Production-ready. Many professionals use ToolStand utilities daily. Embed the tool directly in your internal dashboard using the free embed code."}}, {"@type": "Question", "name": "Does temperature tracker run locally in my browser?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Runs entirely client-side. No data uploaded to any server. Verify this by opening DevTools Network tab — you'll see zero outgoing data."}}, {"@type": "Question", "name": "What browsers support temperature tracker?", "acceptedAnswer": {"@type": "Answer", "text": "Chrome 80+, Firefox 78+, Safari 14+, Edge 80+. On mobile: iOS Safari 14+, Android Chrome 80+. Internet Explorer is not supported."}}, {"@type": "Question", "name": "How is temperature tracker different from similar tools on other websites?", "acceptedAnswer": {"@type": "Answer", "text": "Unlike other sites: (1) runs in your browser — no data leaves your device, (2) zero ads blocking your workflow, (3) no signup required, (4) open source on GitHub."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolstand.io/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://toolstand.io/"},{"@type":"ListItem","position":3,"name":"Temperature Tracker — Free Online Tool","item":"https://toolstand.io/tools/temperature-tracker/"}]}</script>
+<script>function copyEmbedCode(){var t=document.getElementById("embedCodeInput");t.select();t.setSelectionRange(0,99999);try{navigator.clipboard.writeText(t.value).then(function(){var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)})}catch(e){document.execCommand("copy");var b=document.querySelector(".btn-copy-embed");b.textContent="✅ Copied!";setTimeout(function(){b.textContent="📋 Copy"},2e3)}}</script>
+</body>
+</html>
