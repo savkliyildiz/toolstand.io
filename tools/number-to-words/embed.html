@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Number to Words Converter — Embed</title><link rel="stylesheet" href="/shared/styles.css"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  "name": "Number to Words Converter",
+  "alternateName": "number-to-words",
+  "url": "https://toolstand.io/tools/number-to-words/",
+  "description": "Convert numbers to words in 8 languages: English, Turkish, German, French, Spanish, Arabic, Hindi, and Chinese. Supports numbers up to billions with proper grammar and formatting for each language.",
+  "applicationCategory": "ConverterApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ToolStand",
+    "url": "https://toolstand.io"
+  },
+  "keywords": "converter",
+  "softwareVersion": "1.0",
+  "isAccessibleForFree": true
+}</script><style>:root{--bg:#ffffff;--bg-card:#f8fafc;--text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--radius:8px}[data-theme="dark"]{--bg:#0f172a;--bg-card:#1e293b;--text:#e2e8f0;--text-secondary:#94a3b8;--border:#334155}*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:20px}.ntw-c{display:flex;flex-direction:column;gap:14px}.ntw-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.ntw-i{flex:1;min-width:180px;padding:12px;font-size:1.05rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:monospace}.ntw-i:focus{outline:none;border-color:#7c3aed}.ntw-sel{padding:10px 14px;font-size:.95rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);cursor:pointer;min-width:140px}.ntw-sel:focus{outline:none;border-color:#7c3aed}.ntw-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-size:1.05rem;line-height:1.7;min-height:60px;word-break:break-word;position:relative}.ntw-o .ntw-label{font-size:.7rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}.ntw-copy{position:absolute;top:8px;right:8px;padding:4px 10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:.7rem;font-weight:600;color:var(--text)}.ntw-copy:hover{background:var(--border)}.powered-by{margin-top:16px;text-align:center;font-size:.75rem;color:var(--text-secondary)}.powered-by a{color:var(--text-secondary);text-decoration:none}.powered-by a:hover{text-decoration:underline}</style>
+<script src="/shared/analytics.js" defer></script></head><body><main><div class="ntw-c"><div class="ntw-row"><input type="text" class="ntw-i" id="ntwIn" placeholder="Enter a number (e.g. 1234567)" inputmode="numeric" autofocus><select class="ntw-sel" id="ntwLang"><option value="en">🇬🇧 English</option><option value="tr">🇹🇷 Türkçe</option><option value="de">🇩🇪 Deutsch</option><option value="fr">🇫🇷 Français</option><option value="es">🇪🇸 Español</option><option value="ar">🇸🇦 العربية</option><option value="hi">🇮🇳 हिन्दी</option><option value="zh">🇨🇳 中文</option></select></div><div class="ntw-o" id="ntwOut"><span class="ntw-label">Words</span><div id="ntwResult" style="margin-top:2px"></div><button class="ntw-copy" id="ntwCopy" title="Copy to clipboard">📋 Copy</button></div></div><div class="powered-by"><a href="https://toolstand.io/tools/number-to-words/" target="_blank" rel="noopener">Powered by ToolStand Number to Words Converter</a></div></main><script>(function(){var inp=document.getElementById("ntwIn"),lng=document.getElementById("ntwLang"),res=document.getElementById("ntwResult"),cpy=document.getElementById("ntwCopy");
+function numToWords(n,lang){
+  if(n===undefined||n===null||n==="")return "";
+  var s=String(n).replace(/[,\s]/g,"");
+  if(!/^-?\d+(\.\d+)?$/.test(s))return "Invalid input";
+  var neg=s[0]==="-",numStr=neg?s.slice(1):s;
+  var intPart,decPart,decStr="";
+  var dp=numStr.indexOf(".");
+  if(dp>=0){intPart=numStr.slice(0,dp);decPart=numStr.slice(dp+1);if(decPart){var digs=decPart.split("").map(function(d){return digitWord(parseInt(d),lang)});decStr=" "+POINT[lang]+" "+digs.join(" ")}}
+  else intPart=numStr;
+  var intVal=BigInt(intPart);
+  var words="";
+  if(intVal===0n)words=ZERO[lang];
+  else words=convertInt(intVal,lang);
+  if(neg)words=MINUS[lang]+" "+words;
+  return words+decStr;
+}
+var ONES={en:["","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"],tr:["","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz","on","on bir","on iki","on üç","on dört","on beş","on altı","on yedi","on sekiz","on dokuz"],de:["","eins","zwei","drei","vier","fünf","sechs","sieben","acht","neun","zehn","elf","zwölf","dreizehn","vierzehn","fünfzehn","sechzehn","siebzehn","achtzehn","neunzehn"],fr:["","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"],es:["","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve","diez","once","doce","trece","catorce","quince","dieciséis","diecisiete","dieciocho","diecinueve"],ar:["","واحد","اثنان","ثلاثة","أربعة","خمسة","ستة","سبعة","ثمانية","تسعة","عشرة","أحد عشر","اثنا عشر","ثلاثة عشر","أربعة عشر","خمسة عشر","ستة عشر","سبعة عشر","ثمانية عشر","تسعة عشر"],hi:["","एक","दो","तीन","चार","पाँच","छह","सात","आठ","नौ","दस","ग्यारह","बारह","तेरह","चौदह","पंद्रह","सोलह","सत्रह","अठारह","उन्नीस"]};
+var TENS={en:["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"],tr:["","","yirmi","otuz","kırk","elli","altmış","yetmiş","seksen","doksan"],de:["","","zwanzig","dreißig","vierzig","fünfzig","sechzig","siebzig","achtzig","neunzig"],fr:["","","vingt","trente","quarante","cinquante","soixante","soixante-dix","quatre-vingts","quatre-vingt-dix"],es:["","","veinte","treinta","cuarenta","cincuenta","sesenta","setenta","ochenta","noventa"],ar:["","","عشرون","ثلاثون","أربعون","خمسون","ستون","سبعون","ثمانون","تسعون"],hi:["","","बीस","तीस","चालीस","पचास","साठ","सत्तर","अस्सी","नब्बे"]};
+var HUNDRED={en:"hundred",tr:"yüz",de:"hundert",fr:"cent",es:"cien",ar:"مائة",hi:"सौ"};
+var ZH_DIGITS=["零","一","二","三","四","五","六","七","八","九"];
+var ZH_UNITS=["","十","百","千"];
+var ZH_BIG=["","万","亿"];
+function digitWord(d,lang){if(lang==="zh")return ZH_DIGITS[d];return ONES[lang][d]||""}
+var MINUS={en:"minus",tr:"eksi",de:"minus",fr:"moins",es:"menos",ar:"سالب",hi:"ऋण"};
+var ZERO={en:"zero",tr:"sıfır",de:"null",fr:"zéro",es:"cero",ar:"صفر",hi:"शून्य",zh:"零"};
+var POINT={en:"point",tr:"virgül",de:"Komma",fr:"virgule",es:"punto",ar:"فاصلة",hi:"दशमलव"};
+function convertInt(n,lang){
+  if(lang==="zh")return convertZh(n);
+  if(lang==="hi")return convertHi(n);
+  return convertStandard(n,lang);
+}
+function convertStandard(n,lang){
+  if(n<20n)return ONES[lang][Number(n)];
+  if(n<100n){var t=Number(n/10n),o=Number(n%10n);return TENS[lang][t]+(o?"-"+ONES[lang][o]:"")}
+  if(n<1000n){var h=Number(n/100n),r=n%100n;return ONES[lang][h]+" "+HUNDRED[lang]+(r>0n?" "+convertStandard(r,lang):"")}
+  var groups=[
+    {val:1000000000000n,s:lang==="de"?"Billion":lang==="tr"?"trilyon":lang==="es"?"billón":"trillion"},
+    {val:1000000000n,s:lang==="de"?"Milliarde":lang==="tr"?"milyar":lang==="es"?"mil millones":"billion"},
+    {val:1000000n,s:lang==="de"?"Million":lang==="tr"?"milyon":lang==="es"?"millón":"million"},
+    {val:1000n,s:lang==="de"?"tausend":lang==="tr"?"bin":lang==="es"?"mil":"thousand"}
+  ];
+  for(var i=0;i<groups.length;i++){
+    var g=groups[i];
+    if(n>=g.val){
+      var q=n/g.val,rem=n%g.val;
+      var part=convertStandard(q,lang)+" "+g.s;
+      if(rem>0n)part+=" "+convertStandard(rem,lang);
+      return part;
+    }
+  }
+  return "";
+}
+function convertHi(n){
+  if(n<20n)return ONES.hi[Number(n)];
+  if(n<100n){var t=Number(n/10n),o=Number(n%10n);return TENS.hi[t]+(o?" "+ONES.hi[o]:"");}
+  if(n<1000n){var h=Number(n/100n),r=n%100n;return ONES.hi[h]+" "+HUNDRED.hi+(r>0n?" "+convertHi(r):"");}
+  var groups=[
+    {val:10000000n,s:"करोड़"},
+    {val:100000n,s:"लाख"},
+    {val:1000n,s:"हज़ार"}
+  ];
+  for(var i=0;i<groups.length;i++){
+    var g=groups[i];
+    if(n>=g.val){
+      var q=n/g.val,rem=n%g.val;
+      var part=convertHi(q)+" "+g.s;
+      if(rem>0n)part+=" "+convertHi(rem);
+      return part;
+    }
+  }
+  return "";
+}
+function convertZh(n){
+  if(n===0n)return ZH_DIGITS[0];
+  var segs=[],val=n;
+  while(val>0n){segs.push(val%10000n);val=val/10000n}
+  var parts=[];
+  for(var i=segs.length-1;i>=0;i--){
+    var seg=segs[i];
+    if(seg===0n){if(i===0&&parts.length===0)parts.push(ZH_DIGITS[0]);continue}
+    var s="",d4=Number(seg%10n),d3=Number((seg/10n)%10n),d2=Number((seg/100n)%10n),d1=Number((seg/1000n)%10n);
+    if(d1>0){s+=ZH_DIGITS[d1]+ZH_UNITS[3];if(d2===0&&(d3>0||d4>0))s+=ZH_DIGITS[0]}
+    if(d2>0)s+=ZH_DIGITS[d2]+ZH_UNITS[2];else if(d1>0&&(d3>0||d4>0))s+=ZH_DIGITS[0];
+    if(d3>0)s+=ZH_DIGITS[d3]+ZH_UNITS[1];else if((d1>0||d2>0)&&d4>0&&d3===0)s+=ZH_DIGITS[0];
+    if(d4>0)s+=ZH_DIGITS[d4];
+    if(i>0)s+=ZH_BIG[i];
+    parts.push(s);
+  }
+  return parts.join("");
+}
+function convert(){
+  var val=inp.value.trim(),lang=lng.value;
+  res.textContent=numToWords(val,lang);
+  cpy.style.display=res.textContent&&res.textContent!=="Invalid input"?"block":"none";
+}
+inp.addEventListener("input",convert);
+lng.addEventListener("change",convert);
+cpy.addEventListener("click",function(){
+  var t=res.textContent;
+  if(!t||t==="Invalid input")return;
+  navigator.clipboard.writeText(t).then(function(){cpy.textContent="✅ Copied!";setTimeout(function(){cpy.textContent="📋 Copy"},2000)});
+});
+var saved=localStorage.getItem("toolstand-theme")||"light";document.documentElement.setAttribute("data-theme",saved);
+if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js");
+})();</script></body></html>

@@ -111,4 +111,5 @@ const TOOLS = [
   { id:"dockerfile-generator", name:"Dockerfile & Docker Compose Generator", desc:"Generate Dockerfile and compose files for Node, Python, Go, Java. Pick DB, ports, env vars. No Docker experience needed.", icon:"🐳", tags:["developer","generator"], ready:true },
   { id:"meta-tag-preview", name:"Meta Tag & SERP Preview Generator", desc:"Preview Google search results and social cards. Generate meta tags with live SERP simulator. Free SEO tool.", icon:"🔍", tags:["seo","generator"], ready:true },
   { id:"markdown-table", name:"Markdown Table Generator & CSV Converter", desc:"Create Markdown tables visually or paste CSV. Align columns, export to HTML. Works with GitHub Flavored Markdown.", icon:"📊", tags:["productivity","formatter"], ready:true },
+  { id:"number-to-words", name:"Number to Words Converter", desc:"Convert numbers to words in English, Turkish, German, French, Spanish, Arabic, Hindi, and Chinese.", icon:"🔢", tags:["converter","utility"], ready:true },
 ];
