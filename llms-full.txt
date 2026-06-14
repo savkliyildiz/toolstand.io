@@ -1,0 +1,328 @@
+# ToolStand — Complete AI Reference
+
+## Executive Summary
+
+ToolStand.io is a privacy-first web application offering 110 free online tools. Launched June 2026, the platform serves developers, designers, content creators, and general users with browser-based utilities that require no downloads, no sign-up, and collect zero user data.
+
+**Key metrics:**
+- 110 tools across 12 categories
+- 149+ use-case pages
+- 10 pillar content pages covering major SEO topics
+- 80+ blog posts
+- 509+ URLs indexed via sitemap
+- Serverless architecture on Cloudflare Pages
+- All tools run client-side (no backend processing of user data)
+
+**Technical stack:** Static HTML + vanilla JavaScript + Tailwind CSS CDN, Cloudflare Pages hosting, Cloudflare Workers for analytics, self-hosted KV analytics (privacy-respecting), JSON-LD structured data throughout.
+
+---
+
+## Mission
+
+To provide the most comprehensive, privacy-respecting collection of free online tools — no tracking, no data collection, no accounts required. Every tool runs entirely in the browser.
+
+---
+
+## Feature Highlights
+
+### Privacy-First Architecture
+- Zero user data collection — no form submissions, no server-side processing
+- Self-hosted analytics via Cloudflare KV (page views, tool usage, error rates only)
+- No cookies except essential Cloudflare security
+- GDPR compliant by design
+
+### Developer-Focused
+- Embed widgets for every tool (copy-paste iframe)
+- JSON-LD structured data (WebApplication, HowTo, FAQPage, BreadcrumbList)
+- `.well-known/ai-plugin.json` and `openapi.yaml` for AI agent discovery
+- `llms.txt` and `llms-full.txt` for LLM ingestion
+- All pages pass `node --check` JavaScript validation
+
+### Accessibility
+- Dark mode on all pages
+- Mobile-responsive design
+- Keyboard-navigable interfaces
+- Semantic HTML with ARIA labels
+
+---
+
+## Complete Tool Catalog
+
+### Category: Developer Tools (30 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| JSON Formatter | Format, validate, and minify JSON with tree view and error highlighting | /tools/json-formatter |
+| JSON Minifier | Strip whitespace and comments from JSON | /tools/json-minifier |
+| JSON Compare | Side-by-side JSON diff with structural comparison | /tools/json-compare |
+| JSON Schema Generator | Infer JSON Schema from sample documents | /tools/json-schema-generator |
+| JSONPath Tester | Evaluate JSONPath expressions against JSON | /tools/jsonpath-tester |
+| JSON to Java | Generate Java POJO classes from JSON | /tools/json-to-java |
+| JWT Decoder | Decode and inspect JWT tokens | /tools/jwt-decoder |
+| Hash Generator | MD5, SHA-1, SHA-256, SHA-384, SHA-512 | /tools/hash-generator |
+| Base64 | Encode/decode Base64 and Base64URL | /tools/base64 |
+| URL Encoder | URL encode and decode special characters | /tools/url-encoder |
+| HTML Entity Encoder | Encode and decode HTML entities | /tools/html-entity-encoder |
+| UUID Generator | UUID v1 and v4 generation with copy | /tools/uuid-generator |
+| Regex Tester | Test regex with match highlighting and capture groups | /tools/regex-tester |
+| Regex Explainer | Natural language explanation of regex patterns | /tools/regex-explainer |
+| Diff Checker | Side-by-side text comparison with visual diff | /tools/diff-checker |
+| SQL Formatter | Format and beautify SQL with keyword highlighting | /tools/sql-formatter |
+| CSV/JSON Converter | Bidirectional CSV-JSON conversion | /tools/csv-json-converter |
+| XML Formatter | Format and validate XML documents | /tools/xml-formatter |
+| XML/JSON Converter | Bidirectional XML-JSON conversion | /tools/xml-json-converter |
+| YAML Validator | Validate and format YAML with error reporting | /tools/yaml-validator |
+| Dockerfile Generator | Template-based Dockerfile creation | /tools/dockerfile-generator |
+| Cron Builder | Visual cron expression builder and validator | /tools/cron-builder |
+| SSH Key Generator | RSA and Ed25519 key pair generation | /tools/ssh-key-generator |
+| Markdown Table | Visual markdown table editor | /tools/markdown-table |
+| Markdown Previewer | Real-time markdown preview with GFM support | /tools/markdown-previewer |
+| Token Counter | Count tokens for LLM context windows (GPT, Claude) | /tools/token-counter |
+| Base Converter | Binary, octal, decimal, hexadecimal conversion | /tools/base-converter |
+| Timestamp Converter | Unix epoch to human-readable date conversion | /tools/timestamp-converter |
+| Number to Words | Convert numbers to English words | /tools/number-to-words |
+| Roman Numerals | Convert between Roman numerals and decimal | /tools/roman-numerals |
+
+### Category: Calculators & Math (25 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| Scientific Calculator | Full scientific calculator with history log | /tools/scientific-calculator |
+| Unit Converter | Length, weight, temperature, volume, area, speed | /tools/unit-converter |
+| Currency Converter | Real-time exchange rates for 160+ currencies | /tools/currency-converter |
+| BMI Calculator | Body Mass Index with WHO classification | /tools/bmi-calculator |
+| Body Fat Calculator | Navy method body fat estimation | /tools/body-fat-calculator |
+| Calorie Calculator | Daily calorie needs with activity level | /tools/calorie-calculator |
+| Keto Calculator | Ketogenic diet macro calculator | /tools/keto-calculator |
+| Water Intake | Daily water intake recommendation | /tools/water-intake |
+| Loan Calculator | Monthly payment, total interest, amortization | /tools/loan-calculator |
+| Compound Interest | Future value with periodic contributions | /tools/compound-interest |
+| Inflation Calculator | Adjust values for inflation over time | /tools/inflation-calculator |
+| Savings Calculator | Savings projection with goal tracking | /tools/savings-calculator |
+| Retirement Calculator | Retirement savings with withdrawal modeling | /tools/retirement-calculator |
+| Tip Calculator | Tip calculation with bill splitting | /tools/tip-calculator |
+| DCA Calculator | Dollar-cost averaging investment analysis | /tools/dca-calculator |
+| Dividend Calculator | Dividend income projection | /tools/dividend-calculator |
+| Trade Risk Calculator | Position sizing and risk management | /tools/trade-risk-calculator |
+| Age Calculator | Precise age in years, months, days | /tools/age-calculator |
+| Date Difference | Days between dates with business day options | /tools/date-difference |
+| Due Date Calculator | Pregnancy due date estimation | /tools/due-date-calculator |
+| Timezone Converter | Convert between IANA timezones | /tools/timezone-converter |
+| Aspect Ratio | Image and video aspect ratio calculator | /tools/aspect-ratio |
+| Pace Calculator | Running, cycling, swimming pace | /tools/pace-calculator |
+| DPI Calculator | Print resolution calculator | /tools/dpi-calculator |
+| Percentage Calculator | Quick percentage calculations | /tools/number-to-words |
+
+### Category: Generators (12 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| QR Code Generator | QR codes with customizable colors and logo | /tools/qr-code |
+| Password Generator | Configurable secure password generation | /tools/password-generator |
+| Random Number | Random number generation with range and format | /tools/random-number |
+| Lorem Ipsum | Placeholder text in paragraphs, sentences, words | /tools/lorem-ipsum |
+| Barcode Generator | Code 128, EAN-13, UPC, QR modes | /tools/barcode-generator |
+| Signature Generator | Draw or type digital signatures | /tools/signature-generator |
+| Invoice Generator | Professional invoice PDF generation | /tools/invoice-generator |
+| AI Prompt Builder | Structured LLM prompt creation with templates | /tools/ai-prompt-builder |
+| UTM Builder | Campaign tracking URL builder | /tools/utm-builder |
+| YouTube Title Generator | SEO-optimized YouTube title ideas | /tools/youtube-title-generator |
+| Robots.txt Generator | Standard robots.txt directive builder | /tools/robots-txt-generator |
+| Case Converter | Upper, lower, title, sentence, camel, snake, kebab | /tools/case-converter |
+
+### Category: Text & Writing (4 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| Word Counter | Word, character, sentence, paragraph stats | /tools/word-counter |
+| Readability Checker | Flesch-Kincaid, Gunning Fog, SMOG scores | /tools/readability-checker |
+| Text Encryptor | AES client-side encryption/decryption | /tools/text-encryptor |
+| Video Script Timer | Estimate video script duration by word count | /tools/video-script-timer |
+
+### Category: Image Tools (9 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| Image Converter | PNG, JPEG, WebP, AVIF, SVG conversion | /tools/image-converter |
+| Image Resizer | Resize with aspect ratio lock and presets | /tools/image-resizer |
+| Image to PDF | Combine images into PDF document | /tools/image-to-pdf |
+| SVG Optimizer | Minify and clean SVG files | /tools/svg-optimizer |
+| Color Palette Generator | Extract dominant colors from images | /tools/color-palette-generator |
+| Color Converter | HEX, RGB, HSL, HSV, CMYK conversion | /tools/color-converter |
+| Gradient Generator | CSS linear and radial gradient builder | /tools/gradient-generator |
+| Color Blindness Simulator | Simulate 8 types of color vision deficiency | /tools/color-blindness |
+| Dead Pixel Test | Screen dead/stuck pixel detection | /tools/dead-pixel-test |
+
+### Category: PDF Tools (4 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| PDF Merge | Combine multiple PDF files | /tools/pdf-merge |
+| PDF Split | Extract pages from PDF | /tools/pdf-split |
+| PDF to Image | Convert PDF pages to PNG/JPG | /tools/pdf-to-image |
+| Image to PDF | Convert images to PDF | /tools/image-to-pdf |
+
+### Category: CSS & Design (5 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| CSS Border Radius | Visual border-radius generator with preview | /tools/css-border-radius |
+| CSS Box Shadow | Visual box-shadow builder with layered shadows | /tools/css-box-shadow |
+| CSS Clamp Generator | Responsive CSS clamp() value calculator | /tools/css-clamp-generator |
+| Function Plotter | Graph mathematical functions with zoom | /tools/function-plotter |
+| Spirit Level | Digital bubble level using device sensors | /tools/spirit-level |
+
+### Category: SEO & Webmaster (7 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| Meta Tag Generator | Title, description, OG, Twitter card tags | /tools/meta-tag-generator |
+| Meta Tag Preview | Google/Social preview simulator | /tools/meta-tag-preview |
+| OG Preview | Open Graph tag preview for Facebook/Twitter | /tools/og-preview |
+| Schema Markup Generator | JSON-LD for 20+ schema types | /tools/schema-markup-generator |
+| FAQ Schema Generator | FAQPage schema markup builder | /tools/faq-schema-generator |
+| SERP Preview | Search result appearance simulator | /tools/serp-preview |
+| Password Strength Checker | Entropy-based password strength analysis | /tools/password-strength-checker |
+
+### Category: Productivity (8 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| Stopwatch | Precision stopwatch with lap times | /tools/stopwatch |
+| Pomodoro Timer | 25/5 minute work/break cycles | /tools/pomodoro |
+| Pomodoro Task Manager | Pomodoro with task list and history | /tools/pomodoro-task |
+| Countdown | Configurable countdown with alarm | /tools/countdown |
+| Temperature Tracker | Body temperature log with chart | /tools/temperature-tracker |
+| Metronome | Adjustable BPM metronome with tap | /tools/metronome |
+| BPM Tap | Tap tempo finder | /tools/bpm-tap |
+| Decision Wheel | Customizable spinning wheel | /tools/decision-wheel |
+
+### Category: Fun & Games (8 tools)
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| Minesweeper | Classic minesweeper with difficulty levels | /tools/minesweeper |
+| Snake Game | Classic snake game with scoring | /tools/snake-game |
+| Wordle Solver | Wordle hint generator with letter filtering | /tools/wordle-solver |
+| Reaction Time | Visual reaction time test | /tools/reaction-time |
+| Decibel Meter | Ambient noise measurement via microphone | /tools/decibel-meter |
+| Tone Generator | Sine, square, sawtooth, triangle wave tones | /tools/tone-generator |
+| Sleep Sounds | 8 ambient sound channels with mixer | /tools/sleep-sounds |
+| Whats My IP | Public IP, ISP, location display | /tools/whats-my-ip |
+
+---
+
+## Content Architecture
+
+### Pillar Pages (10 pages — ~51,000 words)
+
+| Pillar | Topic | URL |
+|--------|-------|-----|
+| Complete Guide | Overview of all tools and categories | /pillars/complete-guide |
+| Developer Tools | Deep dive into dev tools workflow | /pillars/developer-tools |
+| CSS & Design Tools | Frontend design tool guide | /pillars/css-design-tools |
+| Image Tools | Image processing without uploads | /pillars/image-tools |
+| Text & Writing Tools | Writing and editing workflow | /pillars/text-writing-tools |
+| Calculators | Financial, health, math calculators | /pillars/calculators |
+| Converters | Format and unit conversion guide | /pillars/converters |
+| Generators | Code, text, and asset generation | /pillars/generators |
+| SEO & Webmaster | SEO toolkit and optimization guide | /pillars/seo-webmaster |
+| Privacy-First Tools | Privacy philosophy and architecture | /pillars/privacy-first |
+
+### Use Cases (149+ pages)
+
+Real-world scenarios for 78 tools. Each page covers:
+- Problem statement
+- Step-by-step solution
+- Alternative approaches
+- Related tools
+
+### Blog (80+ posts)
+
+Technical deep-dives, tutorials, and SEO content. Topics include image optimization, JSON workflow, text transformation, privacy tools, and more.
+
+---
+
+## Technical Architecture
+
+### Frontend
+- Static HTML with vanilla JavaScript (no framework overhead)
+- Tailwind CSS via CDN for styling
+- All processing happens client-side — no server-side data handling
+- Progressive Web App (PWA) with service worker for offline support
+
+### Backend & Infrastructure
+- Cloudflare Pages for hosting and CDN
+- Cloudflare Workers for serverless API endpoints
+- Self-hosted analytics via Cloudflare Workers KV
+- No database — all tool state is ephemeral in browser memory
+
+### Structured Data
+Every tool page includes:
+- `WebApplication` schema with operatingSystem, applicationCategory, offers
+- `HowTo` schema with step-by-step instructions
+- `FAQPage` schema with 7-10 long-tail questions
+- `BreadcrumbList` for navigation hierarchy
+
+### AI Discovery
+- `/llms.txt` — Curated AI-readable index (llmstxt.org spec)
+- `/llms-full.txt` — Complete reference (this file)
+- `/.well-known/ai-plugin.json` — AI plugin manifest
+- `/.well-known/openapi.yaml` — OpenAPI 3.0 specification
+- All pages use semantic HTML5 with ARIA landmarks
+
+### Analytics (Privacy-Respecting)
+- Self-hosted via Cloudflare KV
+- Tracks: page views, tool usage events, session duration, error rates
+- No cookies, no fingerprinting, no user identification
+- Bot detection via client-side heuristics (mouse movement, timing)
+- Daily reports via email (SMTP)
+
+---
+
+## SEO Status (as of June 2026)
+
+### Rankings
+- Domain age: June 6, 2026 (in Google Sandbox)
+- Indexed: Homepage indexed; inner pages in discovery
+- First ranking: "css generator gradient" position 19
+- Impressions: 229 (growing daily)
+
+### Optimization
+- All pages: title optimization, meta descriptions, canonical URLs
+- Schema markup: 4 types per tool page (WebApplication, HowTo, FAQPage, BreadcrumbList)
+- 10 pillar pages with comprehensive topical coverage
+- 149 use-case pages covering 78 tools
+- IndexNow submission to Bing, Yandex, Seznam, Naver
+- Google Indexing API for priority pages
+- PageSpeed scores: 100/100/100/100 on all four categories
+- Content clusters with internal linking
+
+### Backlinks (in progress)
+- AlternativeTo listing (pending manual submission)
+- 7+ backlinks awaiting approval
+- Future: Product Hunt, BetaList, directory submissions
+
+---
+
+## Deployment
+
+All content is deployed via `wrangler deploy` to Cloudflare Pages:
+
+```bash
+cd /tmp/toolstand-deploy && wrangler deploy
+```
+
+Build pipeline: manual deployment (Cloudflare Pages auto-deploy via git push pending)
+
+---
+
+## Contact & Social
+
+- Email: toolstandio@gmail.com
+- Domain: toolstand.io (registered June 6, 2026)
+- Provider: Cloudflare (DNS, Pages, Workers)
+
+---
+
+*This file is part of the ToolStand AI discovery stack. Last updated: June 2026. For the concise version, see `/llms.txt`.*

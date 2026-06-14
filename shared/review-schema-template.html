@@ -1,0 +1,35 @@
+<!-- Review Schema Template — Phase 6.4 -->
+<!-- Add this to tool pages when user reviews become available -->
+<!-- Google requires at least 1 review to show star ratings in SERP -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "TOOL_NAME",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "bestRating": "5",
+    "worstRating": "1",
+    "ratingCount": "24",
+    "reviewCount": "24"
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "REVIEWER_NAME"
+      },
+      "datePublished": "2026-06-20",
+      "reviewBody": "REVIEW_TEXT — keep under 200 chars. Focus on specific use case and benefit.",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      }
+    }
+  ]
+}
+</script>

@@ -1,3 +1,63 @@
+# ── All crawlers (default) ──
 User-agent: *
 Allow: /
 Sitemap: https://toolstand.io/sitemap.xml
+
+# ── AI Discovery ──
+Allow: /.well-known/
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+# ── OpenAI ──
+# GPTBot: web crawler for ChatGPT, SearchGPT, and GPT model training
+# We ALLOW GPTBot — content is designed for AI discoverability
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# ── Anthropic ──
+# Claude-User: crawler for Claude.ai
+User-agent: Claude-User
+Allow: /
+# anthropic-ai: older user-agent variant
+User-agent: anthropic-ai
+Allow: /
+
+# ── Google AI ──
+# Google-Extended: controls if content is used for Gemini/Vertex AI training
+# We ALLOW — GEO strategy
+User-agent: Google-Extended
+Allow: /
+
+# ── Perplexity ──
+# PerplexityBot: Perplexity AI answer engine crawler
+User-agent: PerplexityBot
+Allow: /
+
+# ── Meta AI ──
+User-agent: Meta-ExternalAgent
+Allow: /
+User-agent: FacebookBot
+Allow: /
+
+# ── Cohere ──
+User-agent: cohere-ai
+Allow: /
+
+# ── Apple ──
+User-agent: Applebot-Extended
+Allow: /
+
+# ── Common Crawl ──
+# CCBot: used by many AI training datasets
+User-agent: CCBot
+Allow: /
+
+# ── Other AI crawlers (allowed) ──
+User-agent: Diffbot
+Allow: /
+User-agent: Omgili
+Allow: /
+User-agent: Amazonbot
+Allow: /
