@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Previewer — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Markdown Previewer","url":"https://toolstand.io/tools/markdown-previewer/","applicationCategory":"ProductivityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tc-c{display:flex;flex-direction:column;gap:20px}.tc-i{width:100%;padding:12px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);box-sizing:border-box;font-family:monospace}.tc-i:focus{outline:none;border-color:#2563eb}.tc-b{padding:12px 24px;font-weight:700;background:#2563eb;color:white;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem}.tc-b:hover{opacity:.9}.tc-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;min-height:50px}.tc-l{font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>📝 Markdown Previewer</h1><p>Preview Markdown in real-time. Write Markdown on the left, see rendered HTML on the right.</p></div><div class="tc-c"><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><textarea id="tgMd" class="tc-i" placeholder="# Hello World\n\nThis is **Markdown** with *italics* and `code`.\n\n- List item 1\n- List item 2\n\n> Blockquote" style="min-height:250px;font-family:monospace;font-size:.9rem;resize:vertical"># Hello World\n\nThis is **Markdown** with *italics* and `code`.\n\n- List item 1\n- List item 2\n\n> Blockquote</textarea><div id="tgO" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-family:sans-serif;line-height:1.7;max-height:400px;overflow:auto">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/markdown-previewer/" target="_blank" rel="noopener">Powered by ToolStand Markdown Previewer</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

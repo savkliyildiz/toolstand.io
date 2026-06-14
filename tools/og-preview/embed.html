@@ -1,1 +1,300 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Graph Preview — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Open Graph Preview","url":"https://toolstand.io/tools/og-preview/","applicationCategory":"SeoApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1100px;margin:0 auto;padding:0 20px;width:100%}
+.header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:100}
+.header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.2rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:6px}
+.nav{display:flex;align-items:center;gap:16px}
+.nav a{color:var(--text-secondary);text-decoration:none;font-size:0.9rem}
+.nav a:hover{color:var(--primary)}
+.btn-icon{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;font-size:1rem;color:var(--text)}
+
+.tool-container{max-width:1100px;margin:24px auto;padding:0 20px;flex:1;width:100%}
+.tool-header{margin-bottom:24px}
+.tool-header h1{font-size:1.8rem;margin-bottom:4px}
+.tool-header p{color:var(--text-secondary);font-size:0.95rem}
+
+.inputs-section{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.input-group{display:flex;flex-direction:column;gap:4px}
+.input-group label{font-size:0.85rem;font-weight:600;color:var(--text-secondary)}
+.input-group input, .input-group textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text);font-size:0.9rem;font-family:inherit;resize:vertical}
+.input-group textarea{min-height:60px}
+.input-group input:focus, .input-group textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(59,130,246,0.2)}
+.tog-grid{grid-column:1/-1;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tog-grid .input-group{flex:1;min-width:180px}
+
+.tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--border)}
+.tab-btn{padding:10px 20px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;font-size:0.9rem;font-weight:500;color:var(--text-secondary);transition:all 0.2s}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab-btn:hover{color:var(--primary)}
+
+.preview-panel{display:none;background:var(--bg-card);border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);padding:24px;min-height:300px}
+.preview-panel.active{display:block}
+
+/* Facebook card */
+.fb-card{max-width:500px;border:1px solid #dadde1;border-radius:0;background:#fff;overflow:hidden;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1c1e21}
+.fb-card .fb-img{width:100%;height:260px;background:#f0f2f5;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.fb-card .fb-img img{width:100%;height:100%;object-fit:cover}
+.fb-card .fb-img .fb-placeholder{color:#65676b;font-size:2rem}
+.fb-card .fb-body{padding:10px 12px 12px}
+.fb-card .fb-domain{font-size:0.75rem;color:#65676b;text-transform:uppercase;margin-bottom:3px}
+.fb-card .fb-title{font-size:1rem;font-weight:600;color:#1c1e21;line-height:1.3;margin-bottom:3px}
+.fb-card .fb-desc{font-size:0.875rem;color:#65676b;line-height:1.4}
+.fb-title.len-warn{color:#e0245e}
+.fb-desc.len-warn{color:#e0245e}
+
+/* Twitter cards */
+.tw-card{border:1px solid #cfd9de;border-radius:16px;overflow:hidden;background:#fff;max-width:500px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+.tw-card.tw-dark{background:#15202b;color:#f7f9f9;border-color:#38444d}
+.tw-card .tw-img{width:100%;height:260px;background:#f7f9f9;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tw-card.tw-dark .tw-img{background:#192734}
+.tw-card .tw-img img{width:100%;height:100%;object-fit:cover}
+.tw-card .tw-img .tw-placeholder{color:#536471;font-size:2rem}
+.tw-card.tw-dark .tw-img .tw-placeholder{color:#8899a6}
+.tw-card .tw-body{padding:12px}
+.tw-card .tw-domain{font-size:0.8rem;color:#536471;margin-bottom:2px}
+.tw-card.tw-dark .tw-domain{color:#8899a6}
+.tw-card .tw-title{font-size:0.95rem;line-height:1.3;color:#0f1419;margin-bottom:2px}
+.tw-card.tw-dark .tw-title{color:#f7f9f9}
+.tw-card .tw-desc{font-size:0.85rem;color:#536471;line-height:1.4}
+.tw-card.tw-dark .tw-desc{color:#8899a6}
+.tw-card .tw-border{border-top:1px solid #cfd9de;margin-top:8px;padding-top:8px}
+.tw-card.tw-dark .tw-border{border-color:#38444d}
+.tw-title.len-warn,.tw-desc.len-warn{color:#e0245e!important}
+.tw-small{border:1px solid #cfd9de;border-radius:16px;padding:12px;background:#fff;max-width:500px;display:flex;gap:12px;align-items:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+.tw-small.tw-dark{background:#15202b;color:#f7f9f9;border-color:#38444d}
+.tw-small .tw-thumb{width:64px;height:64px;border-radius:8px;background:#f7f9f9;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tw-small.tw-dark .tw-thumb{background:#192734}
+.tw-small .tw-thumb img{width:100%;height:100%;object-fit:cover}
+.tw-small .tw-info{flex:1;min-width:0}
+.tw-small .tw-domain{font-size:0.8rem;color:#536471;margin-bottom:2px}
+.tw-small.tw-dark .tw-domain{color:#8899a6}
+.tw-small .tw-title{font-size:0.9rem;line-height:1.3;color:#0f1419;margin-bottom:2px}
+.tw-small.tw-dark .tw-title{color:#f7f9f9}
+.tw-small .tw-desc{font-size:0.8rem;color:#536471;line-height:1.3}
+.tw-small.tw-dark .tw-desc{color:#8899a6}
+
+/* LinkedIn card */
+.li-card{max-width:500px;border-radius:8px;overflow:hidden;background:#fff;border:1px solid #e0e0e0;font-family:-apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:rgba(0,0,0,0.9)}
+.li-card .li-img{width:100%;height:260px;background:#f3f2ef;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.li-card .li-img img{width:100%;height:100%;object-fit:cover}
+.li-card .li-img .li-placeholder{color:#666;font-size:2rem}
+.li-card .li-body{padding:12px}
+.li-card .li-title{font-size:0.95rem;font-weight:600;line-height:1.3;margin-bottom:2px}
+.li-card .li-domain{font-size:0.75rem;color:rgba(0,0,0,0.6);margin-bottom:4px}
+
+/* Counters */
+.counters{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.counter{display:flex;align-items:center;gap:4px;font-size:0.8rem}
+.counter .count{font-weight:600}
+.counter.ok .count{color:#22c55e}
+.counter.warn .count{color:#e0245e}
+
+.embed-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0;text-align:left}
+.embed-cta h3{margin-bottom:8px;font-size:1.1rem}
+.embed-cta p{color:var(--text-secondary);font-size:.9rem;margin-bottom:16px}
+.embed-code{width:100%;font-family:monospace;font-size:.78rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px 80px 14px 14px;color:var(--text);resize:vertical;line-height:1.5;white-space:pre;overflow-x:auto}
+.embed-code-wrapper{position:relative}
+.btn-copy-embed{position:absolute;top:8px;right:8px;padding:6px 14px;background:#083fa1;color:#fff;border:none;border-radius:4px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-copy-embed:hover{background:#062d7a}
+
+.footer{margin-top:32px;padding:24px 0;border-top:1px solid var(--border);text-align:center}
+.footer p{color:var(--text-secondary);font-size:0.9rem}
+.footer .small{font-size:0.8rem;margin-top:4px}
+.footer .small a{color:var(--text-secondary);text-decoration:none;margin:0 4px}
+.footer .small a:hover{color:var(--primary)}
+
+@media(max-width:768px){
+  .inputs-section{grid-template-columns:1fr}
+  .tog-grid{grid-column:1}
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>👁️ OG Preview</h1><p>Preview how your links will appear on Facebook, Twitter, and LinkedIn. Enter your meta tag details below.</p></div>
+
+  <div class="inputs-section">
+    <div class="input-group"><label for="ogTitle">Title (og:title)</label><input type="text" id="ogTitle" placeholder="Your page title" maxlength="150"></div>
+    <div class="input-group"><label for="ogDesc">Description (og:description)</label><textarea id="ogDesc" rows="2" placeholder="Your page description" maxlength="300"></textarea></div>
+    <div class="input-group"><label for="ogImage">Image URL (og:image)</label><input type="url" id="ogImage" placeholder="https://example.com/image.jpg"></div>
+    <div class="input-group"><label for="ogUrl">Page URL</label><input type="url" id="ogUrl" placeholder="https://example.com/page"></div>
+    <div class="tog-grid">
+      <div class="input-group"><label for="ogSite">Site Name (og:site_name)</label><input type="text" id="ogSite" placeholder="Example Site" maxlength="40"></div>
+      <div class="input-group"><label for="cardType">Twitter Card Type</label>
+        <select id="cardType" style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text);font-size:0.9rem;font-family:inherit">
+          <option value="summary_large_image">Summary Large Image</option>
+          <option value="summary">Summary (small)</option>
+        </select>
+      </div>
+      <div class="input-group"><label for="twTheme">Twitter Theme</label>
+        <select id="twTheme" style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text);font-size:0.9rem;font-family:inherit">
+          <option value="light">Light</option>
+          <option value="dark">Dark (Dim)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="fb">📘 Facebook</button>
+    <button class="tab-btn" data-tab="tw">🐦 Twitter</button>
+    <button class="tab-btn" data-tab="li">💼 LinkedIn</button>
+  </div>
+
+  <div class="preview-panel active" id="panel-fb">
+    <div class="fb-card">
+      <div class="fb-img" id="fbImg"><span class="fb-placeholder">🖼️</span></div>
+      <div class="fb-body">
+        <div class="fb-domain" id="fbDomain">example.com</div>
+        <div class="fb-title" id="fbTitle">Your page title will appear here</div>
+        <div class="fb-desc" id="fbDesc">Your description will appear here. Keep it concise for the best results on Facebook.</div>
+      </div>
+    </div>
+    <div class="counters" style="margin-top:12px">
+      <div class="counter ok" id="fbTitleCounter"><span class="count" id="fbTitleCount">0</span>/~60 title chars</div>
+      <div class="counter ok" id="fbDescCounter"><span class="count" id="fbDescCount">0</span>/~110 desc chars</div>
+    </div>
+  </div>
+
+  <div class="preview-panel" id="panel-tw">
+    <div id="twPreview"></div>
+    <div class="counters" style="margin-top:12px">
+      <div class="counter ok" id="twTitleCounter"><span class="count" id="twTitleCount">0</span>/~70 title chars</div>
+      <div class="counter ok" id="twDescCounter"><span class="count" id="twDescCount">0</span>/~200 desc chars</div>
+    </div>
+  </div>
+
+  <div class="preview-panel" id="panel-li">
+    <div class="li-card">
+      <div class="li-img" id="liImg"><span class="li-placeholder">🖼️</span></div>
+      <div class="li-body">
+        <div class="li-title" id="liTitle">Your page title will appear here</div>
+        <div class="li-domain" id="liDomain">example.com</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="embed-section" class="embed-cta"><h3>🔗 Embed this tool on your site</h3><p>Add this free tool to your website.</p><textarea class="embed-code" rows="3" readonly onclick="this.select()">&lt;iframe src="https://toolstand.io/tools/og-preview/embed" width="100%" height="550" frameborder="0"&gt;&lt;/iframe&gt;
+&lt;p style="text-align:center;font-size:12px"&gt;Powered by &lt;a href="https://toolstand.io/tools/og-preview/"&gt;ToolStand OG Preview&lt;/a&gt;&lt;/p&gt;</textarea><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">Click to copy</p></section>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/og-preview/" target="_blank" rel="noopener">Powered by ToolStand Open Graph Preview</a></div>
+<script>
+(function(){
+  'use strict';
+const themeToggle = const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle?.addEventListener('click', () => { const next = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('toolstand-theme', next); });
+  const ogTitle = document.getElementById('ogTitle');
+  const ogDesc = document.getElementById('ogDesc');
+  const ogImage = document.getElementById('ogImage');
+  const ogUrl = document.getElementById('ogUrl');
+  const ogSite = document.getElementById('ogSite');
+  const cardType = document.getElementById('cardType');
+  const twTheme = document.getElementById('twTheme');
+
+  function extractDomain(url) {
+    try { return new URL(url).hostname.replace('www.', ''); } catch(e) { return 'example.com'; }
+  }
+
+  function updateAll() {
+    const title = ogTitle.value.trim() || 'Your page title will appear here';
+    const desc = ogDesc.value.trim() || 'Your description will appear here. Keep it concise for the best results.';
+    const img = ogImage.value.trim();
+    const url = ogUrl.value.trim() || 'https://example.com/page';
+    const site = ogSite.value.trim() || extractDomain(url);
+    const domain = extractDomain(url);
+
+    // Facebook
+    document.getElementById('fbTitle').textContent = title;
+    document.getElementById('fbDesc').textContent = desc;
+    document.getElementById('fbDomain').textContent = domain;
+    const fbImg = document.getElementById('fbImg');
+    if (img) { fbImg.innerHTML = '<img src="'+img+'" alt="" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<span class=fb-placeholder>🖼️</span>\'">'; }
+    else { fbImg.innerHTML = '<span class="fb-placeholder">🖼️</span>'; }
+
+    const fbTitleEl = document.getElementById('fbTitle');
+    const fbTitleCount = document.getElementById('fbTitleCount');
+    const fbTitleLen = title.length;
+    fbTitleCount.textContent = fbTitleLen;
+    fbTitleEl.classList.toggle('len-warn', fbTitleLen > 60);
+    const fbTitleCtr = document.getElementById('fbTitleCounter');
+    fbTitleCtr.classList.toggle('warn', fbTitleLen > 60);
+    fbTitleCtr.classList.toggle('ok', fbTitleLen <= 60);
+
+    const fbDescEl = document.getElementById('fbDesc');
+    const fbDescCount = document.getElementById('fbDescCount');
+    const fbDescLen = desc.length;
+    fbDescCount.textContent = fbDescLen;
+    fbDescEl.classList.toggle('len-warn', fbDescLen > 110);
+    const fbDescCtr = document.getElementById('fbDescCounter');
+    fbDescCtr.classList.toggle('warn', fbDescLen > 110);
+    fbDescCtr.classList.toggle('ok', fbDescLen <= 110);
+
+    // Twitter
+    const twIsLarge = cardType.value === 'summary_large_image';
+    const twIsDark = twTheme.value === 'dark';
+    const darkClass = twIsDark ? ' tw-dark' : '';
+    const twPrev = document.getElementById('twPreview');
+    if (twIsLarge) {
+      twPrev.innerHTML = '<div class="tw-card'+darkClass+'"><div class="tw-img">'+(img?'<img src="'+img+'" alt="" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<span class=tw-placeholder>🖼️</span>\'">':'<span class="tw-placeholder">🖼️</span>')+'</div><div class="tw-body"><div class="tw-domain">'+domain+'</div><div class="tw-title'+(title.length>70?' len-warn':'')+'">'+title+'</div><div class="tw-desc'+(desc.length>200?' len-warn':'')+'">'+desc+'</div></div></div>';
+    } else {
+      twPrev.innerHTML = '<div class="tw-small'+darkClass+'"><div class="tw-thumb">'+(img?'<img src="'+img+'" alt="" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'🖼️\'">':'🖼️')+'</div><div class="tw-info"><div class="tw-domain">'+domain+'</div><div class="tw-title'+(title.length>70?' len-warn':'')+'">'+title+'</div><div class="tw-desc'+(desc.length>200?' len-warn':'')+'">'+desc+'</div></div></div>';
+    }
+
+    const twTitleCount = document.getElementById('twTitleCount');
+    twTitleCount.textContent = title.length;
+    const twTitleCtr = document.getElementById('twTitleCounter');
+    twTitleCtr.classList.toggle('warn', title.length > 70);
+    twTitleCtr.classList.toggle('ok', title.length <= 70);
+
+    const twDescCount = document.getElementById('twDescCount');
+    twDescCount.textContent = desc.length;
+    const twDescCtr = document.getElementById('twDescCounter');
+    twDescCtr.classList.toggle('warn', desc.length > 200);
+    twDescCtr.classList.toggle('ok', desc.length <= 200);
+
+    // LinkedIn
+    document.getElementById('liTitle').textContent = title;
+    document.getElementById('liDomain').textContent = domain;
+    const liImg = document.getElementById('liImg');
+    if (img) { liImg.innerHTML = '<img src="'+img+'" alt="" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<span class=li-placeholder>🖼️</span>\'">'; }
+    else { liImg.innerHTML = '<span class="li-placeholder">🖼️</span>'; }
+  }
+
+  ogTitle.addEventListener('input', updateAll);
+  ogDesc.addEventListener('input', updateAll);
+  ogImage.addEventListener('input', updateAll);
+  ogUrl.addEventListener('input', updateAll);
+  ogSite.addEventListener('input', updateAll);
+  cardType.addEventListener('change', updateAll);
+  twTheme.addEventListener('change', updateAll);
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.preview-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  updateAll();
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

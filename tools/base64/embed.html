@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base64 Encoder & Decoder — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Base64 Encoder & Decoder","url":"https://toolstand.io/tools/base64/","applicationCategory":"GeneratorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.b64-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.b64-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: var(--bg-card);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.b64-tab.active { background: var(--primary); color: white; }
+.b64-tab:not(.active):hover { background: var(--border); }
+.b64-panel { display: none; }
+.b64-panel.active { display: block; }
+.b64-panel textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: 'Courier New', monospace;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  transition: border-color 0.15s;
+  margin-bottom: 12px;
+}
+.b64-panel textarea:focus { outline: none; border-color: var(--primary); }
+.b64-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.b64-result {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  min-height: 60px;
+  word-break: break-all;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.b64-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+.b64-file-upload {
+  margin-top: 8px;
+}
+.b64-file-upload input[type="file"] {
+  font-size: 0.85rem;
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🔣 Base64 Encoder / Decoder</h1>
+    <p>Encode text or files to Base64, or decode Base64 back to readable text. Free and instant.</p>
+  </div>
+  <div class="b64-tabs" id="b64Tabs">
+    <button class="b64-tab active" data-tab="encode">🔒 Encode</button>
+    <button class="b64-tab" data-tab="decode">🔓 Decode</button>
+  </div>
+  <div class="b64-panel active" id="panel-encode">
+    <label style="font-weight:600;font-size:0.85rem;color:var(--text-secondary);display:block;margin-bottom:6px">Text to encode</label>
+    <textarea id="encodeInput" placeholder="Enter text to encode..."></textarea>
+    <div class="b64-actions">
+      <button class="btn" id="encodeBtn">Encode →</button>
+      <button class="btn btn-outline" id="copyEncodeBtn">📋 Copy</button>
+    </div>
+    <div class="b64-file-upload">
+      <label style="font-size:0.85rem;color:var(--text-secondary)">Or encode a file: </label>
+      <input type="file" id="fileInput">
+    </div>
+    <label style="font-weight:600;font-size:0.85rem;color:var(--text-secondary);display:block;margin-top:12px;margin-bottom:6px">Base64 output</label>
+    <div class="b64-result" id="encodeResult">Result will appear here</div>
+  </div>
+  <div class="b64-panel" id="panel-decode">
+    <label style="font-weight:600;font-size:0.85rem;color:var(--text-secondary);display:block;margin-bottom:6px">Base64 text to decode</label>
+    <textarea id="decodeInput" placeholder="Paste Base64 text..."></textarea>
+    <div class="b64-actions">
+      <button class="btn" id="decodeBtn">← Decode</button>
+      <button class="btn btn-outline" id="copyDecodeBtn">📋 Copy</button>
+    </div>
+    <label style="font-weight:600;font-size:0.85rem;color:var(--text-secondary);display:block;margin-top:12px;margin-bottom:6px">Decoded text</label>
+    <div class="b64-result" id="decodeResult">Result will appear here</div>
+    <div class="b64-error" id="decodeError">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/base64/" target="_blank" rel="noopener">Powered by ToolStand Base64 Encoder & Decoder</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

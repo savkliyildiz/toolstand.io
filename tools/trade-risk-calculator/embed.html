@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Risk & Break — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Trade Risk & Break","url":"https://toolstand.io/tools/trade-risk-calculator/","applicationCategory":"CalculatorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tr-container{display:flex;flex-direction:column;gap:20px}.tr-presets{display:flex;gap:8px;flex-wrap:wrap}.tr-preset{padding:8px 16px;font-size:.8rem;font-weight:600;border:1px solid var(--border);border-radius:100px;cursor:pointer;background:var(--bg-card);color:var(--text);transition:all .15s}.tr-preset:hover,.tr-preset.active{background:#10b981;color:white;border-color:#10b981}.tr-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.tr-group{display:flex;flex-direction:column;gap:5px}.tr-group label{font-size:.85rem;font-weight:600;color:var(--text-secondary)}.tr-group input{padding:11px 14px;border:2px solid var(--border);border-radius:var(--radius);font-size:1rem;background:var(--bg);color:var(--text)}.tr-group input:focus{outline:none;border-color:#10b981}.tr-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}.tr-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}.tr-card-label{font-size:.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}.tr-card-value{font-size:1.6rem;font-weight:800}.tr-green{color:#10b981}.tr-red{color:#ef4444}.tr-blue{color:#3b82f6}.tr-formula{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-size:.82rem;color:var(--text-secondary);font-family:monospace;text-align:center}@media(max-width:600px){.tr-inputs{grid-template-columns:1fr 1fr}}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>📊 Trade Risk & Break-Even Calculator</h1><p>Calculate your exact break-even exit price including buy & sell commissions. Presets for BIST, Binance, and crypto exchanges.</p></div><div class="tr-container">
+<div class="tr-presets" id="trPresets"><button class="tr-preset active" data-rate="0.0004" data-name="BIST (0.04%)">🇹🇷 BIST 0.04%</button><button class="tr-preset" data-rate="0.002" data-name="BIST Total">🇹🇷 BIST Total 0.2%</button><button class="tr-preset" data-rate="0.001" data-name="Binance Spot">₿ Binance 0.1%</button><button class="tr-preset" data-rate="0.00075" data-name="Binance BNB">₿ Binance BNB 0.075%</button><button class="tr-preset" data-rate="0.002" data-name="Coinbase">🪙 Coinbase 0.2%</button></div>
+<div class="tr-inputs"><div class="tr-group"><label>Buy Price ($)</label><input type="number" id="trPrice" value="100" step="0.01" min="0"></div><div class="tr-group"><label>Quantity</label><input type="number" id="trQty" value="100" step="1" min="0"></div><div class="tr-group"><label>Commission Rate</label><input type="number" id="trRate" value="0.0004" step="0.0001" min="0"><span style="font-size:.7rem;color:var(--text-secondary)">e.g. 0.001 = 0.1%</span></div></div>
+<div class="tr-results" id="trResults"><div class="tr-card"><div class="tr-card-label">Total Cost</div><div class="tr-card-value tr-blue" id="trCost">—</div></div><div class="tr-card"><div class="tr-card-label">Break-Even Price</div><div class="tr-card-value tr-green" id="trBE">—</div></div><div class="tr-card"><div class="tr-card-label">Profit at +1%</div><div class="tr-card-value tr-green" id="trProfit1">—</div></div></div>
+<div class="tr-formula" id="trFormula">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/trade-risk-calculator/" target="_blank" rel="noopener">Powered by ToolStand Trade Risk & Break</a></div>
+<script>
+(function(){
+  'use strict';
+var rate=0.0004;
+function calc(){var p=parseFloat(document.getElementById('trPrice').value)||0,q=parseFloat(document.getElementById('trQty').value)||0,c=parseFloat(document.getElementById('trRate').value)||0;
+var totalCost=p*q*(1+c),bePrice=totalCost/(q*(1-c)),profit1=p*1.01*q*(1-c)-totalCost;
+document.getElementById('trCost').textContent='$'+totalCost.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+document.getElementById('trBE').textContent='$'+bePrice.toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4});
+document.getElementById('trProfit1').textContent='$'+profit1.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+document.getElementById('trFormula').textContent='Break-Even = Buy × (1+C) ÷ (Quantity × (1-C)) = '+p.toFixed(2)+'×(1+'+c+')÷('+q+'×(1-'+c+')) = $'+bePrice.toFixed(4);}
+document.getElementById('trPrice').addEventListener('input',calc);document.getElementById('trQty').addEventListener('input',calc);document.getElementById('trRate').addEventListener('input',calc);
+document.getElementById('trPresets').addEventListener('click',function(e){if(e.target.classList.contains('tr-preset')){document.querySelectorAll('.tr-preset').forEach(function(b){b.classList.remove('active')});e.target.classList.add('active');document.getElementById('trRate').value=e.target.dataset.rate;calc();}});
+document.documentElement.setAttribute('data-theme',n);localStorage.setItem('toolstand-theme',n);});
+calc();
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

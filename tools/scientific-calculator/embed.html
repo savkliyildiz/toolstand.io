@@ -1,1 +1,29 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Calculator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Scientific Calculator","url":"https://toolstand.io/tools/scientific-calculator/","applicationCategory":"CalculatorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tc-c{display:flex;flex-direction:column;gap:20px}.tc-i{width:100%;padding:12px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);box-sizing:border-box;font-family:monospace}.tc-i:focus{outline:none;border-color:#6366f1}.tc-b{padding:12px 24px;font-weight:700;background:#6366f1;color:white;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem}.tc-b:hover{opacity:.9}.tc-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;min-height:50px}.tc-l{font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🧮 Scientific Calculator</h1><p>Scientific calculator with trig, log, sqrt, power, factorial. Expression input with history.</p></div><div class="tc-c"><div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px"><input type="text" id="tgEx" class="tc-i" placeholder="Enter expression... (e.g. sin(45)*2 + sqrt(16))" style="font-family:monospace;font-size:1.1rem"><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px"><style>.cb{padding:12px 4px;font-weight:600;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--bg);color:var(--text);font-size:.85rem}.cb:hover{background:var(--border)}.cb-op{background:#6366f1;color:white;border-color:#6366f1}.cb-fn{color:#8b5cf6}</style><button class="cb cb-fn" data-btn="sin(">sin(</button><button class="cb cb-fn" data-btn="cos(">cos(</button><button class="cb cb-fn" data-btn="tan(">tan(</button><button class="cb cb-fn" data-btn="log(">log(</button><button class="cb cb-fn" data-btn="ln(">ln(</button><button class="cb cb-fn" data-btn="√(">√(</button><button class="cb" data-btn="(">(</button><button class="cb" data-btn=")">)</button><button class="cb" data-btn="C">C</button><button class="cb cb-fn" data-btn="π">π</button><button class="cb" data-btn="7">7</button><button class="cb" data-btn="8">8</button><button class="cb" data-btn="9">9</button><button class="cb cb-op" data-btn="/">/</button><button class="cb cb-fn" data-btn="e">e</button><button class="cb" data-btn="4">4</button><button class="cb" data-btn="5">5</button><button class="cb" data-btn="6">6</button><button class="cb cb-op" data-btn="*">*</button><button class="cb cb-fn" data-btn="!">!</button><button class="cb" data-btn="1">1</button><button class="cb" data-btn="2">2</button><button class="cb" data-btn="3">3</button><button class="cb cb-op" data-btn="-">-</button><button class="cb cb-fn" data-btn="^">^</button><button class="cb" data-btn="0">0</button><button class="cb" data-btn=".">.</button><button class="cb cb-op" data-btn="=">=</button><button class="cb cb-op" data-btn="+">+</button><button class="cb" data-btn="Ans">Ans</button></div></div><div class="tc-o" id="tgO" style="font-size:1.1rem;text-align:right"></div><div id="tgHi" style="max-height:150px;overflow-y:auto;font-size:.8rem;color:var(--text-secondary)">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/scientific-calculator/" target="_blank" rel="noopener">Powered by ToolStand Scientific Calculator</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

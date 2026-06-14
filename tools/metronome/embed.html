@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metronome — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Metronome","url":"https://toolstand.io/tools/metronome/","applicationCategory":"ProductivityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+/* Metronome-specific styles */
+.metro-display {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.bpm-display {
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.bpm-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+.bpm-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  outline: none;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.bpm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid var(--bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.1s;
+}
+
+.bpm-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.bpm-slider::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid var(--bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.metro-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.btn-play {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.btn-play:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.btn-play:active {
+  transform: scale(0.95);
+}
+
+.btn-play.playing {
+  background: #ef4444;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-play.playing:hover {
+  background: #dc2626;
+}
+
+.btn-tap {
+  padding: 10px 20px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.15s;
+  min-width: 100px;
+}
+
+.btn-tap:hover {
+  border-color: var(--primary);
+  background: var(--bg);
+}
+
+.btn-tap.tapping {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+/* Time signature */
+.time-sig {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.time-sig-btn {
+  padding: 8px 18px;
+  text-align: center;
+  background: var(--bg-card);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+  font-variant-numeric: tabular-nums;
+}
+
+.time-sig-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+.time-sig-btn:not(.active):hover {
+  background: var(--border);
+}
+
+/* Pendulum */
+.pendulum-stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 220px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pendulum-pivot {
+  width: 16px;
+  height: 16px;
+  background: var(--text);
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.pendulum-arm {
+  width: 4px;
+  height: 170px;
+  background: var(--text-secondary);
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform-origin: top center;
+  border-radius: 2px;
+}
+
+.pendulum-arm.swing {
+  animation: pendulum-swing var(--swing-duration, 1s) ease-in-out infinite;
+}
+
+.pendulum-bob {
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+  transition: background 0.3s;
+}
+
+.metro-playing .pendulum-bob {
+  box-shadow: 0 2px 12px rgba(37, 99, 235, 0.6);
+}
+
+@keyframes pendulum-swing {
+  0%   { transform: rotate(-22deg); }
+  50%  { transform: rotate(22deg); }
+  100% { transform: rotate(-22deg); }
+}
+
+/* Beat indicator dots */
+.beat-indicator {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+  min-height: 32px;
+}
+
+.beat-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.1s;
+}
+
+.beat-dot.accent {
+  width: 16px;
+  height: 16px;
+  transform: translateY(-1px);
+}
+
+.beat-dot.active {
+  background: var(--primary);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+  transform: scale(1.3);
+}
+
+.beat-dot.accent.active {
+  box-shadow: 0 0 14px rgba(37, 99, 235, 0.7);
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🥁 Metronome</h1>
+    <p>Keep perfect time. Adjust BPM, tap your tempo, or pick a time signature — right in your browser.</p>
+  </div>
+
+  <!-- BPM Display -->
+  <div class="metro-display">
+    <div class="bpm-display" id="bpmDisplay">120</div>
+    <div class="bpm-label">BPM</div>
+  </div>
+
+  <!-- BPM Slider -->
+  <input type="range" id="bpmSlider" class="bpm-slider" min="40" max="208" value="120" step="1">
+
+  <!-- Controls -->
+  <div class="metro-controls">
+    <button id="btnPlay" class="btn-play" aria-label="Play / Stop" title="Play / Stop">▶</button>
+    <button id="btnTap" class="btn-tap" title="Tap to set tempo">👆 Tap Tempo</button>
+  </div>
+
+  <!-- Beat indicator -->
+  <div class="beat-indicator" id="beatIndicator"></div>
+
+  <!-- Time Signature -->
+  <div class="time-sig" id="timeSig">
+    <button class="time-sig-btn" data-beats="2">2/4</button>
+    <button class="time-sig-btn active" data-beats="4">4/4</button>
+    <button class="time-sig-btn" data-beats="3">3/4</button>
+    <button class="time-sig-btn" data-beats="6">6/8</button>
+  </div>
+
+  <!-- Pendulum -->
+  <div class="pendulum-stage" id="pendulumStage">
+    <div class="pendulum-pivot"></div>
+    <div class="pendulum-arm swing" id="pendulumArm" style="--swing-duration: 1s">
+      <div class="pendulum-bob"></div>
+    </div>
+  </div>
+
+  <!-- Embed CTA -->
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/metronome/" target="_blank" rel="noopener">Powered by ToolStand Metronome</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

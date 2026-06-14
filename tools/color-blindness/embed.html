@@ -1,1 +1,219 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Blindness Simulator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Color Blindness Simulator","url":"https://toolstand.io/tools/color-blindness/","applicationCategory":"UtilityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff;--surface:#f9fafb;--text:#111827;--text-secondary:#6b7280;--border:#e5e7eb;--accent:#8b5cf6;--accent-hover:#7c3aed;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,.1)}
+[data-theme="dark"]{--bg:#111827;--surface:#1f2937;--text:#f9fafb;--text-secondary:#9ca3af;--border:#374151;--shadow:0 1px 3px rgba(0,0,0,.4)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:0 16px}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:50}
+.header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.25rem;text-decoration:none;color:var(--text)}
+.nav{display:flex;gap:16px;align-items:center}
+.nav a{color:var(--text-secondary);text-decoration:none;font-size:.9rem}
+.nav a:hover{color:var(--accent)}
+.btn-icon{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;font-size:1.1rem;color:var(--text)}
+
+.tool-container{max-width:900px;margin:0 auto;padding:24px 16px}
+.tool-header{text-align:center;margin-bottom:28px}
+.tool-header h1{font-size:2rem;margin-bottom:6px}
+.tool-header p{color:var(--text-secondary);font-size:1.05rem}
+.upload-area{border:2px dashed var(--border);border-radius:var(--radius);padding:40px 20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:20px}
+.upload-area:hover,.upload-area.dragover{border-color:var(--accent);background:rgba(139,92,246,.05)}
+.upload-area p{color:var(--text-secondary);margin-top:8px}
+.upload-area .icon{font-size:2.5rem}
+#cbFileInput{display:none}
+.mode-selector{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.mode-btn{padding:8px 16px;border:1px solid var(--border);border-radius:20px;background:var(--surface);color:var(--text);cursor:pointer;font-size:.85rem;transition:all .2s;white-space:nowrap}
+.mode-btn:hover{border-color:var(--accent)}
+.mode-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.comparison{display:none}
+.comparison.visible{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.comparison-panel{text-align:center}
+.comparison-panel h3{font-size:.95rem;margin-bottom:8px;color:var(--text-secondary)}
+.comparison-panel img,.comparison-panel canvas{max-width:100%;max-height:400px;border-radius:var(--radius);border:1px solid var(--border)}
+.info-box{margin-top:20px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+.info-box h4{margin-bottom:6px}
+.info-box p{color:var(--text-secondary);font-size:.88rem;line-height:1.5}
+.embed-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0;text-align:left}
+.embed-cta h3{margin-bottom:8px;font-size:1.1rem}
+.embed-cta p{color:var(--text-secondary);font-size:.9rem;margin-bottom:16px}
+.embed-code{width:100%;font-family:monospace;font-size:.78rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px 80px 14px 14px;color:var(--text);resize:vertical;line-height:1.5;white-space:pre;overflow-x:auto}
+.embed-code-wrapper{position:relative}
+.btn-copy-embed{position:absolute;top:8px;right:8px;padding:6px 14px;background:#083fa1;color:#fff;border:none;border-radius:4px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-copy-embed:hover{background:#062d7a}
+.footer{background:var(--surface);border-top:1px solid var(--border);padding:20px 0;margin-top:40px;text-align:center}
+.footer p{color:var(--text-secondary)}
+.footer .small{font-size:.8rem;margin-top:6px}
+.footer .small a{color:var(--text-secondary);text-decoration:none;margin:0 6px}
+.footer .small a:hover{color:var(--accent)}
+@media(max-width:600px){.comparison.visible{grid-template-columns:1fr}.tool-header h1{font-size:1.5rem}}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>👁️ Color Blindness Simulator</h1><p>Upload an image to see how it appears to people with different types of color vision deficiency.</p></div>
+  <div class="upload-area" id="cbUploadArea">
+    <div class="icon">📷</div>
+    <p>Click or drag &amp; drop an image here</p>
+    <input type="file" id="cbFileInput" accept="image/*">
+  </div>
+  <div class="mode-selector" id="cbModeSelector" style="display:none">
+    <button class="mode-btn active" data-mode="protanopia">🔴 Protanopia</button>
+    <button class="mode-btn" data-mode="deuteranopia">🟢 Deuteranopia</button>
+    <button class="mode-btn" data-mode="tritanopia">🔵 Tritanopia</button>
+    <button class="mode-btn" data-mode="achromatopsia">⚫ Achromatopsia</button>
+  </div>
+  <div class="comparison" id="cbComparison">
+    <div class="comparison-panel"><h3>Original</h3><img id="cbOriginal" alt="Original image"></div>
+    <div class="comparison-panel"><h3 id="cbSimLabel">Simulated</h3><canvas id="cbSimulated"></canvas></div>
+  </div>
+  <div class="info-box" id="cbInfo" style="display:none">
+    <h4 id="cbInfoTitle">About Protanopia</h4>
+    <p id="cbInfoDesc">Protanopia is a type of red-green color blindness where the red cone photopigment is missing. Affects ~1% of males. Reds appear darker and greenish; certain shades of orange, yellow, and green appear similar.</p>
+  </div>
+  <section id="embed-section" class="embed-cta"><h3>🔗 Embed this tool on your site</h3><p>Add this free color blindness simulator to your website.</p><textarea class="embed-code" rows="3" readonly onclick="this.select()">&lt;iframe src="https://toolstand.io/tools/color-blindness/embed" width="100%" height="550" frameborder="0"&gt;&lt;/iframe&gt;
+&lt;p style="text-align:center;font-size:12px"&gt;Powered by &lt;a href="https://toolstand.io/tools/color-blindness/"&gt;ToolStand Color Blindness Simulator&lt;/a&gt;&lt;/p&gt;</textarea><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">Click to copy</p></section>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/color-blindness/" target="_blank" rel="noopener">Powered by ToolStand Color Blindness Simulator</a></div>
+<script>
+(function(){
+  'use strict';
+const themeToggle = const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle?.addEventListener('click', () => { const next = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('toolstand-theme', next); });
+  const uploadArea = document.getElementById('cbUploadArea');
+  const fileInput = document.getElementById('cbFileInput');
+  const modeSelector = document.getElementById('cbModeSelector');
+  const comparison = document.getElementById('cbComparison');
+  const originalImg = document.getElementById('cbOriginal');
+  const simCanvas = document.getElementById('cbSimulated');
+  const simLabel = document.getElementById('cbSimLabel');
+  const infoBox = document.getElementById('cbInfo');
+  const infoTitle = document.getElementById('cbInfoTitle');
+  const infoDesc = document.getElementById('cbInfoDesc');
+
+  let currentImage = null;
+  let currentMode = 'protanopia';
+
+  const modeInfo = {
+    protanopia: {
+      title: 'About Protanopia',
+      desc: 'Protanopia is a type of red-green color blindness where the red cone photopigment (L-cones) is missing. It affects about 1% of males. Reds appear darker and greenish; certain shades of orange, yellow, and green appear similar to each other.',
+      matrix: [0.567, 0.433, 0, 0.558, 0.442, 0, 0, 0.242, 0.758]
+    },
+    deuteranopia: {
+      title: 'About Deuteranopia',
+      desc: 'Deuteranopia is the most common form of color blindness, where green cone photopigment (M-cones) is missing. Affects ~1% of males. Greens and reds appear similar; it can be hard to distinguish between reds, greens, browns, and oranges.',
+      matrix: [0.625, 0.375, 0, 0.7, 0.3, 0, 0, 0.3, 0.7]
+    },
+    tritanopia: {
+      title: 'About Tritanopia',
+      desc: 'Tritanopia is extremely rare, affecting the blue cone photopigment (S-cones). Affects males and females equally. Blues appear greenish, yellows appear pinkish or light gray. Vision is mainly limited to reds and cyans.',
+      matrix: [0.95, 0.05, 0, 0, 0.433, 0.567, 0, 0.475, 0.525]
+    },
+    achromatopsia: {
+      title: 'About Achromatopsia',
+      desc: 'Achromatopsia (total color blindness) is extremely rare. No cone function — vision is completely grayscale. Often accompanied by light sensitivity and poor visual acuity. Affects about 1 in 30,000 people.',
+      matrix: [0.299, 0.587, 0.114, 0.299, 0.587, 0.114, 0.299, 0.587, 0.114]
+    }
+  };
+
+  function simulateColorBlindness(imageData, mode) {
+    const data = imageData.data;
+    const matrix = modeInfo[mode].matrix;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i] / 255;
+      const g = data[i + 1] / 255;
+      const b = data[i + 2] / 255;
+
+      // Apply LMS simulation matrix
+      const newR = r * matrix[0] + g * matrix[1] + b * matrix[2];
+      const newG = r * matrix[3] + g * matrix[4] + b * matrix[5];
+      const newB = r * matrix[6] + g * matrix[7] + b * matrix[8];
+
+      data[i] = Math.min(255, Math.max(0, Math.round(newR * 255)));
+      data[i + 1] = Math.min(255, Math.max(0, Math.round(newG * 255)));
+      data[i + 2] = Math.min(255, Math.max(0, Math.round(newB * 255)));
+    }
+
+    return imageData;
+  }
+
+  function processImage() {
+    if (!currentImage) return;
+
+    const canvas = simCanvas;
+    const ctx = canvas.getContext('2d');
+
+    // Scale to fit while maintaining aspect ratio
+    const maxW = 500;
+    const maxH = 400;
+    let w = currentImage.width;
+    let h = currentImage.height;
+    const ratio = Math.min(maxW / w, maxH / h, 1);
+    w = Math.round(w * ratio);
+    h = Math.round(h * ratio);
+
+    canvas.width = w;
+    canvas.height = h;
+    ctx.drawImage(currentImage, 0, 0, w, h);
+
+    const imageData = ctx.getImageData(0, 0, w, h);
+    const simulated = simulateColorBlindness(imageData, currentMode);
+    ctx.putImageData(simulated, 0, 0);
+
+    // Update info
+    const info = modeInfo[currentMode];
+    infoTitle.textContent = info.title;
+    infoDesc.textContent = info.desc;
+    simLabel.textContent = currentMode.charAt(0).toUpperCase() + currentMode.slice(1);
+
+    comparison.classList.add('visible');
+    infoBox.style.display = 'block';
+  }
+
+  function loadImage(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        currentImage = img;
+        originalImg.src = e.target.result;
+        modeSelector.style.display = 'flex';
+        processImage();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadArea.addEventListener('click', () => fileInput.click());
+  uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+  uploadArea.addEventListener('drop', (e) => { e.preventDefault(); uploadArea.classList.remove('dragover'); if (e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]); });
+  fileInput.addEventListener('change', () => { if (fileInput.files.length) loadImage(fileInput.files[0]); });
+
+  modeSelector.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('mode-btn')) return;
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentMode = e.target.dataset.mode;
+    processImage();
+  });
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL Encoder & Decoder — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"URL Encoder & Decoder","url":"https://toolstand.io/tools/url-encoder/","applicationCategory":"ConverterApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tc-c{display:flex;flex-direction:column;gap:20px}.tc-i{width:100%;padding:12px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);box-sizing:border-box;font-family:monospace}.tc-i:focus{outline:none;border-color:#10b981}.tc-b{padding:12px 24px;font-weight:700;background:#10b981;color:white;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem}.tc-b:hover{opacity:.9}.tc-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:monospace;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;min-height:50px}.tc-l{font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🔗 URL Encoder & Decoder</h1><p>Encode and decode URL strings. Percent-encoding for special characters.</p></div><div class="tc-c"><textarea class="tc-i" id="tgIn" placeholder="Enter text or URL..." style="min-height:90px"></textarea><div style="display:flex;gap:8px"><button class="tc-b" id="tgEnc">Encode</button><button class="tc-b" id="tgDec" style="background:#f59e0b">Decode</button></div><div class="tc-o" id="tgO">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/url-encoder/" target="_blank" rel="noopener">Powered by ToolStand URL Encoder & Decoder</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word & Character Counter — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Word & Character Counter","url":"https://toolstand.io/tools/word-counter/","applicationCategory":"ProductivityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.wc-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  line-height: 1.7;
+  transition: border-color 0.15s;
+}
+.wc-textarea:focus { outline: none; border-color: var(--primary); }
+.wc-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.wc-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.wc-stat .wc-num { font-size: 1.6rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; }
+.wc-stat .wc-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+.wc-reading {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.wc-reading-item {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.wc-reading-item strong { color: var(--text); }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>📝 Word Counter</h1>
+    <p>Real-time word, character, and readability analysis. Paste or type your text below.</p>
+  </div>
+  <textarea class="wc-textarea" id="wcInput" placeholder="Type or paste your text here..."></textarea>
+  <div class="wc-stats" id="wcStats">
+    <div class="wc-stat"><div class="wc-num" id="wcWords">0</div><div class="wc-label">Words</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcChars">0</div><div class="wc-label">Characters</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcCharsNoSpaces">0</div><div class="wc-label">Chars (no spaces)</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcSentences">0</div><div class="wc-label">Sentences</div></div>
+    <div class="wc-stat"><div class="wc-num" id="wcParagraphs">0</div><div class="wc-label">Paragraphs</div></div>
+  </div>
+  <div class="wc-reading">
+    <div class="wc-reading-item">📖 Reading time: <strong id="wcReadTime">0 min</strong></div>
+    <div class="wc-reading-item">🎤 Speaking time: <strong id="wcSpeakTime">0 min</strong>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/word-counter/" target="_blank" rel="noopener">Powered by ToolStand Word & Character Counter</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

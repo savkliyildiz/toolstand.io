@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dead Pixel Test — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Dead Pixel Test","url":"https://toolstand.io/tools/dead-pixel-test/","applicationCategory":"UtilityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+/* ── Dead Pixel Test Styles ──────────────────────────── */
+.dpt-container {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.dpt-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.dpt-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.dpt-header p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* Preview colors */
+.dpt-colors-preview {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.dpt-color-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  transition: transform 0.15s;
+  cursor: default;
+}
+
+.dpt-color-dot:hover {
+  transform: scale(1.15);
+}
+
+/* Instructions card */
+.dpt-instructions {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.dpt-instructions h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.dpt-instructions ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.dpt-instructions li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  line-height: 1.5;
+}
+
+/* Start button */
+.dpt-start-wrap {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.btn-start-test {
+  padding: 16px 48px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 50px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+.btn-start-test:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+}
+.btn-start-test:active { transform: scale(0.97); }
+
+/* Full-screen test overlay */
+.dpt-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  background: #000000;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dpt-overlay.active {
+  display: block;
+}
+
+/* Instruction overlay inside test */
+.dpt-test-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 1s;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  line-height: 1.6;
+}
+
+.dpt-test-hint.fading {
+  opacity: 0;
+}
+
+/* Color name label */
+.dpt-color-label {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-weight: 600;
+  pointer-events: none;
+  transition: opacity 1s;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dpt-color-label.fading {
+  opacity: 0;
+}
+
+/* Exit button in overlay */
+.dpt-exit-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.8);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 10;
+  transition: background 0.15s;
+}
+.dpt-exit-btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* Dark colors need dark hint text */
+.dpt-overlay[data-bg="light"] .dpt-test-hint,
+.dpt-overlay[data-bg="light"] .dpt-color-label {
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.dpt-overlay[data-bg="white"] .dpt-test-hint,
+.dpt-overlay[data-bg="white"] .dpt-color-label {
+  color: rgba(0,0,0,0.6);
+  text-shadow: none;
+}
+.dpt-overlay[data-bg="white"] .dpt-exit-btn {
+  background: rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.2);
+  color: rgba(0,0,0,0.7);
+}
+
+/* Embed CTA */
+.dpt-cta {
+  margin-top: 12px;
+}
+
+/* Mobile: hide cursor during test */
+@media (pointer: coarse) {
+  .dpt-overlay.active { cursor: default; }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .dpt-test-hint { font-size: 0.95rem; }
+  .dpt-color-label { font-size: 0.8rem; bottom: 16px; right: 16px; }
+  .dpt-exit-btn { top: 10px; right: 10px; padding: 4px 10px; font-size: 0.8rem; }
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="dpt-header">
+    <h1>🔍 Dead Pixel Test</h1>
+    <p>Check your screen for dead or stuck pixels with full-screen solid colors. No ads during the test — just pure colors.</p>
+  </div>
+
+  <!-- Color preview dots -->
+  <div class="dpt-colors-preview">
+    <div class="dpt-color-dot" style="background:#FF0000" title="Red"></div>
+    <div class="dpt-color-dot" style="background:#00FF00" title="Green"></div>
+    <div class="dpt-color-dot" style="background:#0000FF" title="Blue"></div>
+    <div class="dpt-color-dot" style="background:#000000" title="Black"></div>
+    <div class="dpt-color-dot" style="background:#FFFFFF" title="White"></div>
+  </div>
+
+  <!-- Instructions -->
+  <div class="dpt-instructions">
+    <h3>How it works</h3>
+    <ul>
+      <li>🎨 Tap or click to cycle through <strong>Red → Green → Blue → Black → White</strong></li>
+      <li>🔍 Inspect each color closely for dead or stuck pixels</li>
+      <li>⌨️ Use <strong>arrow keys</strong> to move between colors</li>
+      <li>🖱️ <strong>Double-tap</strong> or press <strong>Escape</strong> to exit the test</li>
+      <li>📱 Works great on mobile — just tap the screen</li>
+    </ul>
+  </div>
+
+  <!-- Start button -->
+  <div class="dpt-start-wrap">
+    <button class="btn-start-test" id="btnStartTest">▶ Start Full Screen Test</button>
+  </div>
+
+  <!-- Embed CTA -->
+  <div class="dpt-cta">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/dead-pixel-test/" target="_blank" rel="noopener">Powered by ToolStand Dead Pixel Test</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

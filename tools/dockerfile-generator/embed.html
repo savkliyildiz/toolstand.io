@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dockerfile & Docker Compose Generator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Dockerfile & Docker Compose Generator","url":"https://toolstand.io/tools/dockerfile-generator/","applicationCategory":"DeveloperApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.dfg-form { display: flex; flex-direction: column; gap: 16px; max-width: 100%; }
+.dfg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .dfg-row { grid-template-columns: 1fr; } }
+.dfg-field { display: flex; flex-direction: column; gap: 4px; }
+.dfg-field label { font-weight: 700; font-size: 0.82rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.dfg-field select, .dfg-field input { width: 100%; padding: 10px 14px; font-size: 0.9rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-family: inherit; box-sizing: border-box; }
+.dfg-field select:focus, .dfg-field input:focus { outline: none; border-color: #2496ed; }
+.dfg-tabs { display: flex; gap: 0; margin-bottom: -2px; }
+.dfg-tab { padding: 10px 20px; font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border); background: var(--bg-card); color: var(--text-secondary); cursor: pointer; border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; }
+.dfg-tab.active { background: var(--bg); color: #2496ed; border-color: #2496ed; }
+.dfg-output-textarea { width: 100%; min-height: 320px; padding: 14px; font-size: 0.85rem; border: 2px solid var(--border); border-radius: 0 var(--radius) var(--radius) var(--radius); background: var(--bg-card); color: var(--text); font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; box-sizing: border-box; line-height: 1.5; resize: vertical; }
+.dfg-output-textarea:focus { outline: none; border-color: #2496ed; }
+.dfg-btn { padding: 10px 22px; font-weight: 700; border: none; border-radius: var(--radius); cursor: pointer; font-size: 0.9rem; transition: opacity 0.15s; }
+.dfg-btn-primary { background: #2496ed; color: white; }
+.dfg-btn-primary:hover { opacity: 0.9; }
+.dfg-btn-outline { background: var(--bg-card); border: 1px solid var(--border); color: var(--text); }
+.dfg-btn-outline:hover { background: var(--border); }
+.dfg-env-list { display: flex; flex-direction: column; gap: 6px; }
+.dfg-env-row { display: flex; gap: 8px; align-items: center; }
+.dfg-env-row input { flex: 1; }
+.dfg-env-remove { background: #ef4444; color: white; border: none; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 0.8rem; }
+.dfg-env-add { align-self: flex-start; font-size: 0.8rem; color: #2496ed; cursor: pointer; text-decoration: underline; background: none; border: none; }
+.dfg-option { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+.dfg-option input[type="checkbox"] { accent-color: #2496ed; width: 16px; height: 16px; }
+.dfg-option label { cursor: pointer; }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🐳 Dockerfile & Docker Compose Generator — Create Docker Configs Online</h1>
+    <p>Generate production-ready Dockerfile and docker-compose.yml for Node.js, Python, Go, Java, Rust, PHP. Configure ports, env vars, database — no Docker expertise needed.</p>
+  </div>
+
+  <div class="dfg-form">
+    <div class="dfg-row">
+      <div class="dfg-field">
+        <label for="dfgFramework">🖥️ Framework / Language</label>
+        <select id="dfgFramework">
+          <option value="node">Node.js (Express/Fastify)</option>
+          <option value="python">Python (Flask/Django/FastAPI)</option>
+          <option value="go">Go (net/http/Gin)</option>
+          <option value="java">Java / Spring Boot</option>
+          <option value="rust">Rust (Actix/Axum)</option>
+          <option value="php">PHP (Laravel/Symfony)</option>
+        </select>
+      </div>
+      <div class="dfg-field">
+        <label for="dfgDatabase">🗄️ Database (optional)</label>
+        <select id="dfgDatabase">
+          <option value="none">None</option>
+          <option value="postgres">PostgreSQL</option>
+          <option value="mysql">MySQL</option>
+          <option value="redis">Redis</option>
+          <option value="mongodb">MongoDB</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="dfg-row">
+      <div class="dfg-field">
+        <label for="dfgPort">🔌 Port</label>
+        <input type="number" id="dfgPort" value="3000" placeholder="e.g. 3000, 8080">
+      </div>
+      <div class="dfg-field" style="justify-content:flex-end">
+        <div class="dfg-option"><input type="checkbox" id="dfgExposePort" checked><label for="dfgExposePort">Expose port in Dockerfile</label></div>
+        <div class="dfg-option" style="margin-top:4px"><input type="checkbox" id="dfgMultiStage"><label for="dfgMultiStage">Multi-stage build</label></div>
+      </div>
+    </div>
+
+    <div class="dfg-field">
+      <label>🔐 Environment Variables</label>
+      <div class="dfg-env-list" id="dfgEnvList">
+        <div class="dfg-env-row">
+          <input type="text" placeholder="Key (e.g. NODE_ENV)" class="dfg-env-key">
+          <input type="text" placeholder="Value (e.g. production)" class="dfg-env-val">
+          <button class="dfg-env-remove" onclick="this.parentElement.remove()">✕</button>
+        </div>
+      </div>
+      <button class="dfg-env-add" id="dfgEnvAdd">+ Add Environment Variable</button>
+    </div>
+
+    <div>
+      <button class="dfg-btn dfg-btn-primary" id="dfgGenerateBtn">🐳 Generate Docker Configs</button>
+      <button class="dfg-btn dfg-btn-outline" id="dfgClearBtn" style="margin-left:8px">🗑️ Clear</button>
+    </div>
+
+    <div>
+      <div class="dfg-tabs">
+        <button class="dfg-tab active" data-tab="dockerfile">📄 Dockerfile</button>
+        <button class="dfg-tab" data-tab="compose">📋 docker-compose.yml</button>
+      </div>
+      <textarea class="dfg-output-textarea" id="dfgOutput" readonly placeholder="Generated Docker config will appear here..."></textarea>
+      <div style="margin-top:8px">
+        <button class="dfg-btn dfg-btn-primary" id="dfgCopyBtn">📋 Copy</button>
+      </div>
+    </div>
+  </div>
+
+    
+
+  <section class="seo-content">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/dockerfile-generator/" target="_blank" rel="noopener">Powered by ToolStand Dockerfile & Docker Compose Generator</a></div>
+<script>
+(function(){
+  'use strict';
+var currentTab = 'dockerfile';
+  var generatedDockerfile = '';
+  var generatedCompose = '';
+
+  var frameworks = {
+    node: { base: 'node:20-alpine', buildCmd: 'npm ci --only=production', runCmd: 'node dist/index.js', workdir: '/app', copySrc: '. .', expose: true },
+    python: { base: 'python:3.12-slim', buildCmd: 'pip install --no-cache-dir -r requirements.txt', runCmd: 'python app.py', workdir: '/app', copySrc: '. .', expose: true },
+    go: { base: 'golang:1.22-alpine AS builder', buildCmd: 'go build -o app .', runCmd: './app', workdir: '/app', copySrc: '. .', expose: true },
+    java: { base: 'eclipse-temurin:21-jre-alpine', buildCmd: './mvnw package -DskipTests', runCmd: 'java -jar target/app.jar', workdir: '/app', copySrc: 'target/app.jar app.jar', expose: true },
+    rust: { base: 'rust:1.78-alpine AS builder', buildCmd: 'cargo build --release', runCmd: './target/release/app', workdir: '/app', copySrc: '. .', expose: true },
+    php: { base: 'php:8.3-fpm-alpine', buildCmd: 'composer install --no-dev', runCmd: 'php-fpm', workdir: '/var/www/html', copySrc: '. .', expose: true }
+  };
+
+  var dbServices = {
+    postgres: '\n  postgres:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_DB: app\n      POSTGRES_USER: postgres\n      POSTGRES_PASSWORD: postgres\n    ports:\n      - "5432:5432"\n    volumes:\n      - pgdata:/var/lib/postgresql/data',
+    mysql: '\n  mysql:\n    image: mysql:8.0\n    environment:\n      MYSQL_ROOT_PASSWORD: root\n      MYSQL_DATABASE: app\n    ports:\n      - "3306:3306"\n    volumes:\n      - mysqldata:/var/lib/mysql',
+    redis: '\n  redis:\n    image: redis:7-alpine\n    ports:\n      - "6379:6379"\n    volumes:\n      - redisdata:/data',
+    mongodb: '\n  mongodb:\n    image: mongo:7\n    environment:\n      MONGO_INITDB_DATABASE: app\n    ports:\n      - "27017:27017"\n    volumes:\n      - mongodata:/data/db'
+  };
+
+  var dbVolumes = {
+    postgres: '\n  pgdata:',
+    mysql: '\n  mysqldata:',
+    redis: '\n  redisdata:',
+    mongodb: '\n  mongodata:'
+  };
+
+  document.getElementById('dfgEnvAdd').addEventListener('click', function() {
+    var row = document.createElement('div');
+    row.className = 'dfg-env-row';
+    row.innerHTML = '<input type="text" placeholder="Key (e.g. NODE_ENV)" class="dfg-env-key"><input type="text" placeholder="Value (e.g. production)" class="dfg-env-val"><button class="dfg-env-remove" onclick="this.parentElement.remove()">✕</button>';
+    document.getElementById('dfgEnvList').appendChild(row);
+  });
+
+  document.querySelectorAll('.dfg-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.dfg-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentTab = tab.dataset.tab;
+      updateOutput();
+    });
+  });
+
+  function updateOutput() {
+    var output = currentTab === 'dockerfile' ? generatedDockerfile : generatedCompose;
+    document.getElementById('dfgOutput').value = output || (currentTab === 'dockerfile' ? 'Click "Generate Docker Configs" to create your configuration.' : 'Click "Generate Docker Configs" to create your configuration.');
+  }
+
+  function getEnvVars() {
+    var rows = document.querySelectorAll('.dfg-env-row');
+    var envs = [];
+    rows.forEach(function(row) {
+      var key = row.querySelector('.dfg-env-key').value.trim();
+      var val = row.querySelector('.dfg-env-val').value.trim();
+      if (key) envs.push({ key: key, val: val });
+    });
+    return envs;
+  }
+
+  function generateDockerfile(fw, port, exposePort, multiStage, envVars) {
+    var lines = [];
+    var fwCfg = frameworks[fw];
+
+    if (multiStage) {
+      lines.push('# ── Build Stage ──');
+      lines.push('FROM ' + fwCfg.base + ' AS builder');
+      lines.push('WORKDIR ' + fwCfg.workdir);
+      lines.push('COPY ' + fwCfg.copySrc);
+      lines.push('RUN ' + fwCfg.buildCmd);
+      lines.push('');
+      lines.push('# ── Runtime Stage ──');
+      if (fw === 'node') {
+        lines.push('FROM node:20-alpine');
+      } else if (fw === 'python') {
+        lines.push('FROM python:3.12-slim');
+      } else if (fw === 'go') {
+        lines.push('FROM alpine:3.20');
+      } else if (fw === 'java') {
+        lines.push('FROM eclipse-temurin:21-jre-alpine');
+      } else if (fw === 'rust') {
+        lines.push('FROM alpine:3.20');
+      } else if (fw === 'php') {
+        lines.push('FROM php:8.3-fpm-alpine');
+      }
+      lines.push('WORKDIR ' + fwCfg.workdir);
+      lines.push('COPY --from=builder ' + fwCfg.workdir + ' ' + fwCfg.workdir);
+    } else {
+      lines.push('FROM ' + fwCfg.base);
+      lines.push('WORKDIR ' + fwCfg.workdir);
+      lines.push('COPY ' + fwCfg.copySrc);
+      lines.push('RUN ' + fwCfg.buildCmd);
+    }
+
+    if (envVars.length > 0) {
+      lines.push('');
+      envVars.forEach(function(env) {
+        lines.push('ENV ' + env.key + '=' + (env.val || '""'));
+      });
+    }
+
+    if (exposePort && fwCfg.expose && port) {
+      lines.push('');
+      lines.push('EXPOSE ' + port);
+    }
+
+    lines.push('');
+    lines.push('CMD ["' + fwCfg.runCmd.split(' ').join('", "') + '"]');
+    return lines.join('\n');
+  }
+
+  function generateCompose(fw, port, db, envVars) {
+    var lines = [];
+    lines.push('version: "3.8"');
+    lines.push('');
+    lines.push('services:');
+    lines.push('  app:');
+    lines.push('    build: .');
+
+    if (port) {
+      lines.push('    ports:');
+      lines.push('      - "' + port + ':' + port + '"');
+    }
+
+    if (envVars.length > 0) {
+      lines.push('    environment:');
+      envVars.forEach(function(env) {
+        lines.push('      - ' + env.key + '=' + (env.val || '""'));
+      });
+    }
+
+    if (db && db !== 'none') {
+      lines.push('    depends_on:');
+      lines.push('      - ' + db);
+    }
+
+    if (db && db !== 'none') {
+      lines.push(dbServices[db]);
+    }
+
+    if (db && db !== 'none' && dbVolumes[db]) {
+      lines.push('');
+      lines.push('volumes:' + dbVolumes[db]);
+    }
+
+    return lines.join('\n');
+  }
+
+  document.getElementById('dfgGenerateBtn').addEventListener('click', function() {
+    var fw = document.getElementById('dfgFramework').value;
+    var db = document.getElementById('dfgDatabase').value;
+    var port = document.getElementById('dfgPort').value || '3000';
+    var exposePort = document.getElementById('dfgExposePort').checked;
+    var multiStage = document.getElementById('dfgMultiStage').checked;
+    var envVars = getEnvVars();
+
+    generatedDockerfile = generateDockerfile(fw, port, exposePort, multiStage, envVars);
+    generatedCompose = generateCompose(fw, port, db, envVars);
+    updateOutput();
+    window._dfgLastDockerfile = generatedDockerfile;
+    window._dfgLastCompose = generatedCompose;
+  });
+
+  document.getElementById('dfgCopyBtn').addEventListener('click', function() {
+    var output = document.getElementById('dfgOutput').value;
+    if (!output) return;
+    navigator.clipboard.writeText(output).then(function() {
+      var btn = document.getElementById('dfgCopyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(function() { btn.textContent = '📋 Copy'; }, 1500);
+    });
+  });
+
+  document.getElementById('dfgClearBtn').addEventListener('click', function() {
+    document.getElementById('dfgFramework').value = 'node';
+    document.getElementById('dfgDatabase').value = 'none';
+    document.getElementById('dfgPort').value = '3000';
+    document.getElementById('dfgExposePort').checked = true;
+    document.getElementById('dfgMultiStage').checked = false;
+    document.getElementById('dfgEnvList').innerHTML = '<div class="dfg-env-row"><input type="text" placeholder="Key (e.g. NODE_ENV)" class="dfg-env-key"><input type="text" placeholder="Value (e.g. production)" class="dfg-env-val"><button class="dfg-env-remove" onclick="this.parentElement.remove()">✕</button></div>';
+    generatedDockerfile = '';
+    generatedCompose = '';
+    document.getElementById('dfgOutput').value = '';
+    window._dfgLastDockerfile = '';
+    window._dfgLastCompose = '';
+  });
+
+  // Tab switching via data-tab attribute already handled above
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

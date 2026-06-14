@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON Formatter & Validator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"JSON Formatter & Validator","url":"https://toolstand.io/tools/json-formatter/","applicationCategory":"ConverterApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.js-container{display:flex;flex-direction:column;gap:16px}.js-textarea{width:100%;min-height:200px;padding:14px;font-size:.9rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);resize:vertical;font-family:'SF Mono',Monaco,'Cascadia Code',monospace;box-sizing:border-box;line-height:1.5}.js-textarea:focus{outline:none}.js-input-wrap{border:2px solid var(--border);border-radius:var(--radius)}.js-input-wrap:focus-within{border-color:#f59e0b}.js-error{background:#fef2f2;border-left:4px solid #ef4444;padding:10px 14px;border-radius:0 var(--radius) var(--radius) 0;display:none}.js-error.show{display:block}.js-error strong{color:#991b1b}.js-error pre{font-size:.82rem;color:#7f1d1d;margin:4px 0 0;white-space:pre-wrap;font-family:monospace}.js-success{font-size:.85rem;color:#22c55e;font-weight:600;display:none}.js-success.show{display:block}.js-output{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-family:monospace;font-size:.85rem;line-height:1.6;max-height:500px;overflow:auto;white-space:pre-wrap;word-break:break-all}.js-output .key{color:#8b5cf6}.js-output .string{color:#22c55e}.js-output .number{color:#f59e0b}.js-output .boolean{color:#ef4444}.js-output .null{color:#94a3b8}.js-actions{display:flex;gap:8px;flex-wrap:wrap}.js-btn{padding:10px 20px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;font-size:.9rem}.js-btn-fmt{background:#f59e0b;color:#1e293b}.js-btn-fmt:hover{background:#d97706}.js-btn-min{background:var(--bg-card);border:1px solid var(--border);color:var(--text)}.js-btn-min:hover{background:var(--border)}.js-btn-copy{background:#3b82f6;color:white}.js-btn-copy:hover{background:#2563eb}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>{ } JSON Formatter & Validator</h1><p>Format, validate, and minify JSON. Find syntax errors with exact line numbers. Free, offline-ready, no data sent anywhere.</p></div><div class="js-container">
+<div class="js-input-wrap"><textarea class="js-textarea" id="jsInput" placeholder="Paste your JSON here...&#10;{&quot;name&quot;: &quot;ToolStand&quot;, &quot;tools&quot;: 34}" style="border:none"></textarea></div>
+<div class="js-error" id="jsError"></div><div class="js-success" id="jsSuccess"></div>
+<div class="js-actions"><button class="js-btn js-btn-fmt" id="jsFormat">✨ Format / Validate</button><button class="js-btn js-btn-min" id="jsMinify">📦 Minify</button><button class="js-btn js-btn-copy" id="jsCopy">📋 Copy</button></div>
+<div class="js-output" id="jsOutput" style="display:none">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/json-formatter/" target="_blank" rel="noopener">Powered by ToolStand JSON Formatter & Validator</a></div>
+<script>
+(function(){
+  'use strict';
+var inp=document.getElementById('jsInput'),out=document.getElementById('jsOutput'),err=document.getElementById('jsError'),ok=document.getElementById('jsSuccess');
+
+function syntaxHighlight(json){json=json.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');return json.replace(/("(\\u[a-fA-F0-9]{4}|\\[^u]|[^"\\])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,function(m){var cls='number';if(/^"/.test(m)){cls=/:$/.test(m)?'key':'string'}else if(/true|false/.test(m)){cls='boolean'}else if(/null/.test(m)){cls='null'}return'<span class="'+cls+'">'+m+'</span>';});}
+
+function format(minify){var txt=inp.value.trim();if(!txt){err.classList.remove('show');ok.classList.remove('show');out.style.display='none';return}
+try{var obj=JSON.parse(txt);var result=minify?JSON.stringify(obj):JSON.stringify(obj,null,2);err.classList.remove('show');ok.textContent='✅ Valid JSON — '+result.split('\n').length+' lines, '+result.length+' chars';ok.classList.add('show');out.innerHTML=syntaxHighlight(result);out.style.display='block';window._lastOutput=result}
+catch(e){ok.classList.remove('show');var msg=e.message,line='',pos='';var m=msg.match(/position\s+(\d+)/);if(m){pos=parseInt(m[1]);var lines=txt.substring(0,pos).split('\n');line=(lines.length);err.innerHTML='<strong>❌ Invalid JSON at line '+line+', position '+(pos-(txt.substring(0,pos).lastIndexOf('\n')+1)+1)+'</strong><pre>'+msg+'</pre>'}else{err.innerHTML='<strong>❌ Invalid JSON</strong><pre>'+msg+'</pre>'}err.classList.add('show');out.style.display='none'}}
+
+document.getElementById('jsFormat').addEventListener('click',function(){format(false);});
+document.getElementById('jsMinify').addEventListener('click',function(){format(true);});
+document.getElementById('jsCopy').addEventListener('click',function(){if(window._lastOutput)navigator.clipboard.writeText(window._lastOutput);var b=document.getElementById('jsCopy');b.textContent='✅ Copied!';setTimeout(function(){b.textContent='📋 Copy'},1500);});
+document.documentElement.setAttribute('data-theme',n);localStorage.setItem('toolstand-theme',n);});
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

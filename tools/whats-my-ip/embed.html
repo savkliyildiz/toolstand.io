@@ -1,1 +1,29 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is My IP Address — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"What Is My IP Address","url":"https://toolstand.io/tools/whats-my-ip/","applicationCategory":"DeveloperApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+:root{--accent:#0891b2}.tc-c{display:flex;flex-direction:column;gap:16px}.ip-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;align-items:center;gap:14px}.ip-card .ip-icon{font-size:2rem;flex-shrink:0}.ip-card .ip-info{flex:1;min-width:0}.ip-card .ip-label{font-size:.8rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}.ip-card .ip-value{font-family:monospace;font-size:1.15rem;font-weight:700;color:var(--accent);word-break:break-all}.ip-card .ip-meta{font-size:.82rem;color:var(--text-secondary);margin-top:4px}.copy-btn{background:var(--accent);color:#fff;border:none;border-radius:var(--radius);padding:6px 14px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .2s}.copy-btn:hover{opacity:.85}.copy-btn.copied{background:#10b981}.status-bar{padding:12px 16px;border-radius:var(--radius);font-size:.88rem;font-weight:600;text-align:center}.status-bar.loading{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary)}.status-bar.error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626}[data-theme="dark"] .status-bar.error{background:#2d1b1b;border-color:#5c1a1a;color:#fca5a5}.status-bar.note{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);font-weight:400;font-size:.82rem;line-height:1.6}.tc-spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}@keyframes spin{to{transform:rotate(360deg)}}.flag{font-size:1.4rem;vertical-align:middle;margin-right:2px}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🌐 What Is My IP Address</h1><p>Find your public IP address instantly. Shows IPv4, IPv6, ISP, and approximate location. Free, no signup — just open the page.</p></div><div class="tc-c"><div class="status-bar loading" id="statusBar"><span class="tc-spinner"></span> Detecting your IP address...</div><div id="ipv4Card" style="display:none"></div><div id="ipv6Card" style="display:none"></div><div id="locationCard" style="display:none"></div><div class="status-bar note" id="note" style="display:none">⚠️ Your IP is visible to every website you visit. Use a VPN to hide it.
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/whats-my-ip/" target="_blank" rel="noopener">Powered by ToolStand What Is My IP Address</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

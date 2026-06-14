@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator & Scanner — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"QR Code Generator & Scanner","url":"https://toolstand.io/tools/qr-code/","applicationCategory":"GeneratorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.qr-tabs { display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; width: fit-content; margin-left: auto; margin-right: auto; }
+.qr-tab { padding: 10px 28px; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; background: var(--bg-card); color: var(--text-secondary); transition: all 0.15s; }
+.qr-tab.active { background: #2563eb; color: white; }
+.qr-panel { display: none; }
+.qr-panel.active { display: block; }
+.qr-input { width: 100%; padding: 14px 16px; font-size: 1rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); margin-bottom: 20px; box-sizing: border-box; }
+.qr-input:focus { outline: none; border-color: #2563eb; }
+.qr-output { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+#qrCode canvas, #qrCode img { border-radius: var(--radius); max-width: 256px; width: 100%; height: auto; image-rendering: pixelated; }
+.qr-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.btn { padding: 10px 24px; font-size: 0.9rem; font-weight: 600; background: #2563eb; color: white; border: none; border-radius: var(--radius); cursor: pointer; transition: opacity 0.15s; }
+.btn:hover { opacity: 0.9; }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { background: var(--bg-card); opacity: 1; }
+#qrStatus { font-size: 0.85rem; color: var(--text-secondary); min-height: 20px; }
+@media (max-width: 500px) { .qr-tabs { width: 100%; } .qr-tab { flex: 1; text-align: center; font-size: 0.82rem; padding: 10px 8px; } }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>📱 QR Code Generator & Scanner</h1>
+    <p>Create and scan QR codes right in your browser. Free, no ads blocking your flow.</p>
+  </div>
+
+  <div class="qr-tabs">
+    <button class="qr-tab active" data-panel="generate">Generate</button>
+    <button class="qr-tab" data-panel="scan">Scan</button>
+  </div>
+
+  <div id="panel-generate" class="qr-panel active">
+    <input type="text" id="qrText" class="qr-input" placeholder="Enter text, URL, or any data..." maxlength="2000" autofocus>
+    <div id="qrStatus"></div>
+    <div class="qr-output">
+      <div id="qrCode"></div>
+      <div class="qr-actions">
+        <button class="btn" id="downloadQR">⬇ Download PNG</button>
+        <button class="btn btn-outline" id="printQR">🖨️ Print</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-scan" class="qr-panel">
+    <p style="text-align:center;color:var(--text-secondary);margin-bottom:16px">Point your camera at a QR code</p>
+    <div class="qr-output">
+      <video id="cameraView" autoplay playsinline style="display:none;max-width:100%;border-radius:var(--radius)"></video>
+      <button id="startScan" class="btn">📷 Start Camera</button>
+      <button id="stopScan" class="btn btn-outline" style="display:none">⏹️ Stop</button>
+      <canvas id="scanCanvas" style="display:none"></canvas>
+      <div id="qrResult">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/qr-code/" target="_blank" rel="noopener">Powered by ToolStand QR Code Generator & Scanner</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

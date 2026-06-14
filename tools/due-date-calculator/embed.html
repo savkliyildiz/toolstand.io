@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pregnancy Due Date Calculator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Pregnancy Due Date Calculator","url":"https://toolstand.io/tools/due-date-calculator/","applicationCategory":"CalculatorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+:root {
+  --ddc-soft: #f472b6;
+  --ddc-warm: #f9a8d4;
+  --ddc-bg: #fdf2f8;
+  --ddc-accent: #ec4899;
+}
+[data-theme="dark"] {
+  --ddc-bg: #2d1b2e;
+}
+
+.ddc-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Method tabs */
+.ddc-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ddc-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: var(--bg-card);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.ddc-tab.active {
+  background: var(--ddc-soft);
+  color: white;
+}
+.ddc-tab:not(.active):hover {
+  background: var(--border);
+}
+
+/* Input area */
+.ddc-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ddc-input-group label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.ddc-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+.ddc-input:focus {
+  outline: none;
+  border-color: var(--ddc-soft);
+}
+.ddc-input-row {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+}
+.ddc-input-row .ddc-input {
+  flex: 1;
+}
+.ddc-input-small {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.15s;
+  font-family: inherit;
+  text-align: center;
+}
+.ddc-input-small:focus {
+  outline: none;
+  border-color: var(--ddc-soft);
+}
+
+/* Results grid */
+.ddc-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.ddc-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ddc-result-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.ddc-result-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ddc-accent);
+}
+.ddc-result-value.large {
+  font-size: 1.6rem;
+}
+
+/* Progress bar */
+.ddc-progress-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.ddc-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.ddc-progress-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.ddc-progress-pct {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ddc-accent);
+}
+.ddc-progress-track {
+  width: 100%;
+  height: 16px;
+  background: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.ddc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ddc-warm), var(--ddc-soft), var(--ddc-accent));
+  border-radius: 20px;
+  transition: width 0.5s ease;
+  min-width: 0;
+}
+.ddc-trimester-markers {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+.ddc-trimester-markers span {
+  position: relative;
+}
+.ddc-trimester-markers .active-marker {
+  color: var(--ddc-accent);
+  font-weight: 700;
+}
+
+/* Disclaimer */
+.ddc-disclaimer {
+  background: var(--ddc-bg);
+  border: 1px solid var(--ddc-warm);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* No results state */
+.ddc-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 30px 0;
+  font-size: 1rem;
+}
+
+.ddc-panel {
+  display: none;
+}
+.ddc-panel.active {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .ddc-results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ddc-result-value {
+    font-size: 1.1rem;
+  }
+  .ddc-result-value.large {
+    font-size: 1.3rem;
+  }
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🤰 Pregnancy Due Date Calculator</h1>
+    <p>Estimate your due date, track your pregnancy week by week, and know which trimester you're in — all in your browser.</p>
+  </div>
+
+  <div class="ddc-container">
+    <!-- Method tabs -->
+    <div class="ddc-tabs">
+      <button class="ddc-tab active" data-panel="lmp">📅 Last Period (LMP)</button>
+      <button class="ddc-tab" data-panel="ultrasound">🩺 Ultrasound Dating</button>
+    </div>
+
+    <!-- LMP Panel -->
+    <div id="panel-lmp" class="ddc-panel active">
+      <div class="ddc-input-group">
+        <label for="lmpDate">First day of your last menstrual period</label>
+        <input type="date" id="lmpDate" class="ddc-input">
+      </div>
+    </div>
+
+    <!-- Ultrasound Panel -->
+    <div id="panel-ultrasound" class="ddc-panel">
+      <div class="ddc-input-group">
+        <label for="ultrasoundDate">Date of ultrasound</label>
+        <input type="date" id="ultrasoundDate" class="ddc-input">
+      </div>
+      <div class="ddc-input-group">
+        <label for="gestationalWeeks">Gestational age from ultrasound (weeks + days)</label>
+        <div class="ddc-input-row">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span style="font-size:0.8rem;color:var(--text-secondary)">Weeks</span>
+            <input type="number" id="gaWeeks" class="ddc-input-small" value="8" min="1" max="42" placeholder="Weeks">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span style="font-size:0.8rem;color:var(--text-secondary)">Days</span>
+            <input type="number" id="gaDays" class="ddc-input-small" value="0" min="0" max="6" placeholder="Days">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="ddcResults" class="ddc-empty">
+      <p>👆 Enter your dates above to calculate</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="ddc-progress-section" id="progressSection" style="display:none;">
+      <div class="ddc-progress-header">
+        <span class="ddc-progress-label">Pregnancy Progress</span>
+        <span class="ddc-progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="ddc-progress-track">
+        <div class="ddc-progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="ddc-trimester-markers">
+        <span id="markerT1">1st Trimester</span>
+        <span id="markerT2">2nd Trimester</span>
+        <span id="markerT3">3rd Trimester</span>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="ddc-disclaimer">
+      ⚕️ <strong>Disclaimer:</strong> This is an estimate based on standard pregnancy dating methods. Every pregnancy is unique. Always consult your healthcare provider for personalized medical advice.
+    </div>
+  </div>
+
+  <!-- Embed CTA -->
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/due-date-calculator/" target="_blank" rel="noopener">Powered by ToolStand Pregnancy Due Date Calculator</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Resizer & Compressor — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Image Resizer & Compressor","url":"https://toolstand.io/tools/image-resizer/","applicationCategory":"UtilityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1100px;margin:0 auto;padding:0 20px;width:100%}
+.header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:100}
+.header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.2rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:6px}
+.nav{display:flex;align-items:center;gap:16px}
+.nav a{color:var(--text-secondary);text-decoration:none;font-size:0.9rem}
+.nav a:hover{color:var(--primary)}
+.btn-icon{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;font-size:1rem;color:var(--text)}
+
+.tool-container{max-width:1100px;margin:24px auto;padding:0 20px;flex:1;width:100%}
+.tool-header{margin-bottom:24px}
+.tool-header h1{font-size:1.8rem;margin-bottom:4px}
+.tool-header p{color:var(--text-secondary);font-size:0.95rem}
+
+.drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:48px 24px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;margin-bottom:24px;background:var(--bg-card)}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--primary);background:var(--bg)}
+.drop-zone .dz-icon{font-size:3rem;margin-bottom:12px}
+.drop-zone .dz-text{color:var(--text-secondary);font-size:0.95rem}
+.drop-zone .dz-hint{color:var(--text-secondary);font-size:0.8rem;margin-top:4px}
+.drop-zone input[type=file]{display:none}
+
+.workspace{display:none}
+.workspace.active{display:block}
+
+.preview-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.preview-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}
+.preview-card h3{font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px}
+.preview-card .preview-img-wrap{width:100%;max-height:350px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--bg);border-radius:var(--radius);min-height:120px}
+.preview-card .preview-img-wrap img{max-width:100%;max-height:350px;object-fit:contain}
+.preview-card .preview-placeholder{color:var(--text-secondary);font-size:3rem;padding:40px}
+.preview-card .meta{font-size:0.8rem;color:var(--text-secondary);margin-top:8px}
+.preview-card .meta span{font-weight:600;color:var(--text)}
+
+.size-delta{text-align:center;margin-bottom:16px;font-size:0.9rem}
+.size-delta .saved{color:#22c55e;font-weight:600}
+.size-delta .bigger{color:#e0245e;font-weight:600}
+
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.control-group{display:flex;flex-direction:column;gap:6px}
+.control-group label{font-size:0.85rem;font-weight:600;color:var(--text-secondary)}
+.control-group input[type=number], .control-group select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text);font-size:0.9rem;font-family:inherit}
+.control-group input[type=range]{width:100%;accent-color:var(--primary)}
+.control-group .range-row{display:flex;align-items:center;gap:8px}
+.control-group .range-row output{font-size:0.85rem;font-weight:600;min-width:36px;text-align:right}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-size:0.9rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background 0.2s;font-family:inherit}
+.btn:hover{background:var(--primary-hover)}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.btn-secondary{background:var(--bg-card);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--bg)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+
+.aspect-lock{display:flex;align-items:center;gap:4px;font-size:0.8rem;color:var(--text-secondary)}
+.aspect-lock input[type=checkbox]{accent-color:var(--primary)}
+
+.embed-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0;text-align:left}
+.embed-cta h3{margin-bottom:8px;font-size:1.1rem}
+.embed-cta p{color:var(--text-secondary);font-size:.9rem;margin-bottom:16px}
+.embed-code{width:100%;font-family:monospace;font-size:.78rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px 80px 14px 14px;color:var(--text);resize:vertical;line-height:1.5;white-space:pre;overflow-x:auto}
+.embed-code-wrapper{position:relative}
+.btn-copy-embed{position:absolute;top:8px;right:8px;padding:6px 14px;background:#083fa1;color:#fff;border:none;border-radius:4px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-copy-embed:hover{background:#062d7a}
+
+.footer{margin-top:32px;padding:24px 0;border-top:1px solid var(--border);text-align:center}
+.footer p{color:var(--text-secondary);font-size:0.9rem}
+.footer .small{font-size:0.8rem;margin-top:4px}
+.footer .small a{color:var(--text-secondary);text-decoration:none;margin:0 4px}
+.footer .small a:hover{color:var(--primary)}
+
+@media(max-width:768px){.preview-row{grid-template-columns:1fr}}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🖼️ Image Resizer</h1><p>Resize and compress your images right in the browser. No uploads — everything stays local and private.</p></div>
+
+  <div class="drop-zone" id="dropZone">
+    <div class="dz-icon">📁</div>
+    <div class="dz-text">Drop an image here or click to browse</div>
+    <div class="dz-hint">Supports JPEG, PNG, WebP, GIF, BMP</div>
+    <input type="file" id="fileInput" accept="image/*">
+  </div>
+
+  <div class="workspace" id="workspace">
+    <div class="preview-row">
+      <div class="preview-card">
+        <h3>📷 Original</h3>
+        <div class="preview-img-wrap"><img id="previewOriginal" alt="Original"></div>
+        <div class="meta">Size: <span id="origSize">—</span> | <span id="origDims">—</span></div>
+      </div>
+      <div class="preview-card">
+        <h3>✨ Result</h3>
+        <div class="preview-img-wrap"><img id="previewResult" alt="Result"></div>
+        <div class="meta">Size: <span id="resultSize">—</span> | <span id="resultDims">—</span></div>
+      </div>
+    </div>
+
+    <div class="size-delta" id="sizeDelta"></div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="resizeWidth">Width (px)</label>
+        <input type="number" id="resizeWidth" min="1" max="10000" value="800">
+        <label class="aspect-lock"><input type="checkbox" id="lockAspect" checked> Lock aspect ratio</label>
+      </div>
+      <div class="control-group">
+        <label for="resizeHeight">Height (px)</label>
+        <input type="number" id="resizeHeight" min="1" max="10000" value="600">
+      </div>
+      <div class="control-group">
+        <label for="outputFormat">Format</label>
+        <select id="outputFormat">
+          <option value="image/jpeg">JPEG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="qualitySlider">Quality: <span id="qualityVal">0.85</span></label>
+        <input type="range" id="qualitySlider" min="0.1" max="1.0" step="0.05" value="0.85">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="btnResize">🔄 Resize Image</button>
+      <button class="btn btn-secondary" id="btnDownload">⬇️ Download</button>
+      <button class="btn btn-secondary" id="btnNew">📁 New Image</button>
+    </div>
+  </div>
+
+  <section id="embed-section" class="embed-cta"><h3>🔗 Embed this tool on your site</h3><p>Add this free tool to your website.</p><textarea class="embed-code" rows="3" readonly onclick="this.select()">&lt;iframe src="https://toolstand.io/tools/image-resizer/embed" width="100%" height="550" frameborder="0"&gt;&lt;/iframe&gt;
+&lt;p style="text-align:center;font-size:12px"&gt;Powered by &lt;a href="https://toolstand.io/tools/image-resizer/"&gt;ToolStand Image Resizer&lt;/a&gt;&lt;/p&gt;</textarea><p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">Click to copy</p></section>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/image-resizer/" target="_blank" rel="noopener">Powered by ToolStand Image Resizer & Compressor</a></div>
+<script>
+(function(){
+  'use strict';
+const themeToggle = const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle?.addEventListener('click', () => { const next = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('toolstand-theme', next); });
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const workspace = document.getElementById('workspace');
+  const previewOriginal = document.getElementById('previewOriginal');
+  const previewResult = document.getElementById('previewResult');
+  const resizeWidth = document.getElementById('resizeWidth');
+  const resizeHeight = document.getElementById('resizeHeight');
+  const lockAspect = document.getElementById('lockAspect');
+  const outputFormat = document.getElementById('outputFormat');
+  const qualitySlider = document.getElementById('qualitySlider');
+  const qualityVal = document.getElementById('qualityVal');
+  const btnResize = document.getElementById('btnResize');
+  const btnDownload = document.getElementById('btnDownload');
+  const btnNew = document.getElementById('btnNew');
+
+  let originalFile = null;
+  let originalImage = null;
+  let resultBlob = null;
+  let aspectRatio = 1;
+
+  function formatBytes(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  }
+
+  function loadFile(file) {
+    if (!file || !file.type.match(/image\//)) return;
+    originalFile = file;
+    document.getElementById('origSize').textContent = formatBytes(file.size);
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      originalImage = new Image();
+      originalImage.onload = function() {
+        previewOriginal.src = e.target.result;
+        document.getElementById('origDims').textContent = originalImage.width + ' × ' + originalImage.height;
+        aspectRatio = originalImage.width / originalImage.height;
+        resizeWidth.value = originalImage.width;
+        resizeHeight.value = Math.round(originalImage.height);
+        workspace.classList.add('active');
+        doResize();
+      };
+      originalImage.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function doResize() {
+    if (!originalImage) return;
+    let w = parseInt(resizeWidth.value) || originalImage.width;
+    let h = parseInt(resizeHeight.value) || originalImage.height;
+    if (lockAspect.checked) {
+      if (document.activeElement === resizeWidth) {
+        h = Math.round(w / aspectRatio);
+        resizeHeight.value = h;
+      } else {
+        w = Math.round(h * aspectRatio);
+        resizeWidth.value = w;
+      }
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0, w, h);
+    const mimeType = outputFormat.value;
+    const quality = mimeType === 'image/png' ? undefined : parseFloat(qualitySlider.value);
+    canvas.toBlob(function(blob) {
+      resultBlob = blob;
+      const url = URL.createObjectURL(blob);
+      previewResult.src = url;
+      document.getElementById('resultSize').textContent = formatBytes(blob.size);
+      document.getElementById('resultDims').textContent = w + ' × ' + h;
+      const delta = document.getElementById('sizeDelta');
+      if (originalFile) {
+        const diff = originalFile.size - blob.size;
+        const pct = originalFile.size > 0 ? Math.round((diff / originalFile.size) * 100) : 0;
+        if (diff > 0) {
+          delta.innerHTML = '✅ <span class="saved">' + formatBytes(diff) + ' saved (' + pct + '% smaller)</span>';
+        } else if (diff < 0) {
+          delta.innerHTML = '⚠️ <span class="bigger">' + formatBytes(Math.abs(diff)) + ' larger (' + Math.abs(pct) + '% bigger)</span>';
+        } else {
+          delta.innerHTML = 'Same size';
+        }
+      }
+    }, mimeType, quality);
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); if (e.dataTransfer.files.length) loadFile(e.dataTransfer.files[0]); });
+  fileInput.addEventListener('change', () => { if (fileInput.files.length) loadFile(fileInput.files[0]); });
+
+  resizeWidth.addEventListener('input', doResize);
+  resizeHeight.addEventListener('input', doResize);
+  lockAspect.addEventListener('change', () => { if (lockAspect.checked && originalImage) { resizeHeight.value = Math.round(resizeWidth.value / aspectRatio); doResize(); } });
+  outputFormat.addEventListener('change', () => {
+    qualitySlider.disabled = outputFormat.value === 'image/png';
+    doResize();
+  });
+  qualitySlider.addEventListener('input', () => { qualityVal.textContent = parseFloat(qualitySlider.value).toFixed(2); doResize(); });
+  btnResize.addEventListener('click', doResize);
+
+  btnDownload.addEventListener('click', () => {
+    if (!resultBlob) return;
+    const url = URL.createObjectURL(resultBlob);
+    const a = document.createElement('a');
+    const ext = outputFormat.value.split('/')[1].replace('jpeg','jpg');
+    a.href = url;
+    a.download = 'resized.' + ext;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  btnNew.addEventListener('click', () => {
+    workspace.classList.remove('active');
+    originalFile = null; originalImage = null; resultBlob = null;
+    previewOriginal.src = ''; previewResult.src = '';
+    fileInput.value = '';
+  });
+
+  qualityVal.textContent = '0.85';
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keto & Macro Calculator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Keto & Macro Calculator","url":"https://toolstand.io/tools/keto-calculator/","applicationCategory":"CalculatorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.kt-container{display:flex;flex-direction:column;gap:20px}.kt-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.kt-group{display:flex;flex-direction:column;gap:5px}.kt-group label{font-size:.85rem;font-weight:600;color:var(--text-secondary)}.kt-group input,.kt-group select{padding:11px 14px;border:2px solid var(--border);border-radius:var(--radius);font-size:1rem;background:var(--bg);color:var(--text)}.kt-group input:focus,.kt-group select:focus{outline:none;border-color:#22c55e}.kt-presets{display:flex;gap:8px;flex-wrap:wrap}.kt-preset{padding:8px 16px;font-size:.8rem;font-weight:600;border:1px solid var(--border);border-radius:100px;cursor:pointer;background:var(--bg-card);color:var(--text)}.kt-preset.active{background:#22c55e;color:white;border-color:#22c55e}.kt-chart-wrap{max-width:300px;margin:0 auto}.kt-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}.kt-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}.kt-card-label{font-size:.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}.kt-card-value{font-size:1.5rem;font-weight:800}.kt-green{color:#22c55e}.kt-blue{color:#3b82f6}.kt-gold{color:#eab308}.kt-red{color:#ef4444}.kt-macro-bar{display:flex;height:24px;border-radius:100px;overflow:hidden;margin-top:8px}.kt-macro-bar div{display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:white}.kt-fat{background:#eab308}.kt-protein{background:#ef4444}.kt-carbs{background:#22c55e}@media(max-width:600px){.kt-inputs{grid-template-columns:1fr 1fr}}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🥑 Keto & Macro Calculator</h1><p>Calculate your keto macros based on body stats. BMR, TDEE, and optimal fat/protein/carb split with visual doughnut chart.</p></div><div class="kt-container">
+<div class="kt-presets" id="ktGoals"><button class="kt-preset active" data-protein="1.6" data-deficit="0">⚖️ Maintain</button><button class="kt-preset" data-protein="2.0" data-deficit="500">📉 Fat Loss</button><button class="kt-preset" data-protein="2.2" data-deficit="0">💪 Muscle Gain</button></div>
+<div class="kt-inputs"><div class="kt-group"><label>Gender</label><select id="ktGender"><option value="male">Male</option><option value="female">Female</option></select></div><div class="kt-group"><label>Age</label><input type="number" id="ktAge" value="30" min="15" max="100"></div><div class="kt-group"><label>Weight (kg)</label><input type="number" id="ktWeight" value="80" min="30" max="300" step="0.1"></div><div class="kt-group"><label>Height (cm)</label><input type="number" id="ktHeight" value="175" min="100" max="250"></div><div class="kt-group"><label>Activity Level</label><select id="ktActivity"><option value="1.2">🛋️ Sedentary</option><option value="1.375">🚶 Light (1-3x/wk)</option><option value="1.55" selected>🏃 Moderate (3-5x/wk)</option><option value="1.725">🏋️ Active (6-7x/wk)</option><option value="1.9">🔥 Extreme (athlete)</option></select></div><div class="kt-group"><label>Carb Limit (g)</label><input type="number" id="ktCarbs" value="25" min="10" max="100" step="5"></div></div>
+<div class="kt-chart-wrap"><canvas id="ktChart"></canvas></div>
+<div class="kt-macro-bar" id="ktBar"><div class="kt-fat" id="ktBarFat">Fat</div><div class="kt-protein" id="ktBarProtein">Protein</div><div class="kt-carbs" id="ktBarCarbs">Carbs</div></div>
+<div class="kt-results"><div class="kt-card"><div class="kt-card-label">BMR</div><div class="kt-card-value kt-blue" id="ktBMR">—</div></div><div class="kt-card"><div class="kt-card-label">TDEE</div><div class="kt-card-value kt-blue" id="ktTDEE">—</div></div><div class="kt-card"><div class="kt-card-label">Fat (g)</div><div class="kt-card-value kt-gold" id="ktFat">—</div></div><div class="kt-card"><div class="kt-card-label">Protein (g)</div><div class="kt-card-value kt-red" id="ktProtein">—</div></div><div class="kt-card"><div class="kt-card-label">Carbs (g)</div><div class="kt-card-value kt-green" id="ktCarb">—
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/keto-calculator/" target="_blank" rel="noopener">Powered by ToolStand Keto & Macro Calculator</a></div>
+<script>
+(function(){
+  'use strict';
+var chart=null,goal='maintain';
+function calc(){var g=document.getElementById('ktGender').value,a=parseFloat(document.getElementById('ktAge').value)||30,w=parseFloat(document.getElementById('ktWeight').value)||80,h=parseFloat(document.getElementById('ktHeight').value)||175,act=parseFloat(document.getElementById('ktActivity').value)||1.55,cl=parseFloat(document.getElementById('ktCarbs').value)||25;
+var bmr=g==='male'?10*w+6.25*h-5*a+5:10*w+6.25*h-5*a-161;
+var tdee=Math.round(bmr*act);
+var targets={maintain:{protein:1.6,deficit:0},loss:{protein:2.0,deficit:500},gain:{protein:2.2,deficit:0}};
+var t=targets[goal]||targets.maintain;
+var calories=tdee-t.deficit,proteinG=Math.round(w*t.protein),carbG=cl,carbCal=carbG*4,proteinCal=proteinG*4,fatCal=calories-carbCal-proteinCal,fatG=Math.max(0,Math.round(fatCal/9));
+document.getElementById('ktBMR').textContent=Math.round(bmr).toLocaleString()+' kcal';
+document.getElementById('ktTDEE').textContent=tdee.toLocaleString()+' kcal';
+document.getElementById('ktFat').textContent=fatG+'g';
+document.getElementById('ktProtein').textContent=proteinG+'g';
+document.getElementById('ktCarb').textContent=carbG+'g';
+var totalG=fatG+proteinG+carbG,fatPct=Math.round(fatG/totalG*100),proPct=Math.round(proteinG/totalG*100),carbPct=Math.round(carbG/totalG*100);
+document.getElementById('ktBarFat').style.width=fatPct+'%';document.getElementById('ktBarFat').textContent=fatPct+'%';
+document.getElementById('ktBarProtein').style.width=proPct+'%';document.getElementById('ktBarProtein').textContent=proPct+'%';
+document.getElementById('ktBarCarbs').style.width=carbPct+'%';document.getElementById('ktBarCarbs').textContent=carbPct+'%';
+drawChart(fatG,proteinG,carbG);}
+function drawChart(f,p,c){var ctx=document.getElementById('ktChart').getContext('2d');if(chart)chart.destroy();
+chart=new Chart(ctx,{type:'doughnut',data:{labels:['Fat','Protein','Carbs'],datasets:[{data:[f,p,c],backgroundColor:['#eab308','#ef4444','#22c55e'],borderColor:'transparent',borderWidth:0}]},
+options:{responsive:true,maintainAspectRatio:true,cutout:'65%',plugins:{legend:{position:'bottom',labels:{padding:16,usePointStyle:true}}}}});}
+document.querySelectorAll('#ktGoals .kt-preset').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#ktGoals .kt-preset').forEach(function(x){x.classList.remove('active')});b.classList.add('active');goal=b.dataset.protein==='1.6'?'maintain':b.dataset.protein==='2.0'?'loss':'gain';calc();});});
+document.querySelectorAll('#ktInputs input,#ktInputs select').forEach(function(el){el.addEventListener('input',calc);el.addEventListener('change',calc);});
+['ktGender','ktAge','ktWeight','ktHeight','ktActivity','ktCarbs'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('input',calc);el.addEventListener('change',calc);}});
+document.documentElement.setAttribute('data-theme',n);localStorage.setItem('toolstand-theme',n);calc();});
+calc();
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reaction Time Test — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Reaction Time Test","url":"https://toolstand.io/tools/reaction-time/","applicationCategory":"GameApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+/* ── Reaction Time: scoped with .rt- prefix ── */
+.rt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.rt-test-area {
+  width: 100%;
+  max-width: 600px;
+  height: 350px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s;
+  border: 2px solid var(--border);
+}
+
+.rt-test-area.rt-state-wait {
+  background: #3b82f6;
+  color: white;
+}
+
+.rt-test-area.rt-state-ready {
+  background: #ef4444;
+  color: white;
+}
+
+.rt-test-area.rt-state-go {
+  background: #22c55e;
+  color: white;
+}
+
+.rt-test-area.rt-state-result {
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.rt-test-text {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: center;
+  padding: 20px;
+}
+
+.rt-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.rt-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 8px;
+  text-align: center;
+}
+
+.rt-stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.rt-stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.rt-stat-value.rt-fast { color: #22c55e; }
+.rt-stat-value.rt-mid { color: #eab308; }
+.rt-stat-value.rt-slow { color: #ef4444; }
+
+.rt-result-detail {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.rt-btn {
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.rt-btn:hover { background: #2563eb; }
+
+@media (max-width: 500px) {
+  .rt-test-area { height: 280px; }
+  .rt-test-text { font-size: 1.4rem; }
+  .rt-stats { grid-template-columns: 1fr 1fr; }
+  .rt-stat-value { font-size: 1.2rem; }
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>⚡ Reaction Time Test</h1>
+    <p>Test your reflexes with high-precision timing. Click when the screen turns green — free, no signup.</p>
+  </div>
+
+  <div class="rt-container">
+    <div class="rt-test-area rt-state-wait" id="rtTestArea">
+      <div class="rt-test-text" id="rtTestText">Click to start</div>
+    </div>
+
+    <div class="rt-stats">
+      <div class="rt-stat-card">
+        <div class="rt-stat-label">Last</div>
+        <div class="rt-stat-value" id="rtLast">— ms</div>
+        <div class="rt-result-detail" id="rtLastRating"></div>
+      </div>
+      <div class="rt-stat-card">
+        <div class="rt-stat-label">Best</div>
+        <div class="rt-stat-value rt-fast" id="rtBest">— ms</div>
+      </div>
+      <div class="rt-stat-card">
+        <div class="rt-stat-label">Avg (last 5)</div>
+        <div class="rt-stat-value" id="rtAvg">— ms</div>
+      </div>
+      <div class="rt-stat-card">
+        <div class="rt-stat-label">Attempts</div>
+        <div class="rt-stat-value" id="rtAttempts">0</div>
+      </div>
+    </div>
+
+    <button class="rt-btn" id="rtReset">↺ Reset Stats</button>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/reaction-time/" target="_blank" rel="noopener">Powered by ToolStand Reaction Time Test</a></div>
+<script>
+(function(){
+  'use strict';
+const rtArea = document.getElementById('rtTestArea');
+const rtText = document.getElementById('rtTestText');
+
+// State
+const STATE = { WAIT: 0, READY: 1, GO: 2, RESULT: 3 };
+let rtState = STATE.WAIT;
+let rtReadyTime = 0;
+let rtGoTimeout = null;
+let rtResults = [];
+let rtBest = Infinity;
+let rtEarlyClick = false;
+
+// Update display
+function updateStats() {
+  const last = rtResults.length > 0 ? rtResults[rtResults.length - 1] : null;
+  document.getElementById('rtLast').textContent = last !== null ? last.toFixed(1) + ' ms' : '— ms';
+  document.getElementById('rtLast').className = 'rt-stat-value ' + getRatingClass(last);
+  document.getElementById('rtLastRating').textContent = last !== null ? getRatingText(last) : '';
+  document.getElementById('rtBest').textContent = rtBest !== Infinity ? rtBest.toFixed(1) + ' ms' : '— ms';
+  document.getElementById('rtBest').className = 'rt-stat-value ' + getRatingClass(rtBest);
+
+  const last5 = rtResults.slice(-5);
+  const avg = last5.length > 0 ? last5.reduce((a, b) => a + b, 0) / last5.length : null;
+  document.getElementById('rtAvg').textContent = avg !== null ? avg.toFixed(1) + ' ms' : '— ms';
+  document.getElementById('rtAvg').className = 'rt-stat-value ' + getRatingClass(avg);
+  document.getElementById('rtAttempts').textContent = rtResults.length;
+}
+
+function getRatingClass(ms) {
+  if (ms === null || ms === Infinity) return '';
+  if (ms < 200) return 'rt-fast';
+  if (ms <= 300) return 'rt-mid';
+  return 'rt-slow';
+}
+
+function getRatingText(ms) {
+  if (ms === null || ms === Infinity) return '';
+  if (ms < 200) return 'excellent!';
+  if (ms <= 250) return 'great!';
+  if (ms <= 300) return 'good';
+  if (ms <= 350) return 'average';
+  return 'slow';
+}
+
+// Set state UI
+function setState(state) {
+  rtState = state;
+  rtArea.classList.remove('rt-state-wait', 'rt-state-ready', 'rt-state-go', 'rt-state-result');
+
+  switch (state) {
+    case STATE.WAIT:
+      rtArea.classList.add('rt-state-wait');
+      rtText.textContent = 'Click to start';
+      break;
+    case STATE.READY:
+      rtArea.classList.add('rt-state-ready');
+      rtText.textContent = 'Wait for green...';
+      break;
+    case STATE.GO:
+      rtArea.classList.add('rt-state-go');
+      rtText.textContent = 'CLICK NOW!';
+      break;
+    case STATE.RESULT:
+      rtArea.classList.add('rt-state-result');
+      break;
+  }
+}
+
+function startTest() {
+  if (rtState === STATE.READY || rtState === STATE.GO) return; // Already in test
+
+  if (rtGoTimeout) clearTimeout(rtGoTimeout);
+
+  setState(STATE.READY);
+  rtEarlyClick = false;
+
+  // Random delay between 1-4 seconds
+  const delay = 1000 + Math.random() * 3000;
+
+  rtGoTimeout = setTimeout(() => {
+    rtReadyTime = performance.now();
+    setState(STATE.GO);
+  }, delay);
+}
+
+function handleClick() {
+  if (rtState === STATE.WAIT || rtState === STATE.RESULT) {
+    // Start new test
+    startTest();
+    return;
+  }
+
+  if (rtState === STATE.READY) {
+    // Too early!
+    if (rtGoTimeout) clearTimeout(rtGoTimeout);
+    rtGoTimeout = null;
+    setState(STATE.RESULT);
+    rtText.innerHTML = '⚠️ Too early!<br><span style="font-size:0.9rem;font-weight:400">Wait for green, then click.</span>';
+    rtArea.style.cursor = 'pointer';
+    setTimeout(() => {
+      if (rtState === STATE.RESULT) setState(STATE.WAIT);
+    }, 1500);
+    return;
+  }
+
+  if (rtState === STATE.GO) {
+    // Measure reaction
+    const reactionTime = performance.now() - rtReadyTime;
+
+    // Sanity check: reject impossibly fast times (< 50ms is probably anticipation)
+    if (reactionTime < 50) {
+      setState(STATE.RESULT);
+      rtText.innerHTML = '⚠️ Too fast!<br><span style="font-size:0.9rem;font-weight:400">That was luck. Try again.</span>';
+      setTimeout(() => {
+        if (rtState === STATE.RESULT) setState(STATE.WAIT);
+      }, 1500);
+      return;
+    }
+
+    rtResults.push(reactionTime);
+    if (reactionTime < rtBest) rtBest = reactionTime;
+
+    setState(STATE.RESULT);
+
+    let colorClass = getRatingClass(reactionTime);
+    let rating = getRatingText(reactionTime);
+
+    rtText.innerHTML = reactionTime.toFixed(1) + ' ms<br><span style="font-size:0.9rem;font-weight:400;color:var(--' + (colorClass === 'rt-fast' ? '22c55e' : colorClass === 'rt-mid' ? 'eab308' : 'ef4444') + ')">' + rating + '</span>';
+    updateStats();
+
+    // Auto-return to wait after showing result
+    setTimeout(() => {
+      if (rtState === STATE.RESULT) setState(STATE.WAIT);
+    }, 1800);
+  }
+}
+
+// Click handler
+rtArea.addEventListener('click', handleClick);
+
+// Touch handler for mobile (eliminates 300ms delay)
+rtArea.addEventListener('touchstart', function(e) {
+  // Only handle on GO state (not on WAIT, to prevent double-fires)
+  if (rtState === STATE.GO) {
+    e.preventDefault();
+    handleClick();
+  } else if (rtState === STATE.WAIT || rtState === STATE.RESULT) {
+    e.preventDefault();
+    handleClick();
+  }
+}, { passive: false });
+
+// Prevent double-tap zoom
+rtArea.addEventListener('touchstart', function(e) {
+  if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+
+// Keyboard support
+document.addEventListener('keydown', function(e) {
+  if (e.code === 'Space' || e.code === 'KeyJ') {
+    e.preventDefault();
+    handleClick();
+  }
+});
+
+// Reset
+document.getElementById('rtReset').addEventListener('click', function() {
+  if (rtGoTimeout) clearTimeout(rtGoTimeout);
+  rtGoTimeout = null;
+  rtResults = [];
+  rtBest = Infinity;
+  setState(STATE.WAIT);
+  updateStats();
+});
+
+// Init
+updateStats();
+
+<script>
+// ── Theme ──
+const themeToggle = const savedTheme = localStorage.getItem('toolstand-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('toolstand-theme', next);
+});
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

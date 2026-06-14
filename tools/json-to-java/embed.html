@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON to Java POJO/DTO Converter — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"JSON to Java POJO/DTO Converter","url":"https://toolstand.io/tools/json-to-java/","applicationCategory":"DeveloperApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.jtj-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 768px) { .jtj-container { grid-template-columns: 1fr; } }
+.jtj-panel { display: flex; flex-direction: column; gap: 12px; }
+.jtj-panel-label { font-weight: 700; font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.jtj-textarea { width: 100%; min-height: 280px; padding: 14px; font-size: 0.85rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); resize: vertical; font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; box-sizing: border-box; line-height: 1.5; }
+.jtj-textarea:focus { outline: none; border-color: #f89820; }
+.jtj-textarea[readonly] { background: var(--bg-card); cursor: default; }
+.jtj-options { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 10px 0; }
+.jtj-option { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+.jtj-option input[type="checkbox"] { accent-color: #f89820; width: 16px; height: 16px; }
+.jtj-option label { cursor: pointer; }
+.jtj-btn { padding: 10px 22px; font-weight: 700; border: none; border-radius: var(--radius); cursor: pointer; font-size: 0.9rem; transition: opacity 0.15s; }
+.jtj-btn-primary { background: #f89820; color: white; }
+.jtj-btn-primary:hover { opacity: 0.9; }
+.jtj-btn-outline { background: var(--bg-card); border: 1px solid var(--border); color: var(--text); }
+.jtj-btn-outline:hover { background: var(--border); }
+.jtj-error { background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 0 var(--radius) var(--radius) 0; display: none; color: #991b1b; font-size: 0.85rem; }
+.jtj-error.show { display: block; }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>☕ JSON to Java POJO/DTO Converter — Generate Java Classes Online</h1>
+    <p>Paste JSON, get Java POJO or DTO classes with Lombok, Jackson annotations, and nested class support. Free, browser-based, no sign-up.</p>
+  </div>
+
+  <div class="jtj-container">
+    <div class="jtj-panel">
+      <div class="jtj-panel-label">📋 JSON Input</div>
+      <textarea class="jtj-textarea" id="jtjInput" placeholder='Paste your JSON here...&#10;{&#10;  "name": "John Doe",&#10;  "age": 30,&#10;  "email": "john@example.com",&#10;  "address": {&#10;    "street": "123 Main St",&#10;    "city": "Springfield"&#10;  },&#10;  "tags": ["developer", "java"]&#10;}'></textarea>
+    </div>
+    <div class="jtj-panel">
+      <div class="jtj-panel-label">☕ Generated Java Class</div>
+      <textarea class="jtj-textarea" id="jtjOutput" readonly placeholder="Generated Java code will appear here..."></textarea>
+    </div>
+  </div>
+
+  <div class="jtj-error" id="jtjError"></div>
+
+  <div class="jtj-options">
+    <div class="jtj-option"><input type="checkbox" id="jtjLombok" checked><label for="jtjLombok">Use Lombok @Data</label></div>
+    <div class="jtj-option"><input type="checkbox" id="jtjJackson"><label for="jtjJackson">Add Jackson @JsonProperty</label></div>
+    <div class="jtj-option"><input type="checkbox" id="jtjGetters"><label for="jtjGetters">Include getters/setters</label></div>
+    <div class="jtj-option"><input type="checkbox" id="jtjTabs" checked><label for="jtjTabs">Indent with tabs</label></div>
+  </div>
+
+  <div class="jtj-options">
+    <button class="jtj-btn jtj-btn-primary" id="jtjGenerateBtn">⚡ Generate Java Class</button>
+    <button class="jtj-btn jtj-btn-outline" id="jtjClearBtn">🗑️ Clear</button>
+    <button class="jtj-btn jtj-btn-outline" id="jtjCopyBtn" style="display:none">📋 Copy Code</button>
+  </div>
+
+    
+
+  <section class="seo-content">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/json-to-java/" target="_blank" rel="noopener">Powered by ToolStand JSON to Java POJO/DTO Converter</a></div>
+<script>
+(function(){
+  'use strict';
+function toCamelCase(str) {
+    return str.replace(/[^a-zA-Z0-9]/g, ' ').split(' ').filter(Boolean).map(function(w, i) {
+      return i === 0 ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    }).join('');
+  }
+
+  function toPascalCase(str) {
+    var camel = toCamelCase(str);
+    return camel.charAt(0).toUpperCase() + camel.slice(1);
+  }
+
+  function getJavaType(value, key) {
+    if (value === null) return 'String';
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        var itemType = getJavaType(value[0], key);
+        return 'List<' + itemType + '>';
+      }
+      return 'List<Object>';
+    }
+    if (typeof value === 'object') return toPascalCase(key || 'Inner');
+    if (typeof value === 'boolean') return 'boolean';
+    if (typeof value === 'number') {
+      return Number.isInteger(value) ? 'int' : 'double';
+    }
+    return 'String';
+  }
+
+  function generateClass(obj, className, indent, useLombok, useJackson, useTabs, indentLevel) {
+    var tab = useTabs ? '\t' : '  ';
+    var indentStr = tab.repeat(indentLevel);
+    var innerIndent = tab.repeat(indentLevel + 1);
+    var lines = [];
+    var innerClasses = [];
+
+    lines.push(indentStr + 'public static class ' + className + ' {');
+
+    if (useLombok) {
+      lines.push(innerIndent + '@Data');
+    }
+
+    var fields = [];
+    for (var key in obj) {
+      if (!obj.hasOwnProperty(key)) continue;
+      var val = obj[key];
+      var javaType = getJavaType(val, key);
+      var fieldName = toCamelCase(key);
+
+      if (useJackson) {
+        lines.push(innerIndent + '@JsonProperty("' + key + '")');
+      }
+
+      if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+        var innerName = toPascalCase(key);
+        fields.push({ type: innerName, name: fieldName, key: key });
+        innerClasses.push({ name: innerName, obj: val });
+      } else {
+        fields.push({ type: javaType, name: fieldName, key: key });
+      }
+    }
+
+    for (var i = 0; i < fields.length; i++) {
+      lines.push(innerIndent + 'private ' + fields[i].type + ' ' + fields[i].name + ';');
+    }
+
+    if (!useLombok && document.getElementById('jtjGetters').checked) {
+      lines.push('');
+      for (var j = 0; j < fields.length; j++) {
+        var getterName = 'get' + fields[j].name.charAt(0).toUpperCase() + fields[j].name.slice(1);
+        var setterName = 'set' + fields[j].name.charAt(0).toUpperCase() + fields[j].name.slice(1);
+        lines.push(innerIndent + 'public ' + fields[j].type + ' ' + getterName + '() {');
+        lines.push(innerIndent + tab + 'return this.' + fields[j].name + ';');
+        lines.push(innerIndent + '}');
+        lines.push('');
+        lines.push(innerIndent + 'public void ' + setterName + '(' + fields[j].type + ' ' + fields[j].name + ') {');
+        lines.push(innerIndent + tab + 'this.' + fields[j].name + ' = ' + fields[j].name + ';');
+        lines.push(innerIndent + '}');
+      }
+    }
+
+    lines.push(indentStr + '}');
+
+    for (var k = 0; k < innerClasses.length; k++) {
+      lines.push('');
+      lines = lines.concat(generateClass(innerClasses[k].obj, innerClasses[k].name, '', useLombok, useJackson, useTabs, indentLevel));
+    }
+
+    return lines;
+  }
+
+  document.getElementById('jtjGenerateBtn').addEventListener('click', function() {
+    var input = document.getElementById('jtjInput').value.trim();
+    var errorEl = document.getElementById('jtjError');
+    var outputEl = document.getElementById('jtjOutput');
+    var copyBtn = document.getElementById('jtjCopyBtn');
+    errorEl.classList.remove('show');
+
+    if (!input) {
+      errorEl.textContent = '⚠️ Please paste some JSON first.';
+      errorEl.classList.add('show');
+      return;
+    }
+
+    try {
+      var parsed = JSON.parse(input);
+      var useLombok = document.getElementById('jtjLombok').checked;
+      var useJackson = document.getElementById('jtjJackson').checked;
+      var useTabs = document.getElementById('jtjTabs').checked;
+      var tab = useTabs ? '\t' : '  ';
+
+      var rootName;
+      if (Array.isArray(parsed)) {
+        rootName = 'RootItem';
+        if (parsed.length > 0 && typeof parsed[0] === 'object' && parsed[0] !== null) {
+          parsed = parsed[0];
+          rootName = 'RootItem';
+        }
+      }
+
+      if (typeof parsed !== 'object' || parsed === null) {
+        errorEl.textContent = '⚠️ JSON must be an object or array of objects.';
+        errorEl.classList.add('show');
+        return;
+      }
+
+      rootName = rootName || 'Root';
+      if (parsed._className) {
+        rootName = parsed._className;
+      }
+
+      var lines = [];
+      if (useLombok) {
+        lines.push('import lombok.Data;');
+      }
+      if (useJackson) {
+        lines.push('import com.fasterxml.jackson.annotation.JsonProperty;');
+      }
+      if (Array.isArray(parsed) || hasListField(parsed)) {
+        lines.push('import java.util.List;');
+      }
+      if (lines.length > 0) lines.push('');
+
+      lines = lines.concat(generateClass(parsed, rootName, '', useLombok, useJackson, useTabs, 0));
+
+      outputEl.value = lines.join('\n');
+      copyBtn.style.display = '';
+      window._jtjLastOutput = outputEl.value;
+    } catch (e) {
+      errorEl.innerHTML = '<strong>❌ Invalid JSON</strong><br>' + e.message;
+      errorEl.classList.add('show');
+    }
+  });
+
+  function hasListField(obj) {
+    for (var key in obj) {
+      if (!obj.hasOwnProperty(key)) continue;
+      if (Array.isArray(obj[key])) return true;
+      if (typeof obj[key] === 'object' && obj[key] !== null && hasListField(obj[key])) return true;
+    }
+    return false;
+  }
+
+  document.getElementById('jtjCopyBtn').addEventListener('click', function() {
+    var output = window._jtjLastOutput || document.getElementById('jtjOutput').value;
+    if (!output) return;
+    navigator.clipboard.writeText(output).then(function() {
+      var btn = document.getElementById('jtjCopyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(function() { btn.textContent = '📋 Copy Code'; }, 1500);
+    });
+  });
+
+  document.getElementById('jtjClearBtn').addEventListener('click', function() {
+    document.getElementById('jtjInput').value = '';
+    document.getElementById('jtjOutput').value = '';
+    document.getElementById('jtjCopyBtn').style.display = 'none';
+    document.getElementById('jtjError').classList.remove('show');
+    window._jtjLastOutput = '';
+  });
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

@@ -1,1 +1,386 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERP Preview Tool — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"SERP Preview Tool","url":"https://toolstand.io/tools/serp-preview/","applicationCategory":"SeoApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+:root {
+      --bg: #ffffff;
+      --bg-card: #f8fafc;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --radius: 8px;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-secondary: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.25rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .logo strong { color: #3b82f6; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .nav a:hover { color: var(--text); }
+    .btn-icon {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .btn-icon:hover { background: var(--bg-card); }
+    
+    .tool-container {
+      flex: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      width: 100%;
+    }
+    .tool-header { margin-bottom: 24px; }
+    .tool-header h1 { font-size: 1.75rem; margin-bottom: 4px; }
+    .tool-header p { color: var(--text-secondary); font-size: 0.95rem; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: var(--text-secondary);
+    }
+    .char-count {
+      font-weight: 400;
+      font-size: 0.78rem;
+      transition: color 0.3s;
+    }
+    .char-count.warn { color: #f59e0b; }
+    .char-count.over { color: #ef4444; }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 0.9rem;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .preview-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .preview-toggle {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .preview-toggle button {
+      padding: 6px 14px;
+      border: none;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .preview-toggle button.active {
+      background: #3b82f6;
+      color: #fff;
+    }
+    /* SERP Card */
+    .serp-card {
+      background: #ffffff;
+      border-radius: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      max-width: 100%;
+    }
+    .serp-card .serp-url {
+      color: #202124;
+      font-size: 14px;
+      line-height: 1.3;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .serp-card .serp-url .favicon-area {
+      width: 20px;
+      height: 20px;
+      background: #f1f3f4;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .serp-card .serp-url .url-text {
+      color: #202124;
+      font-size: 14px;
+    }
+    .serp-card .serp-url .breadcrumb {
+      color: #5f6368;
+      font-size: 14px;
+    }
+    .serp-card .serp-title {
+      color: #1a0dab;
+      font-size: 20px;
+      line-height: 1.3;
+      font-weight: 400;
+      text-decoration: none;
+      display: block;
+      margin: 2px 0 0;
+      cursor: pointer;
+    }
+    .serp-card .serp-title:hover { text-decoration: underline; }
+    .serp-card .serp-desc {
+      color: #4d5156;
+      font-size: 14px;
+      line-height: 1.58;
+      word-wrap: break-word;
+      margin-top: 2px;
+    }
+    .serp-card .serp-date {
+      color: #70757a;
+      font-size: 14px;
+    }
+    /* Mobile SERP */
+    .serp-card.mobile .serp-url { font-size: 12px; }
+    .serp-card.mobile .serp-url .url-text { font-size: 12px; }
+    .serp-card.mobile .serp-url .breadcrumb { font-size: 12px; }
+    .serp-card.mobile .serp-title { font-size: 16px; line-height: 1.375; }
+    .serp-card.mobile .serp-desc { font-size: 14px; line-height: 1.5; }
+    /* SERP container border */
+    .serp-preview-box {
+      background: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .embed-cta {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 32px 16px;
+      text-align: center;
+    }
+    .embed-cta h3 { margin-bottom: 8px; }
+    .embed-cta p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+    .embed-code {
+      width: 100%;
+      max-width: 640px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.75rem;
+      resize: vertical;
+    }
+    .footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .footer .small { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+    .footer .small a { color: var(--text-secondary); }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🔎 SERP Preview</h1>
+    <p>Preview how your page will look in Google search results.</p>
+  </div>
+  <div class="layout">
+    <div>
+      <div class="form-group">
+        <label>
+          Page Title
+          <span class="char-count" id="titleCount">0 / 60</span>
+        </label>
+        <input type="text" id="serpTitle" placeholder="Enter page title (max 60 chars recommended)" maxlength="120">
+      </div>
+      <div class="form-group">
+        <label>
+          Meta Description
+          <span class="char-count" id="descCount">0 / 160</span>
+        </label>
+        <textarea id="serpDesc" placeholder="Enter meta description (max 160 chars recommended)" maxlength="300"></textarea>
+      </div>
+      <div class="form-group">
+        <label>
+          URL Slug
+          <span class="char-count" id="urlCount">0</span>
+        </label>
+        <input type="text" id="serpUrl" placeholder="blog/my-awesome-post">
+      </div>
+      <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:-8px;">Google typically shows ~60 chars of title and ~160 chars of description.</p>
+    </div>
+    <div>
+      <div class="preview-label">
+        <span style="font-weight:600;font-size:0.85rem;color:var(--text-secondary);">Live Preview</span>
+        <div class="preview-toggle">
+          <button class="active" data-view="desktop">🖥 Desktop</button>
+          <button data-view="mobile">📱 Mobile</button>
+        </div>
+      </div>
+      <div class="serp-preview-box">
+        <div class="serp-card" id="serpCard">
+          <div class="serp-url">
+            <span class="favicon-area">🌐</span>
+            <span class="url-text">toolstand.io</span>
+            <span class="breadcrumb"> › blog › my-post</span>
+          </div>
+          <a class="serp-title" id="serpTitlePreview">Your Page Title Will Appear Here</a>
+          <div class="serp-desc" id="serpDescPreview">
+            Your meta description will appear here. Write compelling copy to attract clicks from search results.
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/serp-preview/" target="_blank" rel="noopener">Powered by ToolStand SERP Preview Tool</a></div>
+<script>
+(function(){
+  'use strict';
+// Theme toggle
+  document.documentElement.setAttribute('data-theme',n);
+    localStorage.setItem('toolstand-theme',n);
+  });
+  var titleLimit=60;
+  var descLimit=160;
+
+  function truncate(str,max){
+    if(str.length>max) return str.substring(0,max)+'…';
+    return str;
+  }
+
+  function updateCounter(id,val,limit){
+    var el=document.getElementById(id);
+    var len=val.length;
+    el.textContent=len+' / '+limit;
+    el.classList.remove('warn','over');
+    if(len>=limit) el.classList.add('over');
+    else if(len>=limit*0.8) el.classList.add('warn');
+  }
+
+  function updatePreview(){
+    var title=document.getElementById('serpTitle').value.trim();
+    var desc=document.getElementById('serpDesc').value.trim();
+    var url=document.getElementById('serpUrl').value.trim();
+
+    // Counters
+    updateCounter('titleCount',title,titleLimit);
+    updateCounter('descCount',desc,descLimit);
+
+    // URL counter
+    var urlBase='toolstand.io';
+    var urlFull=url?urlBase+(url.startsWith('/')?'':'/')+url:urlBase;
+    document.getElementById('urlCount').textContent=urlFull.length+' chars';
+
+    // Title preview
+    var titleDisplay=title||'Your Page Title Will Appear Here';
+    document.getElementById('serpTitlePreview').textContent=truncate(titleDisplay,titleLimit);
+
+    // Description preview
+    var descDisplay=desc||'Your meta description will appear here. Write compelling copy to attract clicks from search results.';
+    document.getElementById('serpDescPreview').textContent=truncate(descDisplay,descLimit);
+
+    // URL preview
+    var urlParts=url?url.split('/').filter(Boolean):['blog','my-post'];
+    var domain='toolstand.io';
+    var breadcrumb='';
+    if(urlParts.length>0){
+      breadcrumb=' › '+urlParts.join(' › ');
+    }
+    document.querySelector('.serp-card .url-text').textContent=domain;
+    document.querySelector('.serp-card .breadcrumb').textContent=breadcrumb;
+  }
+
+  document.getElementById('serpTitle').addEventListener('input',updatePreview);
+  document.getElementById('serpDesc').addEventListener('input',updatePreview);
+  document.getElementById('serpUrl').addEventListener('input',updatePreview);
+
+  // View toggle
+  var viewButtons=document.querySelectorAll('.preview-toggle button');
+  viewButtons.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      viewButtons.forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var view=btn.dataset.view;
+      var card=document.getElementById('serpCard');
+      if(view==='mobile'){
+        card.classList.add('mobile');
+      } else {
+        card.classList.remove('mobile');
+      }
+    });
+  });
+
+  // Initial update
+  updatePreview();
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

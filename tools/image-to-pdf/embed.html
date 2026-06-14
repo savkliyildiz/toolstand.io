@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image to PDF — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Image to PDF","url":"https://toolstand.io/tools/image-to-pdf/","applicationCategory":"MultimediaApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+:root {
+      --bg-primary: #ffffff; --bg-secondary: #f9fafb; --bg-tertiary: #f3f4f6;
+      --text-primary: #111827; --text-secondary: #4b5563; --text-tertiary: #9ca3af;
+      --accent: #2563eb; --accent-hover: #1d4ed8; --accent-light: #eff6ff;
+      --border-color: #e5e7eb; --radius-md: 8px; --radius-lg: 12px; --transition: 0.2s ease;
+      --font-mono: 'SF Mono', 'Fira Code', Menlo, monospace;
+    }
+    [data-theme="dark"] {
+      --bg-primary: #0f172a; --bg-secondary: #1e293b; --bg-tertiary: #334155;
+      --text-primary: #f1f5f9; --text-secondary: #cbd5e1; --text-tertiary: #64748b;
+      --accent: #3b82f6; --accent-hover: #2563eb; --accent-light: #1e3a5f;
+      --border-color: #334155;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; transition: background var(--transition), color var(--transition); }
+    .header { background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .header .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .logo { font-size: 1.25rem; text-decoration: none; color: var(--text-primary); font-weight: 700; display: flex; align-items: center; gap: 0.35rem; }
+    .logo strong { color: var(--accent); }
+    .nav { display: flex; align-items: center; gap: 1rem; }
+    .nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color var(--transition); }
+    .nav a:hover { color: var(--accent); }
+    .btn-icon { background: none; border: 1px solid var(--border-color); color: var(--text-primary); font-size: 1.25rem; cursor: pointer; border-radius: var(--radius-md); padding: 6px 8px; transition: all var(--transition); }
+    .btn-icon:hover { border-color: var(--accent); color: var(--accent); }
+    
+    .tool-container { flex: 1; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 3rem; width: 100%; }
+    .tool-header { text-align: center; margin: 2.5rem 0 2rem; }
+    .tool-header h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .tool-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+    .upload-zone { border: 2px dashed var(--border-color); border-radius: var(--radius-lg); padding: 3rem 2rem; text-align: center; cursor: pointer; transition: all var(--transition); background: var(--bg-secondary); position: relative; margin-bottom: 1.5rem; }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--accent); background: var(--accent-light); }
+    .upload-zone-icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+    .upload-zone h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .upload-zone p { color: var(--text-secondary); font-size: 0.9rem; }
+    .supported-formats { font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.5rem; }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .image-list-section { margin-bottom: 1.5rem; }
+    .image-list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .image-count { font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); }
+    .btn-outline-sm { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 6px 12px; font-size: 0.8rem; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); font-weight: 500; }
+    .btn-outline-sm:hover { border-color: var(--accent); color: var(--accent); }
+    .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .image-item { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; position: relative; transition: all var(--transition); }
+    .image-item:hover { border-color: var(--accent); }
+    .image-item-thumb { width: 100%; height: 140px; object-fit: cover; display: block; background: var(--bg-tertiary); }
+    .image-item-info { padding: 0.5rem 0.75rem; }
+    .image-item-name { font-size: 0.75rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .image-item-actions { display: flex; gap: 4px; padding: 0 0.75rem 0.5rem; }
+    .image-item-actions button { background: transparent; border: 1px solid var(--border-color); border-radius: 4px; padding: 3px 8px; font-size: 0.7rem; cursor: pointer; transition: all var(--transition); }
+    .image-item-actions button:hover { border-color: var(--accent); color: var(--accent); }
+    .settings-panel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding: 1.25rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); }
+    .setting-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .setting-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+    .setting-group select, .setting-group input { padding: 8px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary); font-size: 0.9rem; font-family: inherit; transition: border-color var(--transition); }
+    .setting-group select:focus, .setting-group input:focus { outline: none; border-color: var(--accent); }
+    .actions-row { display: flex; gap: 1rem; justify-content: center; }
+    .btn-primary, .btn-secondary { padding: 0.75rem 2rem; font-size: 1rem; font-weight: 600; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition); border: none; }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-secondary { background: transparent; color: var(--text-secondary); border: 2px solid var(--border-color); }
+    .btn-secondary:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .loading-indicator { display: flex; flex-direction: column; align-items: center; margin: 2rem 0; }
+    .spinner { width: 40px; height: 40px; border: 3px solid var(--border-color); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-indicator span { color: var(--text-secondary); font-size: 0.9rem; }
+    .status-message { padding: 0.75rem 1rem; border-radius: var(--radius-md); margin-top: 1.5rem; text-align: center; display: none; }
+    .status-message.success { display: block; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .status-message.error { display: block; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .seo-content { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    .seo-content h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); margin-top: 2rem; }
+    .seo-content h2:first-child { margin-top: 0; }
+    .seo-content h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; margin-top: 1.5rem; color: var(--text-primary); }
+    .seo-content p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.7; }
+    .seo-content ol { padding-left: 1.5rem; margin-bottom: 1.5rem; color: var(--text-secondary); }
+    .seo-content ol li { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.7; }
+    .seo-content ol li strong { color: var(--text-primary); }
+    .related-tools { margin-top: 2rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .related-tools h2 { font-size: 1.25rem; margin-top: 0; }
+    .related-tools ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.5rem; }
+    .related-tools a { color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem; }
+    .related-tools a:hover { background: var(--bg-tertiary); text-decoration: none; }
+    .embed-cta { margin-top: 2rem; padding: 1.25rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); }
+    .embed-cta h3 { font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+    .embed-code { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.8rem; resize: vertical; transition: border-color var(--transition); }
+    .embed-code:focus { outline: none; border-color: var(--accent); }
+    .footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 2rem 0; margin-top: auto; text-align: center; }
+    .footer .small { font-size: 0.85rem; color: var(--text-tertiary); margin-top: 0.5rem; }
+    .footer .small a { color: var(--text-tertiary); margin: 0 0.25rem; }
+    .footer .small a:hover { color: var(--text-primary); }
+    @media (max-width: 768px) {
+      .tool-header h1 { font-size: 1.75rem; }
+      .tool-header p { font-size: 1rem; }
+      .upload-zone { padding: 2rem 1rem; }
+      .image-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; }
+      .image-item-thumb { height: 110px; }
+      .settings-panel { grid-template-columns: 1fr; }
+      .actions-row { flex-direction: column; }
+      .actions-row .btn-primary, .actions-row .btn-secondary { width: 100%; justify-content: center; }
+      .related-tools ul { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 1rem; }
+      .tool-container { padding: 0 1rem 2rem; }
+      .image-grid { grid-template-columns: repeat(2, 1fr); }
+      .header .container { height: 48px; }
+      .logo { font-size: 1.1rem; }
+    }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+      <h1>🖼️ Image to PDF</h1>
+      <p>Convert your images (JPG, PNG, WebP) into a clean PDF document. Choose page size, adjust margins, and arrange your images in order.</p>
+    </div>
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" id="uploadZone">
+    <span class="upload-zone-icon">📤</span>
+    <h3>Drop your images here</h3>
+    <p>or click to browse files</p>
+    <p class="supported-formats">Supported: JPG, JPEG, PNG, WebP — multiple files allowed</p>
+    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp" multiple>
+  </div>
+
+  <!-- Image List -->
+  <div class="image-list-section" id="imageListSection">
+    <div class="image-list-header">
+      <span class="image-count" id="imageCount">0 images</span>
+      <div style="display:flex;gap:0.5rem;">
+        <button class="btn-outline-sm clear-all-btn" id="clearAllBtn" onclick="clearAllImages()">🗑 Clear All</button>
+        <button class="btn-outline-sm" onclick="document.getElementById('uploadZone').click()">+ Add More</button>
+      </div>
+    </div>
+    <div class="image-grid" id="imageGrid"></div>
+  </div>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="setting-group">
+      <label for="pageSize">📄 Page Size</label>
+      <select id="pageSize">
+        <option value="A4">A4 (210 × 297 mm)</option>
+        <option value="Letter" selected>Letter (215.9 × 279.4 mm)</option>
+        <option value="Legal">Legal (215.9 × 355.6 mm)</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <label for="margin">📏 Margin (mm)</label>
+      <input type="number" id="margin" value="10" min="0" max="50" step="1">
+    </div>
+    <div class="setting-group">
+      <label for="imageFit">🖼️ Image Fit</label>
+      <select id="imageFit">
+        <option value="fit" selected>Fit to page</option>
+        <option value="fill">Fill page</option>
+        <option value="original">Original size</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-row">
+    <button class="btn-primary" id="convertBtn" onclick="convertToPdf()" disabled>⚡ Convert to PDF</button>
+    <button class="btn-secondary" id="downloadBtn" onclick="downloadPdf()" disabled>📥 Download PDF</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-indicator" id="loadingIndicator">
+    <div class="spinner"></div>
+    <span>Processing images and building PDF…</span>
+  </div>
+
+  <!-- Status -->
+  <div class="status-message" id="statusMessage"></div>
+
+    <!-- SEO Content -->
+    <section class="seo-content">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/image-to-pdf/" target="_blank" rel="noopener">Powered by ToolStand Image to PDF</a></div>
+<script>
+(function(){
+  'use strict';
+const toggle = const saved = localStorage.getItem('toolstand-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+      toggle.addEventListener('click', function() {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('toolstand-theme', next);
+      });
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

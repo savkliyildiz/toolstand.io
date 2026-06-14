@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPI & PPI Calculator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"DPI & PPI Calculator","url":"https://toolstand.io/tools/dpi-calculator/","applicationCategory":"CalculatorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.dpi-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.dpi-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dpi-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dpi-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.dpi-group input {
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  width: 100px;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.dpi-group input:focus { outline: none; border-color: var(--primary); }
+.dpi-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.dpi-preset {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.dpi-preset:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.dpi-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+.dpi-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.dpi-result-card .dpi-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+.dpi-result-card .dpi-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.dpi-result-card .dpi-category {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.dpi-formula {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: 'Courier New', monospace;
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>📺 DPI / PPI Calculator</h1>
+    <p>Calculate pixel density for any screen — monitors, phones, tablets, TVs.</p>
+  </div>
+  <div class="dpi-presets">
+    <button class="dpi-preset" data-w="1920" data-h="1080" data-s="24">1080p 24"</button>
+    <button class="dpi-preset" data-w="2560" data-h="1440" data-s="27">1440p 27"</button>
+    <button class="dpi-preset" data-w="3840" data-h="2160" data-s="27">4K 27"</button>
+    <button class="dpi-preset" data-w="2560" data-h="1600" data-s="13.3">MBP 13" Retina</button>
+    <button class="dpi-preset" data-w="3024" data-h="1964" data-s="14.2">MBP 14" Retina</button>
+    <button class="dpi-preset" data-w="1080" data-h="2340" data-s="6.1">Phone 1080p</button>
+  </div>
+  <div class="dpi-inputs">
+    <div class="dpi-row">
+      <div class="dpi-group">
+        <label for="dpiWidth">Width (px)</label>
+        <input type="number" id="dpiWidth" value="1920" min="1">
+      </div>
+      <span style="font-size:1.5rem;color:var(--text-secondary)">×</span>
+      <div class="dpi-group">
+        <label for="dpiHeight">Height (px)</label>
+        <input type="number" id="dpiHeight" value="1080" min="1">
+      </div>
+      <div class="dpi-group">
+        <label for="dpiSize">Diagonal (in)</label>
+        <input type="number" id="dpiSize" value="24" min="0.1" step="0.1">
+      </div>
+    </div>
+  </div>
+  <div class="dpi-results" id="dpiResults">
+    <div class="dpi-result-card">
+      <div class="dpi-value" id="ppiValue">—</div>
+      <div class="dpi-label">PPI</div>
+      <div class="dpi-category" id="ppiCategory"></div>
+    </div>
+    <div class="dpi-result-card">
+      <div class="dpi-value" id="dpiValue">—</div>
+      <div class="dpi-label">DPI</div>
+    </div>
+    <div class="dpi-result-card">
+      <div class="dpi-value" id="dotPitchValue">—</div>
+      <div class="dpi-label">Dot Pitch (mm)</div>
+    </div>
+  </div>
+  <div class="dpi-formula">
+    PPI = √(W² + H²) / diagonal inches
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/dpi-calculator/" target="_blank" rel="noopener">Powered by ToolStand DPI & PPI Calculator</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

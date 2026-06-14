@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tip Calculator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Tip Calculator","url":"https://toolstand.io/tools/tip-calculator/","applicationCategory":"CalculatorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tip-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.tip-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.tip-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tip-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.tip-group input, .tip-group select {
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  width: 140px;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.tip-group select { cursor: pointer; }
+.tip-group input:focus, .tip-group select:focus { outline: none; border-color: var(--primary); }
+.tip-percentages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.tip-pct-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.tip-pct-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.tip-pct-btn:hover:not(.active) { background: var(--border); }
+.tip-custom-pct {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tip-custom-pct input {
+  width: 70px;
+  padding: 8px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  text-align: center;
+  background: var(--bg);
+  color: var(--text);
+}
+.tip-custom-pct input:focus { outline: none; border-color: var(--primary); }
+.tip-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.tip-checkbox input { accent-color: var(--primary); width: 18px; height: 18px; }
+.tip-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+.tip-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.tip-result-card .tip-amount {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+.tip-result-card .tip-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.tip-total {
+  background: var(--primary);
+  color: white;
+}
+.tip-total .tip-amount { color: white; }
+.tip-total .tip-label { color: rgba(255,255,255,0.8); }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>💵 Tip Calculator</h1>
+    <p>Calculate the perfect tip, split the bill, and see what everyone owes.</p>
+  </div>
+  <div class="tip-inputs">
+    <div class="tip-row">
+      <div class="tip-group">
+        <label for="tipCurrency">Currency</label>
+        <select id="tipCurrency">
+          <option value="$">USD ($)</option>
+          <option value="€">EUR (€)</option>
+          <option value="£">GBP (£)</option>
+          <option value="₺">TRY (₺)</option>
+        </select>
+      </div>
+      <div class="tip-group">
+        <label for="tipBill">Bill Amount</label>
+        <input type="number" id="tipBill" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="tip-group">
+        <label for="tipPeople">People</label>
+        <input type="number" id="tipPeople" value="1" min="1" max="100">
+      </div>
+    </div>
+    <div class="tip-percentages" id="tipPresets">
+      <button class="tip-pct-btn" data-pct="10">10%</button>
+      <button class="tip-pct-btn active" data-pct="15">15%</button>
+      <button class="tip-pct-btn" data-pct="18">18%</button>
+      <button class="tip-pct-btn" data-pct="20">20%</button>
+      <button class="tip-pct-btn" data-pct="25">25%</button>
+    </div>
+    <div class="tip-custom-pct" style="justify-content:center">
+      <span style="font-size:0.85rem;color:var(--text-secondary)">Custom:</span>
+      <input type="number" id="tipCustomPct" placeholder="15" min="0" max="100" step="0.1" value="15">
+      <span style="font-size:0.85rem">%</span>
+    </div>
+    <div class="tip-checkbox" style="justify-content:center">
+      <input type="checkbox" id="tipRoundUp">
+      <label for="tipRoundUp">Round up tip</label>
+    </div>
+  </div>
+  <div class="tip-results" id="tipResults">
+    <div class="tip-result-card">
+      <div class="tip-amount" id="tipAmount">$0.00</div>
+      <div class="tip-label">Tip Amount</div>
+    </div>
+    <div class="tip-result-card tip-total">
+      <div class="tip-amount" id="tipTotal">$0.00</div>
+      <div class="tip-label">Total</div>
+    </div>
+    <div class="tip-result-card">
+      <div class="tip-amount" id="tipPerPerson">$0.00</div>
+      <div class="tip-label">Per Person
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/tip-calculator/" target="_blank" rel="noopener">Powered by ToolStand Tip Calculator</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

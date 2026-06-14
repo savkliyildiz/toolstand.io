@@ -1,1 +1,359 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temperature Tracker — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Temperature Tracker","url":"https://toolstand.io/tools/temperature-tracker/","applicationCategory":"UtilityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tt-wrap { display:flex; flex-direction:column; gap:18px; }
+.tt-input-row { display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
+.tt-input-row input { padding:10px 14px; font-size:1rem; border:2px solid var(--border); border-radius:var(--radius); background:var(--bg); color:var(--text); width:140px; font-family:monospace; }
+.tt-input-row input:focus { outline:none; border-color:#ef4444; }
+.tt-input-row label { display:flex; flex-direction:column; gap:4px; font-size:.8rem; color:var(--text-secondary); font-weight:600; }
+.tt-btn { padding:10px 20px; font-weight:700; border:none; border-radius:var(--radius); cursor:pointer; font-size:.9rem; transition:opacity .15s; }
+.tt-btn:hover { opacity:.85; }
+.tt-btn-add { background:#ef4444; color:white; }
+.tt-btn-export { background:var(--bg-card); color:var(--text); border:2px solid var(--border); }
+.tt-btn-clear { background:transparent; color:#ef4444; border:2px solid #ef4444; }
+.tt-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; text-align:center; }
+.tt-stat { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:12px 8px; }
+.tt-stat-label { font-size:.65rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:.5px; }
+.tt-stat-val { font-size:1.3rem; font-weight:800; margin-top:2px; }
+.tt-stat-val.fever { color:#ef4444; }
+.tt-stat-val.normal { color:#22c55e; }
+.tt-list { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.tt-list-header { display:grid; grid-template-columns:1fr 90px 1fr 36px; gap:6px; padding:8px 12px; background:var(--bg); font-size:.7rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; border-bottom:1px solid var(--border); }
+.tt-list-item { display:grid; grid-template-columns:1fr 90px 1fr 36px; gap:6px; padding:8px 12px; font-size:.85rem; align-items:center; border-bottom:1px solid var(--border); }
+.tt-list-item:last-child { border-bottom:none; }
+.tt-list-item.high { background:#fef2f2; }
+.tt-list-item.warn { background:#fffbeb; }
+.tt-del { background:none; border:none; color:#ef4444; cursor:pointer; font-size:1.1rem; padding:2px 6px; }
+.tt-chart-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:14px; position:relative; min-height:200px; }
+.tt-chart-wrap canvas { width:100% !important; max-height:280px; }
+.tt-empty { padding:40px; text-align:center; color:var(--text-secondary); font-size:.9rem; }
+.tt-empty-icon { font-size:3rem; margin-bottom:8px; }
+.tt-export-row { display:flex; gap:8px; flex-wrap:wrap; }
+.tt-alert { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:10px 14px; border-radius:var(--radius); font-size:.85rem; font-weight:600; display:none; }
+@media (max-width:500px) {
+  .tt-stats { grid-template-columns:1fr 1fr; }
+  .tt-list-header, .tt-list-item { grid-template-columns:1fr 70px 60px 30px; font-size:.75rem; }
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div style="margin-bottom:12px;">
+    <a href="/" style="color:var(--text-secondary);font-size:.85rem;">← All Tools</a>
+  </div>
+  <h1>🌡️ Temperature Tracker</h1>
+  <p style="color:var(--text-secondary);margin-bottom:24px;">Log body temperature readings over time. Visualize trends, track fever patterns, and export data.</p>
+
+  <div class="tt-alert" id="ttFeverAlert"></div>
+
+  <div class="tt-wrap">
+    <div class="tt-input-row">
+      <label>Temperature (°C)<input type="number" id="ttTemp" placeholder="36.5" step="0.1" min="30" max="45"></label>
+      <label>Note (optional)<input type="text" id="ttNote" placeholder="Morning, after meal..."></label>
+      <button class="tt-btn tt-btn-add" id="ttAdd">➕ Add Reading</button>
+    </div>
+
+    <div class="tt-stats" id="ttStats" style="display:none;">
+      <div class="tt-stat"><div class="tt-stat-label">Avg</div><div class="tt-stat-val" id="ttAvg">—</div></div>
+      <div class="tt-stat"><div class="tt-stat-label">Max</div><div class="tt-stat-val" id="ttMax">—</div></div>
+      <div class="tt-stat"><div class="tt-stat-label">Min</div><div class="tt-stat-val" id="ttMin">—</div></div>
+      <div class="tt-stat"><div class="tt-stat-label">Readings</div><div class="tt-stat-val" id="ttCount">0</div></div>
+    </div>
+
+    <div class="tt-chart-wrap" id="ttChartWrap" style="display:none;">
+      <canvas id="ttChart"></canvas>
+    </div>
+
+    <div class="tt-export-row" id="ttExportRow" style="display:none;">
+      <button class="tt-btn tt-btn-export" id="ttExportCSV">📥 Export CSV</button>
+      <button class="tt-btn tt-btn-export" id="ttExportJSON">📥 Export JSON</button>
+      <button class="tt-btn tt-btn-clear" id="ttClear">🗑 Clear All</button>
+    </div>
+
+    <div id="ttListWrap">
+      <div class="tt-empty" id="ttEmpty">
+        <div class="tt-empty-icon">🌡️</div>
+        <div>No readings yet. Add your first temperature above.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AdSense Banner -->
+  <div style="margin-top:30px;text-align:center;">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8632240779421770" data-ad-slot="1790345347" data-ad-format="auto" data-full-width-responsive="true"></ins>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/temperature-tracker/" target="_blank" rel="noopener">Powered by ToolStand Temperature Tracker</a></div>
+<script>
+(function(){
+  'use strict';
+const STORAGE_KEY = 'temp-tracker-v2';
+  let readings = [];
+  let chart = null;
+
+  function load() {
+    try {
+      readings = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    } catch(e) { readings = []; }
+  }
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(readings));
+  }
+
+  function render() {
+    const empty = document.getElementById('ttEmpty');
+    const stats = document.getElementById('ttStats');
+    const chartWrap = document.getElementById('ttChartWrap');
+    const exportRow = document.getElementById('ttExportRow');
+    const listWrap = document.getElementById('ttListWrap');
+    const alert = document.getElementById('ttFeverAlert');
+
+    if (readings.length === 0) {
+      if (empty) empty.style.display = 'block';
+      stats.style.display = 'none';
+      chartWrap.style.display = 'none';
+      exportRow.style.display = 'none';
+      // remove old list
+      const oldList = document.getElementById('ttList');
+      if (oldList) oldList.remove();
+      alert.style.display = 'none';
+      return;
+    }
+
+    if (empty) empty.style.display = 'none';
+    stats.style.display = 'grid';
+    chartWrap.style.display = 'block';
+    exportRow.style.display = 'flex';
+
+    // Stats
+    const temps = readings.map(r => r.t);
+    const avg = temps.reduce((a,b) => a+b, 0) / temps.length;
+    const maxVal = Math.max(...temps);
+    const minVal = Math.min(...temps);
+
+    document.getElementById('ttAvg').textContent = avg.toFixed(1) + '°C';
+    document.getElementById('ttAvg').className = 'tt-stat-val ' + (avg > 37.5 ? 'fever' : 'normal');
+    document.getElementById('ttMax').textContent = maxVal.toFixed(1) + '°C';
+    document.getElementById('ttMax').className = 'tt-stat-val ' + (maxVal > 38 ? 'fever' : 'normal');
+    document.getElementById('ttMin').textContent = minVal.toFixed(1) + '°C';
+    document.getElementById('ttMin').className = 'tt-stat-val ' + (minVal < 36 ? 'fever' : 'normal');
+    document.getElementById('ttCount').textContent = readings.length;
+
+    // Fever alert
+    const lastReading = readings[0];
+    if (lastReading && lastReading.t > 38) {
+      alert.innerHTML = '⚠️ <strong>High fever detected!</strong> Last reading: ' + lastReading.t.toFixed(1) + '°C. Consult a healthcare professional if fever persists.';
+      alert.style.display = 'block';
+    } else if (lastReading && lastReading.t > 37.5) {
+      alert.innerHTML = '🌡️ <strong>Elevated temperature:</strong> ' + lastReading.t.toFixed(1) + '°C. Monitor closely.';
+      alert.style.display = 'block';
+    } else {
+      alert.style.display = 'none';
+    }
+
+    // Reading list
+    const oldList = document.getElementById('ttList');
+    if (oldList) oldList.remove();
+
+    const listDiv = document.createElement('div');
+    listDiv.id = 'ttList';
+    listDiv.className = 'tt-list';
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'tt-list-header';
+    header.innerHTML = '<span>Date & Time</span><span>Temp</span><span>Note</span><span></span>';
+    listDiv.appendChild(header);
+
+    readings.forEach((r, i) => {
+      const item = document.createElement('div');
+      item.className = 'tt-list-item';
+      if (r.t > 38) item.classList.add('high');
+      else if (r.t > 37.5) item.classList.add('warn');
+
+      item.innerHTML = 
+        '<span>' + r.d + '</span>' +
+        '<span style="font-weight:700;">' + r.t.toFixed(1) + '°C</span>' +
+        '<span style="color:var(--text-secondary);font-size:.8rem;">' + (r.n || '—') + '</span>' +
+        '<button class="tt-del" data-idx="' + i + '" title="Delete">✕</button>';
+
+      listDiv.appendChild(item);
+    });
+
+    listWrap.appendChild(listDiv);
+
+    // Delete button listeners
+    listDiv.querySelectorAll('.tt-del').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const idx = parseInt(this.dataset.idx);
+        readings.splice(idx, 1);
+        save();
+        render();
+      });
+    });
+
+    // Chart
+    renderChart();
+  }
+
+  function renderChart() {
+    const ctx = document.getElementById('ttChart').getContext('2d');
+    if (chart) chart.destroy();
+
+    // Reverse for chronological order on chart
+    const data = [...readings].reverse();
+    const labels = data.map(r => {
+      const d = new Date(r.d);
+      return d.toLocaleDateString('en-US', {month:'short', day:'numeric'}) + ' ' + 
+             d.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+    });
+    const temps = data.map(r => r.t);
+
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Temperature (°C)',
+          data: temps,
+          borderColor: '#ef4444',
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#ef4444',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          annotation: {
+            annotations: {
+              feverLine: {
+                type: 'line',
+                yMin: 38,
+                yMax: 38,
+                borderColor: 'rgba(239, 68, 68, 0.5)',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                label: { display: true, content: 'Fever (38°C)', position: 'end' }
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            min: 35,
+            max: 42,
+            ticks: { stepSize: 0.5, callback: v => v + '°C' }
+          },
+          x: {
+            ticks: { maxRotation: 45, font: { size: 10 } }
+          }
+        }
+      }
+    });
+  }
+
+  function exportCSV() {
+    if (readings.length === 0) return;
+    let csv = 'Date,Time,Temperature (°C),Note\n';
+    readings.forEach(r => {
+      const d = new Date(r.d);
+      const date = d.toLocaleDateString('en-CA'); // YYYY-MM-DD
+      const time = d.toLocaleTimeString('en-GB');
+      const note = (r.n || '').replace(/"/g, '""');
+      csv += date + ',' + time + ',' + r.t.toFixed(1) + ',"' + note + '"\n';
+    });
+    downloadFile(csv, 'temperature-readings.csv', 'text/csv');
+  }
+
+  function exportJSON() {
+    if (readings.length === 0) return;
+    const json = JSON.stringify(readings, null, 2);
+    downloadFile(json, 'temperature-readings.json', 'application/json');
+  }
+
+  function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function clearAll() {
+    if (readings.length === 0) return;
+    if (confirm('Delete all ' + readings.length + ' temperature readings? This cannot be undone.')) {
+      readings = [];
+      save();
+      render();
+    }
+  }
+
+  // Init
+  load();
+  render();
+
+  document.getElementById('ttAdd').addEventListener('click', function() {
+    const tempInput = document.getElementById('ttTemp');
+    const noteInput = document.getElementById('ttNote');
+    const t = parseFloat(tempInput.value);
+    if (isNaN(t) || t < 30 || t > 45) {
+      tempInput.style.borderColor = '#ef4444';
+      setTimeout(() => tempInput.style.borderColor = '', 1500);
+      return;
+    }
+    readings.unshift({
+      t: Math.round(t * 10) / 10,
+      n: noteInput.value.trim(),
+      d: new Date().toLocaleString()
+    });
+    // Keep max 100 readings
+    if (readings.length > 100) readings.pop();
+    save();
+    tempInput.value = '';
+    noteInput.value = '';
+    render();
+  });
+
+  document.getElementById('ttExportCSV').addEventListener('click', exportCSV);
+  document.getElementById('ttExportJSON').addEventListener('click', exportJSON);
+  document.getElementById('ttClear').addEventListener('click', clearAll);
+
+  // Enter key submits
+  document.getElementById('ttTemp').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('ttAdd').click();
+  });
+  document.getElementById('ttNote').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('ttAdd').click();
+  });
+
+  var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('toolstand-theme', next);
+  });
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

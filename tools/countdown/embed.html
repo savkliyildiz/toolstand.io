@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown Timer — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Countdown Timer","url":"https://toolstand.io/tools/countdown/","applicationCategory":"ProductivityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.cd-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.cd-input-area input[type="datetime-local"] {
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  width: 100%;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.cd-input-area input[type="datetime-local"]:focus { outline: none; border-color: var(--primary); }
+.cd-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.cd-preset {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.cd-preset:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.cd-display {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+.cd-unit {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 8px;
+  text-align: center;
+  transition: transform 0.1s;
+}
+.cd-unit .cd-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  line-height: 1.1;
+}
+.cd-unit .cd-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.cd-complete {
+  display: none;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #22c55e;
+  margin: 20px 0;
+  animation: pulse 0.8s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+/* Confetti canvas */
+#confettiCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}
+@media (max-width: 500px) {
+  .cd-display { grid-template-columns: repeat(2, 1fr); }
+  .cd-unit .cd-number { font-size: 2rem; }
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>⏳ Countdown Timer</h1>
+    <p>Set a date and watch the live countdown. Celebrate when it reaches zero!</p>
+  </div>
+  <div class="cd-input-area">
+    <input type="datetime-local" id="targetDate">
+    <div class="cd-presets">
+      <button class="cd-preset" data-preset="newyear">🎆 New Year</button>
+      <button class="cd-preset" data-preset="tomorrow">📅 Tomorrow</button>
+      <button class="cd-preset" data-preset="1hour">⏰ 1 Hour</button>
+      <button class="cd-preset" data-preset="30min">⏱ 30 Minutes</button>
+    </div>
+  </div>
+  <div class="cd-display" id="cdDisplay">
+    <div class="cd-unit"><div class="cd-number" id="cdDays">00</div><div class="cd-label">Days</div></div>
+    <div class="cd-unit"><div class="cd-number" id="cdHours">00</div><div class="cd-label">Hours</div></div>
+    <div class="cd-unit"><div class="cd-number" id="cdMinutes">00</div><div class="cd-label">Minutes</div></div>
+    <div class="cd-unit"><div class="cd-number" id="cdSeconds">00</div><div class="cd-label">Seconds</div></div>
+  </div>
+  <div class="cd-complete" id="cdComplete">🎉 Time's Up! 🎉
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/countdown/" target="_blank" rel="noopener">Powered by ToolStand Countdown Timer</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

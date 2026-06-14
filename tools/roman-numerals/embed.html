@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roman Numeral Converter — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Roman Numeral Converter","url":"https://toolstand.io/tools/roman-numerals/","applicationCategory":"ConverterApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.roman-input-area {
+  margin-bottom: 20px;
+}
+.roman-input-area input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1.2rem;
+  font-family: 'Georgia', serif;
+  background: var(--bg);
+  color: var(--text);
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.roman-input-area input:focus { outline: none; border-color: var(--primary); }
+.roman-direction {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.roman-result {
+  background: var(--bg-card);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.roman-result .result-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: var(--primary);
+  letter-spacing: 0.05em;
+}
+.roman-result .result-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-top: 4px;
+}
+.roman-steps {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: 'Courier New', monospace;
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+  display: none;
+}
+.roman-fact {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.roman-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  justify-content: center;
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🏛️ Roman Numeral Converter</h1>
+    <p>Convert between Arabic numbers and Roman numerals (1–3999). Auto-detect input.</p>
+  </div>
+  <div class="roman-input-area">
+    <input type="text" id="romanInput" placeholder="Enter a number (e.g. 2024) or Roman numeral (e.g. MMXXIV)">
+  </div>
+  <div class="roman-direction" id="romanDirection"></div>
+  <div class="roman-result" id="romanResult" style="display:none">
+    <div class="result-value" id="resultValue"></div>
+    <div class="result-label" id="resultLabel"></div>
+  </div>
+  <div class="roman-steps" id="romanSteps"></div>
+  <div class="roman-buttons">
+    <button class="btn btn-outline" id="copyRomanBtn">📋 Copy Result</button>
+    <button class="btn btn-outline" id="clearRomanBtn">✕ Clear</button>
+  </div>
+  <div class="roman-fact">
+    💡 Fun fact: Roman numerals originated in ancient Rome and were the standard way of writing numbers throughout Europe well into the Middle Ages. There is no zero in Roman numerals!
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/roman-numerals/" target="_blank" rel="noopener">Powered by ToolStand Roman Numeral Converter</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

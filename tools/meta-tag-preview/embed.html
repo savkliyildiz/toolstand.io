@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Tag & SERP Preview Generator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Meta Tag & SERP Preview Generator","url":"https://toolstand.io/tools/meta-tag-preview/","applicationCategory":"DeveloperApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+:root{--bg:#ffffff;--bg-card:#f8fafc;--border:#e2e8f0;--text:#1e293b;--text-secondary:#64748b;--radius:8px}
+[data-theme="dark"]{--bg:#0f172a;--bg-card:#1e293b;--border:#334155;--text:#f1f5f9;--text-secondary:#94a3b8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:960px;margin:0 auto;padding:0 16px}
+.header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:100}
+.header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.25rem;text-decoration:none;color:var(--text)}
+.logo strong{color:#4285f4}
+.nav{display:flex;align-items:center;gap:16px}
+.nav a{color:var(--text-secondary);text-decoration:none;font-size:.9rem}
+.nav a:hover{color:var(--text)}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:var(--radius);cursor:pointer;font-size:1.1rem}
+.btn-icon:hover{background:var(--bg-card)}
+
+.tool-container{flex:1;max-width:960px;margin:0 auto;padding:24px 16px;width:100%}
+.tool-header{margin-bottom:24px}
+.tool-header h1{font-size:1.75rem;margin-bottom:4px}
+.tool-header p{color:var(--text-secondary);font-size:.95rem}
+.mtp-form{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.mtp-field{display:flex;flex-direction:column;gap:4px}
+.mtp-field label{font-size:.85rem;font-weight:600;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center}
+.mtp-field label .counter{font-weight:400;font-size:.78rem}
+.mtp-field label .counter.warn{color:#ef4444;font-weight:600}
+.mtp-field input,.mtp-field textarea{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit;font-size:.9rem;box-sizing:border-box}
+.mtp-field input:focus,.mtp-field textarea:focus{outline:none;border-color:#4285f4}
+.mtp-field textarea{min-height:70px;resize:vertical}
+.mtp-previews{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+@media(max-width:700px){.mtp-previews{grid-template-columns:1fr}}
+.mtp-preview-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.mtp-preview-card h3{font-size:.95rem;margin-bottom:14px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em}
+/* Google SERP preview styling */
+.serp-preview{font-family:Arial,sans-serif;line-height:1.4}
+.serp-preview .serp-url{color:#202124;font-size:14px;font-style:normal;display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.serp-preview .serp-url .favicon{width:16px;height:16px;border-radius:50%;background:#4285f4;display:inline-block;flex-shrink:0}
+[data-theme="dark"] .serp-preview .serp-url{color:#bdc1c6}
+.serp-preview .serp-title{color:#1a0dab;font-size:20px;text-decoration:none;display:block;margin-bottom:3px;line-height:1.3;cursor:pointer}
+.serp-preview .serp-title:hover{text-decoration:underline}
+[data-theme="dark"] .serp-preview .serp-title{color:#8ab4f8}
+.serp-preview .serp-desc{color:#4d5156;font-size:14px;line-height:1.58}
+[data-theme="dark"] .serp-preview .serp-desc{color:#9aa0a6}
+/* Twitter Card preview styling */
+.twitter-preview{border:1px solid #cfd9de;border-radius:16px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+.tw-img-placeholder{background:linear-gradient(135deg,#e2e8f0,#cbd5e1);height:0;padding-bottom:52.5%;position:relative;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:2rem}
+[data-theme="dark"] .tw-img-placeholder{background:linear-gradient(135deg,#334155,#475569)}
+.tw-body{padding:12px}
+.tw-domain{color:#536471;font-size:13px;margin-bottom:2px}
+[data-theme="dark"] .tw-domain{color:#71767b}
+.tw-title-text{font-size:15px;color:#0f1419;margin-bottom:2px;line-height:1.3}
+[data-theme="dark"] .tw-title-text{color:#e7e9ea}
+.tw-desc-text{color:#536471;font-size:13px;line-height:1.4}
+[data-theme="dark"] .tw-desc-text{color:#71767b}
+/* Meta tags output */
+.mtp-output{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:.82rem;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow:auto;min-height:80px;line-height:1.5;margin-bottom:12px}
+.mtp-output:empty::after{content:"Generated meta tags will appear here...";color:var(--text-secondary);font-family:-apple-system,sans-serif;font-size:.9rem}
+.mtp-actions{display:flex;gap:12px;flex-wrap:wrap}
+.mtp-btn{padding:12px 24px;font-weight:700;background:#4285f4;color:#fff;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem}
+.mtp-btn:hover{opacity:.9}
+.mtp-btn-secondary{background:var(--bg-card);color:var(--text);border:2px solid var(--border)}
+.mtp-btn-secondary:hover{background:var(--border)}
+.embed-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0;text-align:left}
+.embed-cta h3{margin-bottom:8px;font-size:1.1rem}
+.embed-cta p{color:var(--text-secondary);font-size:.9rem;margin-bottom:16px}
+.embed-code{width:100%;font-family:monospace;font-size:.78rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px 80px 14px 14px;color:var(--text);resize:vertical;line-height:1.5;white-space:pre;overflow-x:auto}
+.embed-code-wrapper{position:relative}
+.btn-copy-embed{position:absolute;top:8px;right:8px;padding:6px 14px;background:#083fa1;color:#fff;border:none;border-radius:4px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-copy-embed:hover{background:#062d7a}
+.seo-content{max-width:800px;margin:32px auto 0;line-height:1.7}
+.seo-content h2{font-size:1.4rem;margin-bottom:12px;color:var(--text)}
+.how-to{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px}
+.how-to h3{font-size:1.15rem;margin-bottom:16px}
+.how-to ol{padding-left:24px}
+.how-to li{margin-bottom:8px;color:var(--text-secondary);line-height:1.6}
+.faq-section{margin-bottom:24px}
+.faq-section h3{font-size:1.15rem;margin-bottom:16px}
+.faq-section details{border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:8px;background:var(--bg-card);cursor:pointer}
+.faq-section summary{font-weight:600;font-size:.95rem}
+.faq-section details p{margin-top:8px;color:var(--text-secondary);font-size:.9rem}
+.related-tools{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.related-tools h3{font-size:1.15rem;margin-bottom:12px}
+.related-tools ul{list-style:none;padding:0}
+.related-tools li{margin-bottom:6px}
+.related-tools a{color:#4285f4;text-decoration:none;font-size:.9rem}
+.related-tools a:hover{text-decoration:underline}
+.footer{background:var(--bg-card);border-top:1px solid var(--border);padding:20px 16px;text-align:center}
+.footer .small{font-size:.8rem;color:var(--text-secondary);margin-top:4px}
+.footer .small a{color:var(--text-secondary)}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+      <h1>🔍 Meta Tag &amp; SERP Preview Generator</h1>
+      <p>Preview how your page looks in Google search results. Generate meta tags, Open Graph, and Twitter Cards with live character counters.</p>
+    </div>
+
+  <div class="mtp-form">
+    <div class="mtp-field">
+      <label for="mtpTitle">Page Title <span id="titleCounter" class="counter">0 / 60</span></label>
+      <input type="text" id="mtpTitle" placeholder="Enter your page title…" maxlength="120">
+    </div>
+    <div class="mtp-field">
+      <label for="mtpDesc">Meta Description <span id="descCounter" class="counter">0 / 160</span></label>
+      <textarea id="mtpDesc" placeholder="Enter your meta description…" maxlength="300" rows="3"></textarea>
+    </div>
+    <div class="mtp-field">
+      <label for="mtpUrl">Page URL</label>
+      <input type="text" id="mtpUrl" placeholder="https://example.com/my-page">
+    </div>
+    <div class="mtp-field">
+      <label for="mtpSite">Site Name</label>
+      <input type="text" id="mtpSite" placeholder="Example Site">
+    </div>
+  </div>
+
+  <div class="mtp-previews">
+    <div class="mtp-preview-card">
+      <h3>🔎 Google SERP Preview</h3>
+      <div class="serp-preview">
+        <div class="serp-url">
+          <span class="favicon"></span>
+          <span id="serpUrl">https://example.com › my-page</span>
+        </div>
+        <a class="serp-title" id="serpTitle">Your Page Title</a>
+        <div class="serp-desc" id="serpDesc">Your meta description will appear here. Make it compelling to improve click-through rates from search results.</div>
+      </div>
+    </div>
+    <div class="mtp-preview-card">
+      <h3>🐦 Twitter Card Preview</h3>
+      <div class="twitter-preview">
+        <div class="tw-img-placeholder">🖼️</div>
+        <div class="tw-body">
+          <div class="tw-domain" id="twDomain">From example.com</div>
+          <div class="tw-title-text" id="twTitle">Your Page Title</div>
+          <div class="tw-desc-text" id="twDesc">Your description will appear here in the Twitter card.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mtp-actions">
+    <button id="mtpGenerate" class="mtp-btn">⚡ Generate Meta Tags</button>
+    <button id="mtpCopy" class="mtp-btn mtp-btn-secondary" style="display:none">📋 Copy Meta Tags</button>
+  </div>
+  <pre id="mtpOutput" class="mtp-output"></pre>
+
+  <section class="seo-content">
+    <div class="how-to">
+      <h3>📖 How to Use the Meta Tag &amp; SERP Preview Generator</h3>
+      <ol>
+        <li><strong>Enter your page title and description</strong> — Type or paste your proposed title tag and meta description into the input fields above. Watch the live character counters to stay within optimal limits.</li>
+        <li><strong>See live SERP and social previews</strong> — Both the Google SERP preview and Twitter Card preview update in real time as you type, so you can see exactly how your page will appear.</li>
+        <li><strong>Adjust for optimal length</strong> — Keep titles under 60 characters and descriptions under 160 characters to prevent truncation. The counters turn red if you exceed the limit.</li>
+        <li><strong>Copy the meta tag HTML</strong> — Click <em>Generate Meta Tags</em> to produce the full HTML markup, then copy and paste it into the <code>&lt;head&gt;</code> section of your webpage.</li>
+      </ol>
+    </div>
+    <div class="faq-section">
+      <h3>❓ Frequently Asked Questions</h3>
+      <details>
+        <summary>What is the ideal title length for Google SERP?</summary>
+        <p>Google typically displays the first 50-60 characters of a title tag. Titles longer than 60 characters may get truncated with an ellipsis (…). Aim for 50-60 characters to ensure your full title appears in search results without being cut off.</p>
+      </details>
+      <details>
+        <summary>Do meta tags help SEO?</summary>
+        <p>Yes, meta tags influence click-through rates (CTR) from search results. While meta keywords are no longer a ranking factor, the title tag and meta description directly affect how your page appears in SERPs. A well-crafted title and description can significantly improve organic traffic even without changing your ranking position.</p>
+      </details>
+      <details>
+        <summary>What are Open Graph tags?</summary>
+        <p>Open Graph (OG) tags are meta tags that control how your page appears when shared on social media platforms like Facebook, LinkedIn, Slack, and Discord. They define the title, description, image, and URL that appear in the shared preview card. Without OG tags, social platforms guess what to show, often resulting in poor previews.</p>
+      </details>
+      <details>
+        <summary>Can I preview mobile vs desktop SERP?</summary>
+        <p>Google uses the same title and description for both mobile and desktop search results. However, on mobile devices, title tags may be truncated slightly earlier due to narrower screens. This tool shows the desktop SERP preview which covers the most common truncation points.</p>
+      </details>
+    </div>
+    <div class="related-tools">
+      <h3>🔗 Related Tools</h3>
+      <ul>
+          <li>→ <a href="/tools/og-preview/">Open Graph Preview</a> — Preview how your page looks when shared on Facebook, LinkedIn, and other social platforms</li>
+          <li>→ <a href="/tools/schema-markup-generator/">Schema Markup Generator</a> — Generate structured data markup for rich search results</li>
+          <li>→ <a href="/tools/faq-schema-generator/">FAQ Schema Generator</a> — Build FAQPage structured data with dynamic Q&A pairs</li>
+          <li>→ <a href="/tools/markdown-table/">Markdown Table Generator</a> — Create perfectly aligned Markdown tables visually</li>
+      </ul>
+    </div>
+  </section>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/meta-tag-preview/" target="_blank" rel="noopener">Powered by ToolStand Meta Tag & SERP Preview Generator</a></div>
+<script>
+(function(){
+  'use strict';
+var titleEl = document.getElementById('mtpTitle');
+  var descEl = document.getElementById('mtpDesc');
+  var urlEl = document.getElementById('mtpUrl');
+  var siteEl = document.getElementById('mtpSite');
+  var titleCounter = document.getElementById('titleCounter');
+  var descCounter = document.getElementById('descCounter');
+  var outputEl = document.getElementById('mtpOutput');
+  var generateBtn = document.getElementById('mtpGenerate');
+  var copyBtn = document.getElementById('mtpCopy');
+
+  // SERP preview elements
+  var serpUrl = document.getElementById('serpUrl');
+  var serpTitle = document.getElementById('serpTitle');
+  var serpDesc = document.getElementById('serpDesc');
+  // Twitter preview elements
+  var twDomain = document.getElementById('twDomain');
+  var twTitle = document.getElementById('twTitle');
+  var twDesc = document.getElementById('twDesc');
+
+  function updateCounters(){
+    var tLen = titleEl.value.length;
+    var dLen = descEl.value.length;
+    titleCounter.textContent = tLen + ' / 60';
+    descCounter.textContent = dLen + ' / 160';
+    titleCounter.className = 'counter' + (tLen > 60 ? ' warn' : '');
+    descCounter.className = 'counter' + (dLen > 160 ? ' warn' : '');
+  }
+
+  function extractDomain(url){
+    try {
+      var u = new URL(url);
+      return u.hostname.replace('www.', '');
+    } catch(e){ return 'example.com'; }
+  }
+
+  function formatSerpUrl(url){
+    try {
+      var u = new URL(url);
+      return u.hostname.replace('www.', '') + ' › ' + u.pathname.replace(/\/$/, '').split('/').filter(Boolean).join(' › ');
+    } catch(e){ return 'example.com › my-page'; }
+  }
+
+  function updatePreviews(){
+    var title = titleEl.value || 'Your Page Title';
+    var desc = descEl.value || 'Your meta description will appear here. Make it compelling to improve click-through rates from search results.';
+    var url = urlEl.value || 'https://example.com/my-page';
+    var site = siteEl.value || '';
+
+    serpTitle.textContent = title;
+    serpDesc.textContent = desc;
+    serpUrl.textContent = formatSerpUrl(url);
+    twTitle.textContent = title;
+    twDesc.textContent = desc;
+    twDomain.textContent = 'From ' + extractDomain(url);
+    updateCounters();
+  }
+
+  function generate(){
+    var title = titleEl.value.trim();
+    var desc = descEl.value.trim();
+    var url = urlEl.value.trim();
+    var site = siteEl.value.trim();
+
+    if(!title && !desc){
+      outputEl.textContent = '<!-- Please enter at least a title or description -->';
+      copyBtn.style.display = 'none';
+      return;
+    }
+
+    var tags = [];
+    if(title) tags.push('<title>Free Online Meta Tag & SERP Preview Generator — Generate Free | Too...</title>');
+    if(desc) tags.push('<meta name="description" content="' + desc.replace(/"/g, '&quot;') + '">');
+
+    // OG tags
+    if(title) tags.push('<meta property="og:title" content="' + title.replace(/"/g, '&quot;') + '">');
+    if(desc) tags.push('<meta property="og:description" content="' + desc.replace(/"/g, '&quot;') + '">');
+    if(url) tags.push('<meta property="og:url" content="' + url + '">');
+    tags.push('<meta property="og:type" content="website">');
+    if(site) tags.push('<meta property="og:site_name" content="' + site.replace(/"/g, '&quot;') + '">');
+    tags.push('<meta property="og:image" content="https://example.com/og-image.png">');
+    tags.push('<meta property="og:image:width" content="1200">');
+    tags.push('<meta property="og:image:height" content="630">');
+
+    // Twitter Card
+    tags.push('<meta name="twitter:card" content="summary_large_image">');
+    if(title) tags.push('<meta name="twitter:title" content="' + title.replace(/"/g, '&quot;') + '">');
+    if(desc) tags.push('<meta name="twitter:description" content="' + desc.replace(/"/g, '&quot;') + '">');
+    tags.push('<meta name="twitter:image" content="https://example.com/og-image.png">');
+
+    outputEl.textContent = tags.join('\n');
+    copyBtn.style.display = '';
+  }
+
+  function copy(){
+    var text = outputEl.textContent;
+    if(!text) return;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(function(){
+        copyBtn.textContent = '✅ Copied!';
+        setTimeout(function(){ copyBtn.textContent = '📋 Copy Meta Tags'; }, 2000);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed'; ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      copyBtn.textContent = '✅ Copied!';
+      setTimeout(function(){ copyBtn.textContent = '📋 Copy Meta Tags'; }, 2000);
+    }
+  }
+
+  // Real-time preview updates
+  titleEl.addEventListener('input', function(){ updatePreviews(); });
+  descEl.addEventListener('input', function(){ updatePreviews(); });
+  urlEl.addEventListener('input', function(){ updatePreviews(); });
+  siteEl.addEventListener('input', function(){ updatePreviews(); });
+
+  generateBtn.addEventListener('click', generate);
+  copyBtn.addEventListener('click', copy);
+
+  // Initialize
+  updatePreviews();
+
+  // Theme toggle
+  document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('toolstand-theme', theme);
+  });
+  // Service Worker
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

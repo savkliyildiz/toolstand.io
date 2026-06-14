@@ -1,1 +1,83 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barcode Generator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Barcode Generator","url":"https://toolstand.io/tools/barcode-generator/","applicationCategory":"GeneratorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+body{max-width:680px;margin:0 auto}.bc-wrap{display:flex;flex-direction:column;gap:16px}.bc-wrap input{padding:10px 14px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:monospace}.bc-wrap input:focus{outline:none;border-color:#1e293b}.bc-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bc-controls select{padding:10px;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.9rem}.bc-btn{padding:10px 20px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;font-size:.9rem}.bc-btn:hover{opacity:.85}.bc-btn-gen{background:#1e293b;color:#fff}.bc-btn-dl{background:#22c55e;color:#fff}.bc-preview{text-align:center;min-height:140px;display:flex;align-items:center;justify-content:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)}.bc-preview svg{max-width:100%}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<h1>📊 Barcode Generator</h1><p style="color:var(--text-secondary);margin-bottom:20px">Generate barcodes: CODE128, EAN-13, UPC, CODE39, ITF-14. Download as SVG or PNG.</p><div class="bc-wrap"><input type="text" id="bcInput" value="123456789012" placeholder="Enter barcode data..."><div class="bc-controls"><select id="bcFormat"><option value="CODE128">CODE128</option><option value="EAN13">EAN-13</option><option value="UPC">UPC-A</option><option value="CODE39">CODE39</option><option value="ITF">ITF-14</option></select><button class="bc-btn bc-btn-gen" id="bcGen">Generate</button><select id="bcDownloadFormat"><option value="svg">SVG</option><option value="png">PNG</option></select><button class="bc-btn bc-btn-dl" id="bcDownload">Download</button></div><div class="bc-preview" id="bcPreview"><svg id="bcSvg" style="max-width:100%;height:120px"></svg>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/barcode-generator/" target="_blank" rel="noopener">Powered by ToolStand Barcode Generator</a></div>
+<script>
+(function(){
+  'use strict';
+function generate() {
+    var val = document.getElementById('bcInput').value;
+    var fmt = document.getElementById('bcFormat').value;
+    document.getElementById('bcSvg').innerHTML = '';
+    if (typeof JsBarcode === 'undefined') { setTimeout(generate, 300); return; }
+    try {
+      JsBarcode('#bcSvg', val, { format: fmt, width: 2, height: 100, displayValue: true });
+    } catch(e) {
+      document.getElementById('bcSvg').innerHTML = '<text x="0" y="20" fill="red">Error: ' + e.message + '</text>';
+    }
+  }
+
+  function download() {
+    var svgEl = document.getElementById('bcSvg');
+    var dlFmt = document.getElementById('bcDownloadFormat').value;
+
+    if (dlFmt === 'png') {
+      var svgData = new XMLSerializer().serializeToString(svgEl);
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.onload = function() {
+        canvas.width = img.width || 400;
+        canvas.height = img.height || 150;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(function(blob) {
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url; a.download = 'barcode.png'; a.click();
+          URL.revokeObjectURL(url);
+        }, 'image/png');
+      };
+      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+    } else {
+      var svgData = new XMLSerializer().serializeToString(svgEl);
+      var blob = new Blob([svgData], { type: 'image/svg+xml' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'barcode.svg'; a.click();
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  document.getElementById('bcGen').addEventListener('click', generate);
+  document.getElementById('bcDownload').addEventListener('click', download);
+  document.getElementById('bcInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') generate();
+  });
+  generate();
+
+  document.documentElement.setAttribute('data-theme', n);
+    localStorage.setItem('toolstand-theme', n);
+  });
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

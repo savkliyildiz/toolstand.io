@@ -1,1 +1,181 @@
-error code: 1015
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Prompt Builder & Optimizer — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"AI Prompt Builder & Optimizer","url":"https://toolstand.io/tools/ai-prompt-builder/","applicationCategory":"GeneratorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.apb-form { display: flex; flex-direction: column; gap: 16px; max-width: 100%; }
+.apb-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .apb-row { grid-template-columns: 1fr; } }
+.apb-field { display: flex; flex-direction: column; gap: 4px; }
+.apb-field label { font-weight: 700; font-size: 0.82rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.apb-field select, .apb-field input, .apb-field textarea { width: 100%; padding: 10px 14px; font-size: 0.9rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-family: inherit; box-sizing: border-box; }
+.apb-field select:focus, .apb-field input:focus, .apb-field textarea:focus { outline: none; border-color: #10a37f; }
+.apb-field textarea { min-height: 90px; resize: vertical; }
+.apb-output { margin-top: 8px; }
+.apb-output-textarea { width: 100%; min-height: 160px; padding: 14px; font-size: 0.9rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg-card); color: var(--text); font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; box-sizing: border-box; line-height: 1.5; resize: vertical; }
+.apb-output-textarea:focus { outline: none; border-color: #10a37f; }
+.apb-stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.apb-char-count { font-size: 0.8rem; color: var(--text-secondary); }
+.apb-btn { padding: 10px 22px; font-weight: 700; border: none; border-radius: var(--radius); cursor: pointer; font-size: 0.9rem; transition: opacity 0.15s; }
+.apb-btn-primary { background: #10a37f; color: white; }
+.apb-btn-primary:hover { opacity: 0.9; }
+.apb-btn-outline { background: var(--bg-card); border: 1px solid var(--border); color: var(--text); }
+.apb-btn-outline:hover { background: var(--border); }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🤖 AI Prompt Builder & Optimizer — Build Better Prompts for ChatGPT, Claude & More</h1>
+    <p>Craft structured, optimized prompts for any AI model. Choose model, define role, set tone and output format — all in one clean interface.</p>
+  </div>
+
+  <div class="apb-form">
+    <div class="apb-row">
+      <div class="apb-field">
+        <label for="apbModel">🤖 AI Model</label>
+        <select id="apbModel">
+          <option value="chatgpt">ChatGPT</option>
+          <option value="claude">Claude</option>
+          <option value="midjourney">Midjourney</option>
+          <option value="dalle">DALL-E</option>
+          <option value="stable-diffusion">Stable Diffusion</option>
+          <option value="gemini">Gemini</option>
+        </select>
+      </div>
+      <div class="apb-field">
+        <label for="apbTone">🎭 Tone</label>
+        <select id="apbTone">
+          <option value="professional">Professional</option>
+          <option value="casual">Casual</option>
+          <option value="creative">Creative</option>
+          <option value="technical">Technical</option>
+          <option value="humorous">Humorous</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="apb-row">
+      <div class="apb-field">
+        <label for="apbRole">👤 Role / Persona</label>
+        <input type="text" id="apbRole" placeholder="e.g. Senior software engineer, marketing expert, data scientist...">
+      </div>
+      <div class="apb-field">
+        <label for="apbFormat">📄 Output Format</label>
+        <select id="apbFormat">
+          <option value="text">Text</option>
+          <option value="json">JSON</option>
+          <option value="table">Table</option>
+          <option value="code">Code</option>
+          <option value="markdown">Markdown</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="apb-field">
+      <label for="apbContext">📝 Context (optional)</label>
+      <textarea id="apbContext" placeholder="Provide background context — what the AI should know before responding..."></textarea>
+    </div>
+
+    <div class="apb-field">
+      <label for="apbTask">🎯 Task / Request</label>
+      <textarea id="apbTask" placeholder="Describe what you want the AI to do. Be specific about goals, constraints, and expected output..."></textarea>
+    </div>
+
+    <div>
+      <button class="apb-btn apb-btn-primary" id="apbBuildBtn">✨ Build Optimized Prompt</button>
+      <button class="apb-btn apb-btn-outline" id="apbClearBtn" style="margin-left:8px">🗑️ Clear</button>
+    </div>
+
+    <div class="apb-output">
+      <div class="apb-stats">
+        <strong style="color:#10a37f">📋 Generated Prompt</strong>
+        <span class="apb-char-count" id="apbCharCount">0 chars</span>
+      </div>
+      <textarea class="apb-output-textarea" id="apbOutput" readonly placeholder="Your optimized prompt will appear here..."></textarea>
+      <div style="margin-top:8px">
+        <button class="apb-btn apb-btn-primary" id="apbCopyBtn">📋 Copy Prompt</button>
+      </div>
+    </div>
+  </div>
+
+    
+
+  <section class="seo-content">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/ai-prompt-builder/" target="_blank" rel="noopener">Powered by ToolStand AI Prompt Builder & Optimizer</a></div>
+<script>
+(function(){
+  'use strict';
+var modelFormats = {
+    'chatgpt': 'You are {role}. {context}Your task: {task}\n\nRespond in {format} format with a {tone} tone.',
+    'claude': 'Role: {role}\n{context}Task: {task}\n\nOutput format: {format}\nTone: {tone}',
+    'midjourney': '{task}, {context} --style {tone}',
+    'dalle': 'Create an image of: {task}. Context: {context}. Style: {tone}.',
+    'stable-diffusion': '{task}, {context}, {tone} style, detailed, high quality',
+    'gemini': 'Act as: {role}\n{context}Request: {task}\n\nOutput: {format}\nTone: {tone}'
+  };
+
+  function buildPrompt() {
+    var model = document.getElementById('apbModel').value;
+    var role = document.getElementById('apbRole').value.trim() || 'assistant';
+    var context = document.getElementById('apbContext').value.trim();
+    var task = document.getElementById('apbTask').value.trim();
+    var tone = document.getElementById('apbTone').value;
+    var format = document.getElementById('apbFormat').value;
+
+    if (!task) {
+      alert('Please enter a task description.');
+      return;
+    }
+
+    var template = modelFormats[model] || modelFormats['chatgpt'];
+    var contextStr = context ? 'Context: ' + context + '. ' : '';
+
+    var prompt = template
+      .replace('{role}', role)
+      .replace('{context}', contextStr)
+      .replace('{task}', task)
+      .replace('{tone}', tone)
+      .replace('{format}', format);
+
+    document.getElementById('apbOutput').value = prompt;
+    document.getElementById('apbCharCount').textContent = prompt.length + ' chars';
+    window._apbLastOutput = prompt;
+  }
+
+  document.getElementById('apbBuildBtn').addEventListener('click', buildPrompt);
+
+  document.getElementById('apbCopyBtn').addEventListener('click', function() {
+    var output = window._apbLastOutput || document.getElementById('apbOutput').value;
+    if (!output) return;
+    navigator.clipboard.writeText(output).then(function() {
+      var btn = document.getElementById('apbCopyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(function() { btn.textContent = '📋 Copy Prompt'; }, 1500);
+    });
+  });
+
+  document.getElementById('apbClearBtn').addEventListener('click', function() {
+    document.getElementById('apbRole').value = '';
+    document.getElementById('apbContext').value = '';
+    document.getElementById('apbTask').value = '';
+    document.getElementById('apbOutput').value = '';
+    document.getElementById('apbCharCount').textContent = '0 chars';
+    document.getElementById('apbModel').value = 'chatgpt';
+    document.getElementById('apbTone').value = 'professional';
+    document.getElementById('apbFormat').value = 'text';
+    window._apbLastOutput = '';
+  });
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

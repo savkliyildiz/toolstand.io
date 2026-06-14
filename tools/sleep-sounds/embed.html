@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sleep Sounds & White Noise — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Sleep Sounds & White Noise","url":"https://toolstand.io/tools/sleep-sounds/","applicationCategory":"UtilityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+/* ── Sleep Sounds Styles ──────────────────────────────── */
+.ss-container { max-width:620px; margin:0 auto; padding:40px 20px; }
+.ss-header { text-align:center; margin-bottom:24px; }
+.ss-header h1 { font-size:1.8rem; font-weight:800; }
+.ss-header p { color:var(--text-secondary); font-size:1rem; }
+
+.ss-master { display:flex; gap:12px; justify-content:center; align-items:center; margin-bottom:28px; flex-wrap:wrap; }
+.btn-play-all { padding:14px 36px; font-size:1.05rem; font-weight:700; border-radius:50px; background:var(--primary); color:white; border:none; cursor:pointer; transition:background 0.15s,transform 0.1s; box-shadow:0 2px 8px rgba(99,102,241,0.3); }
+.btn-play-all:hover { background:var(--primary-hover); }
+.btn-play-all:active { transform:scale(0.97); }
+.btn-play-all.playing { background:#ef4444; box-shadow:0 2px 8px rgba(239,68,68,0.3); }
+.btn-play-all.playing:hover { background:#dc2626; }
+.btn-stop-all { padding:14px 28px; font-size:0.95rem; font-weight:600; border-radius:50px; background:transparent; border:1px solid var(--border); color:var(--text); cursor:pointer; transition:background 0.15s; }
+.btn-stop-all:hover { background:var(--bg-card); }
+
+.ss-cards { display:flex; flex-direction:column; gap:12px; margin-bottom:24px; }
+.ss-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; display:flex; align-items:center; gap:16px; transition:border-color 0.2s,box-shadow 0.2s; }
+.ss-card.active { border-color:var(--primary); box-shadow:0 2px 8px rgba(99,102,241,0.12); }
+.ss-card-icon { font-size:2rem; flex-shrink:0; width:48px; text-align:center; }
+.ss-card-info { flex:1; min-width:0; }
+.ss-card-name { font-weight:700; font-size:0.95rem; margin-bottom:4px; color:var(--text); }
+.ss-card-desc { font-size:0.78rem; color:var(--text-secondary); line-height:1.3; }
+
+.ss-toggle { flex-shrink:0; position:relative; width:48px; height:28px; }
+.ss-toggle input { opacity:0; width:0; height:0; }
+.ss-toggle-slider { position:absolute; cursor:pointer; top:0;left:0;right:0;bottom:0; background:var(--border); border-radius:28px; transition:background 0.25s; }
+.ss-toggle-slider::before { content:""; position:absolute; height:22px; width:22px; left:3px; bottom:3px; background:white; border-radius:50%; transition:transform 0.25s; }
+.ss-toggle input:checked+.ss-toggle-slider { background:var(--primary); }
+.ss-toggle input:checked+.ss-toggle-slider::before { transform:translateX(20px); }
+
+.ss-volume { flex-shrink:0; width:90px; }
+.ss-volume input[type=range] { -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:3px; background:var(--border); outline:none; cursor:pointer; }
+.ss-volume input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%; background:var(--primary); cursor:pointer; border:2px solid white; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.ss-volume input[type=range]::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background:var(--primary); cursor:pointer; border:2px solid white; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.ss-volume-label { text-align:center; font-size:0.7rem; color:var(--text-secondary); margin-top:2px; }
+
+.ss-tag { display:inline-block; background:rgba(34,197,94,0.15); color:#16a34a; font-size:0.7rem; padding:2px 8px; border-radius:10px; font-weight:600; margin-left:8px; }
+
+@media (max-width:640px) {
+  .ss-card { padding:14px 16px; gap:10px; }
+  .ss-card-icon { font-size:1.5rem; width:36px; }
+  .ss-volume { width:70px; }
+  .ss-toggle { width:42px; height:24px; }
+  .ss-toggle-slider::before { height:18px; width:18px; left:3px; bottom:3px; }
+  .ss-toggle input:checked+.ss-toggle-slider::before { transform:translateX(18px); }
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="ss-header">
+    <h1>😴 Sleep Sounds Mixer</h1>
+    <p>Real high-quality ambient sounds — rain, campfire, ocean, wind, and white noise. <span class="ss-tag">🎙 Real recordings</span></p>
+  </div>
+
+  <div class="ss-master">
+    <button class="btn-play-all" id="btnPlayAll" aria-label="Play all active sounds">▶ Play</button>
+    <button class="btn-stop-all" id="btnStopAll" aria-label="Stop all sounds">⏹ Stop All</button>
+  </div>
+
+  <div class="ss-cards" id="soundCards"><!-- Populated by JS -->
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/sleep-sounds/" target="_blank" rel="noopener">Powered by ToolStand Sleep Sounds & White Noise</a></div>
+<script>
+(function(){
+  'use strict';
+// ── Sound definitions with real audio files
+var SOUNDS = [
+  { id:'rain', name:'Rain', icon:'🌧️', desc:'Gentle rainfall — real recording, seamless loop', file:'/assets/sounds/rain.mp3' },
+  { id:'fire', name:'Campfire', icon:'🔥', desc:'Crackling fireplace — real recording, seamless loop', file:'/assets/sounds/fire.mp3' },
+  { id:'whitenoise', name:'White Noise', icon:'📡', desc:'Pure static — real recording, great for masking', file:'/assets/sounds/whitenoise.mp3' },
+  { id:'ocean', name:'Ocean Waves', icon:'🌊', desc:'Rolling surf — real recording, seamless loop', file:'/assets/sounds/ocean.mp3' },
+  { id:'wind', name:'Wind', icon:'💨', desc:'Breezy gusts — real recording, seamless loop', file:'/assets/sounds/wind.mp3' }
+];
+
+// ── State
+var audioCtx = null;
+var nodes = {};     // { soundId: { audio, source, gain } }
+var volumes = {};
+var enabled = {};
+
+var STORAGE_KEY = 'toolstand-sleep-sounds-vol';
+var savedVols = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+SOUNDS.forEach(function(s) {
+  volumes[s.id] = savedVols[s.id] !== undefined ? savedVols[s.id] : 0.5;
+  enabled[s.id] = false;
+});
+
+// ── DOM
+var btnPlayAll = document.getElementById('btnPlayAll');
+var btnStopAll = document.getElementById('btnStopAll');
+var soundCards = document.getElementById('soundCards');
+
+// ── Audio Context
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+// ── Start a sound
+function startSound(id) {
+  if (nodes[id]) return;
+  var snd = SOUNDS.find(function(s) { return s.id === id; });
+  if (!snd) return;
+  
+  var ctx = getCtx();
+  var audio = new Audio();
+  audio.src = snd.file;
+  audio.loop = true;
+  audio.crossOrigin = 'anonymous';
+  
+  var source = ctx.createMediaElementSource(audio);
+  var gain = ctx.createGain();
+  gain.gain.setValueAtTime(volumes[id], ctx.currentTime);
+  
+  source.connect(gain);
+  gain.connect(ctx.destination);
+  
+  audio.play().catch(function(e) { console.warn('Play failed:', id, e); });
+  
+  nodes[id] = { audio: audio, source: source, gain: gain };
+}
+
+// ── Stop a sound
+function stopSound(id) {
+  var n = nodes[id];
+  if (!n) return;
+  try { n.audio.pause(); n.audio.src = ''; } catch(e) {}
+  try { n.source.disconnect(); } catch(e) {}
+  try { n.gain.disconnect(); } catch(e) {}
+  delete nodes[id];
+}
+
+// ── Set volume
+function setGain(id, value) {
+  var n = nodes[id];
+  if (n && n.gain && audioCtx) {
+    n.gain.gain.cancelScheduledValues(audioCtx.currentTime);
+    n.gain.gain.setTargetAtTime(value, audioCtx.currentTime, 0.02);
+  }
+}
+
+// ── Save volumes
+function saveVolumes() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(volumes));
+}
+
+// ── Stop all
+function stopAll() {
+  SOUNDS.forEach(function(s) { stopSound(s.id); });
+  btnPlayAll.textContent = '▶ Play';
+  btnPlayAll.classList.remove('playing');
+  SOUNDS.forEach(function(s) {
+    var cb = document.getElementById('toggle-' + s.id);
+    if (cb) cb.checked = false;
+    enabled[s.id] = false;
+    var card = document.getElementById('card-' + s.id);
+    if (card) card.classList.remove('active');
+  });
+}
+
+// ── Play all enabled
+function playAllEnabled() {
+  var anyEnabled = SOUNDS.some(function(s) { return enabled[s.id]; });
+  if (!anyEnabled) {
+    SOUNDS.forEach(function(s) {
+      enabled[s.id] = true;
+      var cb = document.getElementById('toggle-' + s.id);
+      if (cb) cb.checked = true;
+      var card = document.getElementById('card-' + s.id);
+      if (card) card.classList.add('active');
+    });
+  }
+  getCtx();
+  SOUNDS.forEach(function(s) {
+    if (enabled[s.id]) startSound(s.id);
+  });
+  btnPlayAll.textContent = '⏸ Pause';
+  btnPlayAll.classList.add('playing');
+}
+
+// ── Render cards
+function renderCards() {
+  soundCards.textContent = '';
+  SOUNDS.forEach(function(s) {
+    var card = document.createElement('div');
+    card.className = 'ss-card';
+    card.id = 'card-' + s.id;
+
+    var icon = document.createElement('div');
+    icon.className = 'ss-card-icon';
+    icon.textContent = s.icon;
+
+    var info = document.createElement('div');
+    info.className = 'ss-card-info';
+    var name = document.createElement('div');
+    name.className = 'ss-card-name';
+    name.textContent = s.name;
+    var desc = document.createElement('div');
+    desc.className = 'ss-card-desc';
+    desc.textContent = s.desc;
+    info.appendChild(name);
+    info.appendChild(desc);
+
+    var toggle = document.createElement('label');
+    toggle.className = 'ss-toggle';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.id = 'toggle-' + s.id;
+    cb.checked = enabled[s.id];
+    cb.addEventListener('change', function() {
+      enabled[s.id] = cb.checked;
+      if (cb.checked) {
+        getCtx();
+        startSound(s.id);
+        card.classList.add('active');
+      } else {
+        stopSound(s.id);
+        card.classList.remove('active');
+      }
+    });
+    var slider = document.createElement('span');
+    slider.className = 'ss-toggle-slider';
+    toggle.appendChild(cb);
+    toggle.appendChild(slider);
+
+    var volWrap = document.createElement('div');
+    volWrap.className = 'ss-volume';
+    var range = document.createElement('input');
+    range.type = 'range';
+    range.min = '0';
+    range.max = '100';
+    range.value = String(Math.round(volumes[s.id] * 100));
+    range.setAttribute('aria-label', s.name + ' volume');
+    range.addEventListener('input', function() {
+      volumes[s.id] = parseInt(range.value, 10) / 100;
+      setGain(s.id, volumes[s.id]);
+      saveVolumes();
+    });
+    var volLabel = document.createElement('div');
+    volLabel.className = 'ss-volume-label';
+    volLabel.id = 'vollabel-' + s.id;
+    volLabel.textContent = range.value + '%';
+    range.addEventListener('input', function() {
+      volLabel.textContent = range.value + '%';
+    });
+    volWrap.appendChild(range);
+    volWrap.appendChild(volLabel);
+
+    card.appendChild(icon);
+    card.appendChild(info);
+    card.appendChild(toggle);
+    card.appendChild(volWrap);
+    soundCards.appendChild(card);
+  });
+}
+
+// ── Button events
+btnPlayAll.addEventListener('click', function() {
+  var anyActive = Object.keys(nodes).length > 0;
+  if (anyActive) { stopAll(); }
+  else { playAllEnabled(); }
+});
+
+btnStopAll.addEventListener('click', stopAll);
+
+// ── Theme
+var themeToggle = if (themeToggle) {
+  themeToggle.addEventListener('click', function() {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('toolstand-theme', next);
+  });
+}
+
+// ── Init
+renderCards();
+
+// Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

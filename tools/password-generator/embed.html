@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Generator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Password Generator","url":"https://toolstand.io/tools/password-generator/","applicationCategory":"GeneratorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.pw-output {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 1.3rem;
+  word-break: break-all;
+  min-height: 56px;
+}
+.pw-output span { flex: 1; }
+.pw-output button { flex-shrink: 0; }
+.pw-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pw-slider-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pw-slider-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  min-width: 60px;
+}
+.pw-slider-group input[type="range"] {
+  flex: 1;
+  accent-color: var(--primary);
+}
+.pw-slider-group .pw-len-val {
+  font-weight: 800;
+  font-size: 1.2rem;
+  min-width: 36px;
+  text-align: center;
+  color: var(--primary);
+}
+.pw-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+.pw-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text);
+}
+.pw-checkboxes input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 18px; height: 18px;
+}
+.pw-strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+.pw-strength-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border);
+  overflow: hidden;
+}
+.pw-strength-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s, background 0.3s;
+}
+.pw-strength-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 70px;
+  text-align: right;
+}
+.pw-entropy {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 8px;
+}
+.btn-generate {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🔐 Password &amp; Passphrase Generator</h1>
+    <p>Generate strong passwords or memorable passphrases. Nothing is stored or sent anywhere.</p>
+  </div>
+  <div class="pw-output">
+    <span id="pwDisplay">Click Generate</span>
+    <button class="btn btn-outline" id="copyBtn" style="display:none">📋 Copy</button>
+  </div>
+  <div class="pw-settings">
+    <div style="display:flex;justify-content:center;gap:0;margin-bottom:4px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto">
+      <button class="pw-mode-btn" id="pwModePw" style="padding:7px 18px;border:none;cursor:pointer;font-size:0.82rem;font-weight:600;background:#2563eb;color:white;transition:all 0.15s">Password</button>
+      <button class="pw-mode-btn" id="pwModePh" style="padding:7px 18px;border:none;cursor:pointer;font-size:0.82rem;font-weight:600;background:var(--bg-card);color:var(--text-secondary);transition:all 0.15s">Passphrase</button>
+    </div>
+    <div class="pw-slider-group">
+      <label for="pwLength">Length</label>
+      <input type="range" id="pwLength" min="4" max="64" value="16">
+      <span class="pw-len-val" id="pwLenVal">16</span>
+    </div>
+    <div class="pw-passphrase-settings" id="pwPassphraseSettings" style="display:none">
+      <div class="pw-slider-group" style="margin-bottom:10px">
+        <label for="pwWordCount">Words</label>
+        <input type="range" id="pwWordCount" min="3" max="10" value="5">
+        <span class="pw-len-val" id="pwWordCountVal">5</span>
+      </div>
+      <div class="pw-input-group" style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <label for="pwSeparator" style="font-size:0.85rem;font-weight:600;color:var(--text-secondary)">Separator:</label>
+        <select id="pwSeparator" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text);font-size:0.85rem">
+          <option value="-">Hyphen (-)</option>
+          <option value=" ">Space</option>
+          <option value=".">Dot (.)</option>
+          <option value="_">Underscore (_)</option>
+        </select>
+      </div>
+    </div>
+    <div class="pw-checkboxes" id="pwCharSets">
+      <label><input type="checkbox" id="useUpper" checked> Uppercase (A-Z)</label>
+      <label><input type="checkbox" id="useLower" checked> Lowercase (a-z)</label>
+      <label><input type="checkbox" id="useNumbers" checked> Numbers (0-9)</label>
+      <label><input type="checkbox" id="useSymbols"> Symbols (!@#$)</label>
+    </div>
+    <button class="btn btn-generate" id="generateBtn">🔄 Generate Password</button>
+  </div>
+  <div class="pw-strength" id="strengthSection" style="display:none">
+    <div class="pw-strength-bar"><div class="pw-strength-fill" id="strengthFill"></div></div>
+    <span class="pw-strength-label" id="strengthLabel"></span>
+  </div>
+  <p class="pw-entropy" id="entropyDisplay" style="display:none"></p>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/password-generator/" target="_blank" rel="noopener">Powered by ToolStand Password Generator</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

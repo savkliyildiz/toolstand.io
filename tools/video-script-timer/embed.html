@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Hook & Script Timer — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Video Hook & Script Timer","url":"https://toolstand.io/tools/video-script-timer/","applicationCategory":"ProductivityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.vt-container{display:flex;flex-direction:column;gap:20px}.vt-script{width:100%;min-height:200px;padding:14px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);resize:vertical;font-family:inherit;box-sizing:border-box}.vt-script:focus{outline:none;border-color:#ef4444}.vt-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:end}.vt-group{display:flex;flex-direction:column;gap:5px}.vt-group label{font-size:.85rem;font-weight:600;color:var(--text-secondary)}.vt-group input[type=range]{width:100%}.vt-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}.vt-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}.vt-card-label{font-size:.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}.vt-card-value{font-size:1.8rem;font-weight:800}.vt-red{color:#ef4444}.vt-green{color:#22c55e}.vt-blue{color:#3b82f6}.vt-hook{background:#fef2f2;border-left:3px solid #ef4444;padding:8px 12px;border-radius:0 var(--radius) var(--radius) 0;margin-top:8px;font-size:.85rem;color:#991b1b}.vt-hook strong{display:block;margin-bottom:4px}@media(max-width:640px){.vt-controls{grid-template-columns:1fr 1fr}}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🎬 Video Hook & Script Timer</h1><p>Paste your script, adjust reading speed, and see exactly how long your video needs to be. Perfect for Shorts, TikTok, and Reels.</p></div>
+<div class="vt-container"><textarea class="vt-script" id="vtScript" placeholder="Paste your video script here...&#10;&#10;The first 150 characters are your HOOK — make them count!"></textarea>
+<div id="vtHook" class="vt-hook" style="display:none"><strong>🎣 Hook (First 3 Seconds)</strong><span id="vtHookText"></span></div>
+<div class="vt-controls"><div class="vt-group"><label>Reading Speed: <strong id="vtWpmLabel">150</strong> WPM</label><input type="range" id="vtWpm" min="100" max="220" value="150" step="5"></div>
+<div class="vt-group"><label>Content Type</label><select id="vtType"><option value="slow">🎙️ Podcast / Narrative (130-150)</option><option value="normal" selected>📹 Standard Video (150-160)</option><option value="fast">⚡ Shorts / TikTok (160-180)</option><option value="ultra">🔥 Ultra-Fast / Comedy (180-220)</option></select></div>
+<div class="vt-group"><button id="vtRecalc" style="padding:11px 20px;font-weight:700;background:#ef4444;color:white;border:none;border-radius:var(--radius);cursor:pointer">🔄 Recalculate</button></div></div>
+<div class="vt-results" id="vtResults"><div class="vt-card"><div class="vt-card-label">Word Count</div><div class="vt-card-value vt-blue" id="vtWords">0</div></div>
+<div class="vt-card"><div class="vt-card-label">Duration</div><div class="vt-card-value vt-red" id="vtDuration">0s</div></div>
+<div class="vt-card"><div class="vt-card-label">Shorts Fit?</div><div class="vt-card-value vt-green" id="vtShorts">—
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/video-script-timer/" target="_blank" rel="noopener">Powered by ToolStand Video Hook & Script Timer</a></div>
+<script>
+(function(){
+  'use strict';
+var s=document.getElementById('vtScript'),wpmS=document.getElementById('vtWpm'),wpmL=document.getElementById('vtWpmLabel'),tp=document.getElementById('vtType');
+function calc(){var txt=s.value||'',words=txt.trim()?txt.trim().split(/\s+/).length:0,wpm=parseInt(wpmS.value),dur=words>0?Math.round((words/wpm)*60):0;
+document.getElementById('vtWords').textContent=words.toLocaleString();
+document.getElementById('vtDuration').textContent=dur+'s ('+Math.floor(dur/60)+'m '+dur%60+'s)';
+document.getElementById('vtShorts').textContent=dur<=60?'✅ Yes!':'❌ Too long ('+(dur-60)+'s over)';
+document.getElementById('vtShorts').style.color=dur<=60?'#22c55e':'#ef4444';
+var hook=txt.substring(0,150),hookEl=document.getElementById('vtHook'),hookTxt=document.getElementById('vtHookText');
+if(hook.trim()){hookEl.style.display='block';hookTxt.textContent='"'+hook+(txt.length>150?'...':'')+'" (Hook: ~'+Math.round((hook.split(/\s+/).length/wpm)*60)+'s)';}else{hookEl.style.display='none';}}
+wpmS.addEventListener('input',function(){wpmL.textContent=this.value;calc();});
+tp.addEventListener('change',function(){var v=parseInt(this.value);wpmS.value=v;wpmL.textContent=v;calc();});
+s.addEventListener('input',calc);
+document.getElementById('vtRecalc').addEventListener('click',calc);
+document.documentElement.setAttribute('data-theme',n);localStorage.setItem('toolstand-theme',n);});
+calc();
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

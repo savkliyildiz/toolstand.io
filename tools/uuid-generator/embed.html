@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UUID Generator — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"UUID Generator","url":"https://toolstand.io/tools/uuid-generator/","applicationCategory":"GeneratorApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tc-c{display:flex;flex-direction:column;gap:20px}.tc-i{width:100%;padding:12px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);box-sizing:border-box;font-family:monospace}.tc-i:focus{outline:none;border-color:#8b5cf6}.tc-b{padding:12px 24px;font-weight:700;background:#8b5cf6;color:white;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem}.tc-b:hover{opacity:.9}.tc-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:monospace;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;min-height:50px}.tc-l{font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🆔 UUID Generator</h1><p>Generate UUID v4 identifiers. Uses browser crypto API — instant, secure, offline-ready.</p></div><div class="tc-c"><div style="display:flex;gap:8px;align-items:end"><div><label class="tc-l">Count</label><input type="number" id="tgC" value="1" min="1" max="100" style="width:70px;padding:10px;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.95rem"></div><button class="tc-b" id="tgG">Generate</button></div><label class="tc-l"><input type="checkbox" id="tgU" checked> Uppercase</label><div class="tc-o" id="tgO">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/uuid-generator/" target="_blank" rel="noopener">Powered by ToolStand UUID Generator</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

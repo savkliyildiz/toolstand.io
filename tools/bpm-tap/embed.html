@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BPM Tap Tempo — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"BPM Tap Tempo","url":"https://toolstand.io/tools/bpm-tap/","applicationCategory":"UtilityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+:root {
+            --bg: #ffffff;
+            --bg-card: #f9fafb;
+            --border: #e5e7eb;
+            --text: #111827;
+            --text-secondary: #6b7280;
+            --radius: 12px;
+            --accent: #f59e0b;
+        }
+        [data-theme="dark"] {
+            --bg: #111827;
+            --bg-card: #1f2937;
+            --border: #374151;
+            --text: #f9fafb;
+            --text-secondary: #9ca3af;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .header { background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
+        .header .container { display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 1.25rem; text-decoration: none; color: var(--text); }
+        .logo strong { color: var(--accent); }
+        .nav { display: flex; align-items: center; gap: 16px; }
+        .nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+        .nav a:hover { color: var(--text); }
+        .btn-icon { background: none; border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 10px; cursor: pointer; font-size: 1rem; color: var(--text); }
+        
+        .tool-container { max-width: 800px; margin: 0 auto; padding: 24px 16px 40px; }
+        .tool-header { text-align: center; margin-bottom: 24px; }
+        .tool-header h1 { font-size: 2rem; margin-bottom: 4px; }
+        .tap-area { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .bpm-display { text-align: center; }
+        .bpm-number { font-size: 72px; font-weight: 800; color: var(--accent); line-height: 1; transition: color 0.3s; }
+        .bpm-label { font-size: 1rem; color: var(--text-secondary); margin-top: 4px; }
+        .tap-btn {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            background: var(--bg);
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 4px 24px rgba(245, 158, 11, 0.15);
+        }
+        .tap-btn:hover {
+            box-shadow: 0 6px 32px rgba(245, 158, 11, 0.25);
+        }
+        .tap-btn:active, .tap-btn.tapping {
+            transform: scale(0.92);
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(245, 158, 11, 0.3);
+        }
+        [data-theme="dark"] .tap-btn {
+            box-shadow: 0 4px 24px rgba(245, 158, 11, 0.25);
+        }
+        [data-theme="dark"] .tap-btn:hover {
+            box-shadow: 0 6px 32px rgba(245, 158, 11, 0.4);
+        }
+        .beat-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+            transition: transform 0.08s, opacity 0.08s;
+        }
+        .beat-indicator.pulse {
+            transform: scale(1.8);
+            opacity: 1;
+        }
+        .stats { text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+        .stats span { font-weight: 600; color: var(--text); }
+        .hint { font-size: 0.8rem; color: var(--text-secondary); margin-top: 8px; }
+        .btn-reset { padding: 8px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); color: var(--text); cursor: pointer; font-size: 0.85rem; font-weight: 500; margin-top: 10px; }
+        .btn-reset:hover { background: var(--border); }
+        .embed-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 40px; text-align: center; }
+        .embed-cta h3 { margin-bottom: 8px; }
+        .embed-cta p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+        .embed-code { width: 100%; font-family: monospace; font-size: 0.75rem; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); resize: vertical; }
+        .footer { border-top: 1px solid var(--border); padding: 20px 0; text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 40px; }
+        .footer a { color: var(--text-secondary); text-decoration: none; }
+        .footer a:hover { color: var(--text); }
+        .small { font-size: 0.8rem; margin-top: 4px; }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+        <h1>🥁 BPM Tap Tempo</h1>
+        <p style="color: var(--text-secondary);">Tap tempo BPM finder. Tap button or press spacebar.</p>
+    </div>
+
+    <div class="tap-area">
+        <div class="bpm-display">
+            <div class="bpm-number" id="bpmDisplay">--</div>
+            <div class="bpm-label">BPM</div>
+        </div>
+
+        <div class="beat-indicator" id="beatIndicator"></div>
+
+        <button class="tap-btn" id="tapButton" aria-label="Tap for BPM">
+            🥁 TAP
+        </button>
+
+        <div class="stats">
+            Taps: <span id="tapCount">0</span> &nbsp;·&nbsp;
+            Avg BPM: <span id="avgBpm">--</span>
+        </div>
+
+        <p class="hint">Press <strong>Space</strong> or tap the button. Stops after 4s of no taps.</p>
+        <button class="btn-reset" id="resetButton">↻ Reset</button>
+    </div>
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/bpm-tap/" target="_blank" rel="noopener">Powered by ToolStand BPM Tap Tempo</a></div>
+<script>
+(function(){
+  'use strict';
+'use strict';
+
+    // Theme
+    document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('toolstand-theme', t);
+    });
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+
+    // BPM state
+    var taps = [];
+    var resetTimer = null;
+    var bpmDisplay = document.getElementById('bpmDisplay');
+    var tapCountEl = document.getElementById('tapCount');
+    var avgBpmEl = document.getElementById('avgBpm');
+    var beatIndicator = document.getElementById('beatIndicator');
+    var tapButton = document.getElementById('tapButton');
+
+    function resetTaps() {
+        taps = [];
+        bpmDisplay.textContent = '--';
+        tapCountEl.textContent = '0';
+        avgBpmEl.textContent = '--';
+        if (resetTimer) {
+            clearTimeout(resetTimer);
+            resetTimer = null;
+        }
+    }
+
+    function pulseBeat() {
+        beatIndicator.classList.add('pulse');
+        setTimeout(function() {
+            beatIndicator.classList.remove('pulse');
+        }, 80);
+    }
+
+    function calculateBpm() {
+        if (taps.length < 2) {
+            bpmDisplay.textContent = '--';
+            avgBpmEl.textContent = '--';
+            return;
+        }
+
+        // Use last 8 taps
+        var recentTaps = taps.slice(-8);
+        var intervals = [];
+        for (var i = 1; i < recentTaps.length; i++) {
+            intervals.push(recentTaps[i] - recentTaps[i - 1]);
+        }
+
+        // Calculate average interval
+        var sum = 0;
+        for (var i = 0; i < intervals.length; i++) {
+            sum += intervals[i];
+        }
+        var avgInterval = sum / intervals.length;
+
+        if (avgInterval <= 0) return;
+
+        var bpm = Math.round(60000 / avgInterval);
+
+        // Clamp to reasonable range
+        if (bpm < 20) bpm = 20;
+        if (bpm > 300) bpm = 300;
+
+        bpmDisplay.textContent = bpm;
+        avgBpmEl.textContent = bpm;
+        pulseBeat();
+    }
+
+    function doTap() {
+        var now = Date.now();
+        taps.push(now);
+        tapCountEl.textContent = taps.length;
+        calculateBpm();
+
+        // Visual feedback
+        tapButton.classList.add('tapping');
+        setTimeout(function() {
+            tapButton.classList.remove('tapping');
+        }, 100);
+
+        // Reset after 4 seconds of inactivity
+        if (resetTimer) clearTimeout(resetTimer);
+        resetTimer = setTimeout(resetTaps, 4000);
+    }
+
+    // Button tap
+    tapButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        doTap();
+    });
+
+    // Spacebar tap
+    document.addEventListener('keydown', function(e) {
+        if (e.code === 'Space' || e.key === ' ' || e.keyCode === 32) {
+            e.preventDefault();
+            doTap();
+        }
+    });
+
+    // Reset button
+    document.getElementById('resetButton').addEventListener('click', function() {
+        resetTaps();
+    });
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

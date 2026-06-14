@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pomodoro Timer — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Pomodoro Timer","url":"https://toolstand.io/tools/pomodoro/","applicationCategory":"ProductivityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+/* Pomodoro-specific styles */
+:root {
+  --pomodoro-work: #ef4444;
+  --pomodoro-break: #22c55e;
+}
+
+.pomodoro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* Session indicator */
+.session-indicator {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.session-tab {
+  padding: 10px 24px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.session-tab.active {
+  background: var(--pomodoro-work);
+  color: white;
+}
+.session-tab.break-active {
+  background: var(--pomodoro-break);
+  color: white;
+}
+
+/* Timer ring */
+.timer-ring-wrapper {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timer-ring {
+  transform: rotate(-90deg);
+  width: 260px;
+  height: 260px;
+}
+.timer-ring .bg-circle {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 8;
+}
+.timer-ring .progress-circle {
+  fill: none;
+  stroke: var(--pomodoro-work);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke 0.3s;
+}
+.timer-ring .progress-circle.break-ring {
+  stroke: var(--pomodoro-break);
+}
+.timer-time {
+  position: absolute;
+  font-size: 3.2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  user-select: none;
+}
+.timer-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: -16px;
+}
+
+/* Controls */
+.pomodoro-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn-primary {
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.btn-start {
+  background: var(--pomodoro-work);
+}
+.btn-start:hover { background: #dc2626; }
+.btn-start.break-btn {
+  background: var(--pomodoro-break);
+}
+.btn-start.break-btn:hover { background: #16a34a; }
+
+/* Settings panel */
+.settings-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-top: 4px;
+  transition: background 0.15s;
+  color: var(--text);
+}
+.settings-toggle:hover { background: var(--bg-card); }
+.settings-panel {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  width: 100%;
+  max-width: 320px;
+  flex-direction: column;
+  gap: 12px;
+}
+.settings-panel.open {
+  display: flex;
+}
+.settings-panel h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.settings-row label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.settings-row input {
+  width: 80px;
+  padding: 8px 10px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 600;
+  transition: border-color 0.15s;
+}
+.settings-row input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.settings-row span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🍅 Pomodoro Timer</h1>
+    <p>Stay focused with work/break intervals. Customize durations to fit your flow.</p>
+  </div>
+
+  <div class="pomodoro-container">
+    <!-- Session tabs -->
+    <div class="session-indicator" id="sessionIndicator">
+      <button class="session-tab active" data-mode="work">🎯 Work</button>
+      <button class="session-tab" data-mode="break">☕ Break</button>
+    </div>
+
+    <!-- Timer ring -->
+    <div class="timer-ring-wrapper">
+      <svg class="timer-ring" viewBox="0 0 200 200">
+        <circle class="bg-circle" cx="100" cy="100" r="88"/>
+        <circle class="progress-circle" id="progressRing" cx="100" cy="100" r="88"/>
+      </svg>
+      <div class="timer-time" id="timerDisplay">25:00</div>
+    </div>
+    <div class="timer-label" id="timerLabel">Work</div>
+
+    <!-- Controls -->
+    <div class="pomodoro-controls">
+      <button class="btn btn-primary btn-start" id="startPauseBtn">▶ Start</button>
+      <button class="btn btn-outline" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- Settings -->
+    <button class="settings-toggle" id="settingsToggle" aria-label="Settings">⚙️ Settings</button>
+    <div class="settings-panel" id="settingsPanel">
+      <h3>Customize Intervals</h3>
+      <div class="settings-row">
+        <label for="workMinutes">Work duration</label>
+        <input type="number" id="workMinutes" value="25" min="1" max="120">
+        <span>min</span>
+      </div>
+      <div class="settings-row">
+        <label for="breakMinutes">Break duration</label>
+        <input type="number" id="breakMinutes" value="5" min="1" max="60">
+        <span>min</span>
+      </div>
+      <button class="btn" id="applySettings">Apply</button>
+    </div>
+  </div>
+
+  <!-- Embed CTA -->
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/pomodoro/" target="_blank" rel="noopener">Powered by ToolStand Pomodoro Timer</a></div>
+<script>
+(function(){
+  'use strict';
+
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>

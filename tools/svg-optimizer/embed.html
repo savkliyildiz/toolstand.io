@@ -1,71 +1,225 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SVG Optimizer — Embed</title><link rel="stylesheet" href="/shared/styles.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"SVG Optimizer","alternateName":"svg-optimizer","url":"https://toolstand.io/tools/svg-optimizer/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script><style>.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}.svo-tabs{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}.svo-tab{flex:1;padding:12px;text-align:center;background:var(--bg-card);border:none;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--text-secondary);transition:all .15s}.svo-tab.active{background:#f59e0b;color:white}.svo-tab:not(.active):hover{background:var(--border)}.svo-panel{display:none}.svo-panel.active{display:block}.svo-textarea{width:100%;min-height:160px;padding:14px;border:2px solid var(--border);border-radius:var(--radius);font-family:'SF Mono','Fira Code','Cascadia Code',monospace;font-size:.85rem;background:var(--bg);color:var(--text);resize:vertical;transition:border-color .15s;line-height:1.5;tab-size:2}.svo-textarea:focus{outline:none;border-color:#f59e0b}.svo-upload-area{border:2px dashed var(--border);border-radius:var(--radius);padding:30px 20px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg-card);margin-bottom:16px}.svo-upload-area:hover,.svo-upload-area.dragover{border-color:#f59e0b;background:rgba(245,158,11,.05)}.svo-upload-area p{color:var(--text-secondary);font-size:.9rem;margin-top:8px}.svo-upload-icon{font-size:2.2rem;display:block}.svo-file-info{font-size:.8rem;color:#f59e0b;font-weight:600;margin-top:6px}.svo-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:16px 0}.svo-btn{padding:10px 22px;border:none;border-radius:var(--radius);font-size:.9rem;font-weight:600;cursor:pointer;transition:all .15s}.svo-btn-primary{background:#f59e0b;color:white}.svo-btn-primary:hover{opacity:.9}.svo-btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}.svo-btn-outline:hover{background:var(--bg-card)}.svo-output-area{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;min-height:100px;max-height:300px;overflow:auto;font-family:'SF Mono','Fira Code','Cascadia Code',monospace;font-size:.82rem;line-height:1.5;white-space:pre-wrap;word-break:break-all;color:var(--text);tab-size:2}.svo-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin:16px 0}.svo-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center}.svo-stat-value{font-size:1.1rem;font-weight:700;color:#f59e0b}.svo-stat-label{font-size:.7rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}.svo-stat.svo-savings .svo-stat-value{color:#22c55e}@media(max-width:500px){.svo-stats{grid-template-columns:1fr 1fr}}.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}</style><script src="/shared/bot-detect.js" defer></script><script src="/shared/analytics.js"></script></head><body class="embed-page"><main class="tool-container"><div class="tool-header"><h1>SVG Optimizer</h1></div><div class="svo-tabs" id="svoTabs"><button class="svo-tab active" data-tab="paste">Paste SVG</button><button class="svo-tab" data-tab="upload">Upload File</button></div><div class="svo-panel active" id="svoPastePanel"><textarea class="svo-textarea" id="svoInput" placeholder="Paste your SVG code here..."></textarea></div><div class="svo-panel" id="svoUploadPanel"><div class="svo-upload-area" id="svoDropZone"><span class="svo-upload-icon">📁</span><p>Drop an SVG file here, or click to browse</p><input type="file" id="svoFileInput" accept=".svg" style="display:none"><div class="svo-file-info" id="svoFileName"></div></div></div><div class="svo-actions"><button class="svo-btn svo-btn-primary" id="svoOptimizeBtn">⚡ Optimize SVG</button><button class="svo-btn svo-btn-outline" id="svoClearBtn">🗑️ Clear</button></div><div class="svo-stats" id="svoStats" style="display:none"><div class="svo-stat"><div class="svo-stat-value" id="svoOriginalSize">—</div><div class="svo-stat-label">Original</div></div><div class="svo-stat"><div class="svo-stat-value" id="svoOptimizedSize">—</div><div class="svo-stat-label">Optimized</div></div><div class="svo-stat svo-savings"><div class="svo-stat-value" id="svoSavings">—</div><div class="svo-stat-label">Savings</div></div></div><div class="svo-output-area" id="svoOutput" style="display:none"></div><div class="svo-actions" id="svoOutputActions" style="display:none"><button class="svo-btn svo-btn-primary" id="svoCopyBtn">📋 Copy</button><button class="svo-btn svo-btn-outline" id="svoDownloadBtn">⬇️ Download</button></div></main><div class="powered-by"><a href="https://toolstand.io/tools/svg-optimizer/" target="_blank" rel="noopener">Powered by ToolStand SVG Optimizer</a></div>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Optimizer — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"SVG Optimizer","url":"https://toolstand.io/tools/svg-optimizer/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.svo-tabs { display: flex; gap: 0; margin-bottom: 20px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.svo-tab { flex: 1; padding: 12px; text-align: center; background: var(--bg-card); border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); transition: all 0.15s; }
+.svo-tab.active { background: #f59e0b; color: white; }
+.svo-tab:not(.active):hover { background: var(--border); }
+.svo-panel { display: none; }
+.svo-panel.active { display: block; }
+.svo-textarea { width: 100%; min-height: 220px; padding: 14px; border: 2px solid var(--border); border-radius: var(--radius); font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 0.85rem; background: var(--bg); color: var(--text); resize: vertical; transition: border-color 0.15s; line-height: 1.5; tab-size: 2; }
+.svo-textarea:focus { outline: none; border-color: #f59e0b; }
+.svo-upload-area { border: 2px dashed var(--border); border-radius: var(--radius); padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.15s; background: var(--bg-card); margin-bottom: 16px; }
+.svo-upload-area:hover, .svo-upload-area.dragover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
+.svo-upload-area p { color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; }
+.svo-upload-icon { font-size: 2.2rem; display: block; }
+.svo-file-info { font-size: 0.8rem; color: #f59e0b; font-weight: 600; margin-top: 6px; }
+.svo-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 16px 0; }
+.svo-btn { padding: 10px 22px; border: none; border-radius: var(--radius); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.svo-btn-primary { background: #f59e0b; color: white; }
+.svo-btn-primary:hover { opacity: 0.9; }
+.svo-btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.svo-btn-outline:hover { background: var(--bg-card); }
+.svo-output-area { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; min-height: 120px; max-height: 400px; overflow: auto; font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap; word-break: break-all; color: var(--text); tab-size: 2; }
+.svo-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 16px 0; }
+.svo-stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
+.svo-stat-value { font-size: 1.3rem; font-weight: 700; color: #f59e0b; }
+.svo-stat-label { font-size: 0.7rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+.svo-stat.svo-savings .svo-stat-value { color: #22c55e; }
+@media (max-width: 500px) { .svo-stats { grid-template-columns: 1fr 1fr; } }
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header">
+    <h1>🧹 SVG Optimizer — Clean & Compress SVG Files</h1>
+    <p>Optimize SVG files by removing unnecessary data. Reduce file size without quality loss. Free, no signup.</p>
+  </div>
+
+  <div class="svo-tabs" id="svoTabs">
+    <button class="svo-tab active" data-tab="paste">Paste SVG</button>
+    <button class="svo-tab" data-tab="upload">Upload File</button>
+  </div>
+
+  <div class="svo-panel active" id="svoPastePanel">
+    <textarea class="svo-textarea" id="svoInput" placeholder="Paste your SVG code here...&#10;&#10;<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;>&#10;  <circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;40&quot; fill=&quot;blue&quot;/>&#10;</svg>"></textarea>
+  </div>
+
+  <div class="svo-panel" id="svoUploadPanel">
+    <div class="svo-upload-area" id="svoDropZone">
+      <span class="svo-upload-icon">📁</span>
+      <p>Drop an SVG file here, or click to browse</p>
+      <input type="file" id="svoFileInput" accept=".svg" style="display:none">
+      <div class="svo-file-info" id="svoFileName"></div>
+    </div>
+  </div>
+
+  <div class="svo-actions">
+    <button class="svo-btn svo-btn-primary" id="svoOptimizeBtn">⚡ Optimize SVG</button>
+    <button class="svo-btn svo-btn-outline" id="svoClearBtn">🗑️ Clear</button>
+  </div>
+
+  <div class="svo-stats" id="svoStats" style="display:none">
+    <div class="svo-stat">
+      <div class="svo-stat-value" id="svoOriginalSize">—</div>
+      <div class="svo-stat-label">Original Size</div>
+    </div>
+    <div class="svo-stat">
+      <div class="svo-stat-value" id="svoOptimizedSize">—</div>
+      <div class="svo-stat-label">Optimized Size</div>
+    </div>
+    <div class="svo-stat svo-savings">
+      <div class="svo-stat-value" id="svoSavings">—</div>
+      <div class="svo-stat-label">Savings</div>
+    </div>
+  </div>
+
+  <div class="svo-output-area" id="svoOutput" style="display:none"></div>
+
+  <div class="svo-actions" id="svoOutputActions" style="display:none">
+    <button class="svo-btn svo-btn-primary" id="svoCopyBtn">📋 Copy</button>
+    <button class="svo-btn svo-btn-outline" id="svoDownloadBtn">⬇️ Download</button>
+  </div>
+
+    
+
+  <section class="seo-content">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/svg-optimizer/" target="_blank" rel="noopener">Powered by ToolStand SVG Optimizer</a></div>
 <script>
 (function(){
   'use strict';
-  var currentSvg='',fileName='';
-  document.getElementById('svoTabs').addEventListener('click',function(e){
-    if(!e.target.classList.contains('svo-tab'))return;
-    document.querySelectorAll('.svo-tab').forEach(function(t){t.classList.remove('active')});
+var currentSvg = '';
+  var fileName = '';
+
+  // Tab switching
+  document.getElementById('svoTabs').addEventListener('click', function(e) {
+    if (!e.target.classList.contains('svo-tab')) return;
+    document.querySelectorAll('.svo-tab').forEach(function(t) { t.classList.remove('active'); });
     e.target.classList.add('active');
-    var tab=e.target.dataset.tab;
-    document.getElementById('svoPastePanel').classList.toggle('active',tab==='paste');
-    document.getElementById('svoUploadPanel').classList.toggle('active',tab==='upload');
+    var tab = e.target.dataset.tab;
+    document.getElementById('svoPastePanel').classList.toggle('active', tab === 'paste');
+    document.getElementById('svoUploadPanel').classList.toggle('active', tab === 'upload');
   });
-  var dropZone=document.getElementById('svoDropZone'),fileInput=document.getElementById('svoFileInput');
-  dropZone.addEventListener('click',function(){fileInput.click()});
-  fileInput.addEventListener('change',function(){handleFile(fileInput.files[0])});
-  dropZone.addEventListener('dragover',function(e){e.preventDefault();dropZone.classList.add('dragover')});
-  dropZone.addEventListener('dragleave',function(e){e.preventDefault();dropZone.classList.remove('dragover')});
-  dropZone.addEventListener('drop',function(e){e.preventDefault();dropZone.classList.remove('dragover');var f=e.dataTransfer.files[0];if(f)handleFile(f)});
-  function handleFile(file){
-    if(!file||!file.name.toLowerCase().endsWith('.svg')){document.getElementById('svoFileName').textContent='⚠️ Please select an .svg file';return}
-    fileName=file.name;document.getElementById('svoFileName').textContent='📄 '+fileName;
-    var r=new FileReader();r.onload=function(e){currentSvg=e.target.result};r.readAsText(file);
+
+  var dropZone = document.getElementById('svoDropZone');
+  var fileInput = document.getElementById('svoFileInput');
+
+  dropZone.addEventListener('click', function() { fileInput.click(); });
+
+  fileInput.addEventListener('change', function() { handleFile(fileInput.files[0]); });
+
+  dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', function(e) { e.preventDefault(); dropZone.classList.remove('dragover'); });
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    var file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  function handleFile(file) {
+    if (!file || !file.name.toLowerCase().endsWith('.svg')) {
+      document.getElementById('svoFileName').textContent = '⚠️ Please select an .svg file';
+      return;
+    }
+    fileName = file.name;
+    document.getElementById('svoFileName').textContent = '📄 ' + fileName;
+    var reader = new FileReader();
+    reader.onload = function(e) { currentSvg = e.target.result; };
+    reader.readAsText(file);
   }
-  function optimizeSVG(svg){
-    var r=svg;
-    r=r.replace(/<!--[\s\S]*?-->/g,'');
-    r=r.replace(/<\?xml[^?]*\?>/gi,'');
-    r=r.replace(/\s+xmlns:(?:sodipodi|inkscape|rdf|cc|dc|xlink|serif|ns[0-9]+)\s*=\s*"[^"]*"/gi,'');
-    r=r.replace(/\s+(?:sodipodi|inkscape|rdf|cc|dc|serif):[a-zA-Z0-9_-]+\s*=\s*"[^"]*"/gi,'');
-    r=r.replace(/\s+xmlns:[a-zA-Z0-9_-]+\s*=\s*"[^"]*"/gi,'');
-    var p;do{p=r;r=r.replace(/<g\b[^>]*>\s*<\/g>/gi,'');r=r.replace(/<g\b[^>]*\/\s*>/gi,'')}while(r!==p);
-    r=r.replace(/>\s+</g,'><');r=r.replace(/\s{2,}/g,' ');r=r.trim();r=r.replace(/^\s*[\r\n]/gm,'');
-    return r;
+
+  function optimizeSVG(svg) {
+    var result = svg;
+    result = result.replace(/<!--[\s\S]*?-->/g, '');
+    result = result.replace(/<\?xml[^?]*\?>/gi, '');
+    result = result.replace(/\s+xmlns:(?:sodipodi|inkscape|rdf|cc|dc|xlink|serif|ns[0-9]+)\s*=\s*"[^"]*"/gi, '');
+    result = result.replace(/\s+(?:sodipodi|inkscape|rdf|cc|dc|serif):[a-zA-Z0-9_-]+\s*=\s*"[^"]*"/gi, '');
+    result = result.replace(/\s+xmlns:[a-zA-Z0-9_-]+\s*=\s*"[^"]*"/gi, '');
+    var prev;
+    do { prev = result; result = result.replace(/<g\b[^>]*>\s*<\/g>/gi, ''); result = result.replace(/<g\b[^>]*\/\s*>/gi, ''); } while (result !== prev);
+    result = result.replace(/>\s+</g, '><');
+    result = result.replace(/\s{2,}/g, ' ');
+    result = result.trim();
+    result = result.replace(/^\s*[\r\n]/gm, '');
+    return result;
   }
-  function formatBytes(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB'}
-  document.getElementById('svoOptimizeBtn').addEventListener('click',function(){
-    var at=document.querySelector('.svo-tab.active');
-    if(at&&at.dataset.tab==='paste')currentSvg=document.getElementById('svoInput').value.trim();
-    if(!currentSvg){document.getElementById('svoOutput').textContent='⚠️ Please paste SVG code or upload a file first.';document.getElementById('svoOutput').style.display='';document.getElementById('svoStats').style.display='none';document.getElementById('svoOutputActions').style.display='none';return}
-    var os=new Blob([currentSvg]).size,opt=optimizeSVG(currentSvg),ns=new Blob([opt]).size;
-    var sv=os>0?((os-ns)/os*100).toFixed(1):0;
-    document.getElementById('svoOriginalSize').textContent=formatBytes(os);
-    document.getElementById('svoOptimizedSize').textContent=formatBytes(ns);
-    document.getElementById('svoSavings').textContent=(sv>0?'-':'')+sv+'%';
-    document.getElementById('svoOutput').textContent=opt;
-    document.getElementById('svoStats').style.display='';
-    document.getElementById('svoOutput').style.display='';
-    document.getElementById('svoOutputActions').style.display='';
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  document.getElementById('svoOptimizeBtn').addEventListener('click', function() {
+    var activeTab = document.querySelector('.svo-tab.active');
+    if (activeTab && activeTab.dataset.tab === 'paste') {
+      currentSvg = document.getElementById('svoInput').value.trim();
+    }
+    if (!currentSvg) {
+      document.getElementById('svoOutput').textContent = '⚠️ Please paste SVG code or upload a file first.';
+      document.getElementById('svoOutput').style.display = '';
+      document.getElementById('svoStats').style.display = 'none';
+      document.getElementById('svoOutputActions').style.display = 'none';
+      return;
+    }
+    var originalSize = new Blob([currentSvg]).size;
+    var optimized = optimizeSVG(currentSvg);
+    var optimizedSize = new Blob([optimized]).size;
+    var savings = originalSize > 0 ? ((originalSize - optimizedSize) / originalSize * 100).toFixed(1) : 0;
+    document.getElementById('svoOriginalSize').textContent = formatBytes(originalSize);
+    document.getElementById('svoOptimizedSize').textContent = formatBytes(optimizedSize);
+    document.getElementById('svoSavings').textContent = (savings > 0 ? '-' : '') + savings + '%';
+    document.getElementById('svoOutput').textContent = optimized;
+    document.getElementById('svoStats').style.display = '';
+    document.getElementById('svoOutput').style.display = '';
+    document.getElementById('svoOutputActions').style.display = '';
   });
-  document.getElementById('svoCopyBtn').addEventListener('click',function(){
-    var o=document.getElementById('svoOutput').textContent;if(!o)return;
-    navigator.clipboard.writeText(o).then(function(){var b=document.getElementById('svoCopyBtn');b.textContent='✅ Copied!';setTimeout(function(){b.textContent='📋 Copy'},1500)})
-    .catch(function(){var t=document.createElement('textarea');t.value=o;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t)});
+
+  document.getElementById('svoCopyBtn').addEventListener('click', function() {
+    var output = document.getElementById('svoOutput').textContent;
+    if (!output) return;
+    navigator.clipboard.writeText(output).then(function() {
+      var btn = document.getElementById('svoCopyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(function() { btn.textContent = '📋 Copy'; }, 1500);
+    }).catch(function() {
+      var ta = document.createElement('textarea'); ta.value = output; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    });
   });
-  document.getElementById('svoDownloadBtn').addEventListener('click',function(){
-    var o=document.getElementById('svoOutput').textContent;if(!o)return;
-    var dn=fileName?fileName.replace('.svg','.optimized.svg'):'optimized.svg';
-    var b=new Blob([o],{type:'image/svg+xml'});var u=URL.createObjectURL(b);
-    var a=document.createElement('a');a.href=u;a.download=dn;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);
+
+  document.getElementById('svoDownloadBtn').addEventListener('click', function() {
+    var output = document.getElementById('svoOutput').textContent;
+    if (!output) return;
+    var downloadName = fileName ? fileName.replace('.svg', '.optimized.svg') : 'optimized.svg';
+    var blob = new Blob([output], { type: 'image/svg+xml' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a'); a.href = url; a.download = downloadName;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
   });
-  document.getElementById('svoClearBtn').addEventListener('click',function(){
-    document.getElementById('svoInput').value='';document.getElementById('svoOutput').textContent='';
-    document.getElementById('svoOutput').style.display='none';document.getElementById('svoStats').style.display='none';
-    document.getElementById('svoOutputActions').style.display='none';document.getElementById('svoFileName').textContent='';
-    currentSvg='';fileName='';fileInput.value='';
+
+  document.getElementById('svoClearBtn').addEventListener('click', function() {
+    document.getElementById('svoInput').value = '';
+    document.getElementById('svoOutput').textContent = '';
+    document.getElementById('svoOutput').style.display = 'none';
+    document.getElementById('svoStats').style.display = 'none';
+    document.getElementById('svoOutputActions').style.display = 'none';
+    document.getElementById('svoFileName').textContent = '';
+    currentSvg = ''; fileName = ''; fileInput.value = '';
   });
-  var s=localStorage.getItem('toolstand-theme')||'light';document.documentElement.setAttribute('data-theme',s);
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
   if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
 })();
-</script></body></html>
+</script>
+</body></html>

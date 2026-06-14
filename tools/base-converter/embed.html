@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Base Converter — Embed</title>
+<link rel="stylesheet" href="/shared/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"Number Base Converter","url":"https://toolstand.io/tools/base-converter/","applicationCategory":"ConverterApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script>
+<style>
+.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}
+.tc-c{display:flex;flex-direction:column;gap:20px}.tc-i{width:100%;padding:12px;font-size:1rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);box-sizing:border-box;font-family:monospace}.tc-i:focus{outline:none;border-color:#6366f1}.tc-b{padding:12px 24px;font-weight:700;background:#6366f1;color:white;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem}.tc-b:hover{opacity:.9}.tc-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:monospace;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;min-height:50px}.tc-l{font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}
+.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+<script src="/shared/bot-detect.js" defer></script>
+<script src="/shared/analytics.js"></script>
+</head><body class="embed-page">
+<main class="tool-container">
+<div class="tool-header"><h1>🔢 Number Base Converter</h1><p>Convert numbers between binary, octal, decimal, and hexadecimal. Real-time.</p></div><div class="tc-c"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label class="tc-l">From Base</label><select id="tgF" style="width:100%;padding:12px;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.95rem"><option value="10">Decimal (10)</option><option value="2">Binary (2)</option><option value="8">Octal (8)</option><option value="16">Hex (16)</option></select></div><div><label class="tc-l">Number</label><input type="text" id="tgN" class="tc-i" placeholder="Enter number"></div></div><div class="tc-o" id="tgO">
+</main>
+<div class="powered-by"><a href="https://toolstand.io/tools/base-converter/" target="_blank" rel="noopener">Powered by ToolStand Number Base Converter</a></div>
+<script>
+(function(){
+  'use strict';
+var fb=document.getElementById("tgF"),num=document.getElementById("tgN"),out=document.getElementById("tgO");function c(){var v=num.value.trim(),f=parseInt(fb.value);if(!v){out.innerHTML="";return}try{var d=parseInt(v,f);if(isNaN(d)){out.textContent="Invalid number for base "+f;return}var bases={2:"Binary",8:"Octal",10:"Decimal",16:"Hex"};out.innerHTML=Object.entries(bases).map(function(e){return'<div style="padding:8px 0;border-bottom:1px solid var(--border)"><strong style="color:var(--text-secondary)">'+e[1]+' ('+e[0]+'):</strong> <code style="font-size:1rem">'+d.toString(parseInt(e[0])).toUpperCase()+'</code></div>'}).join("")}catch(e){out.textContent="Error"}num.addEventListener("input",c);fb.addEventListener("change",c);}})();(function(){document.getElementById("themeToggle").addEventListener("click",function(){var n=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("toolstand-theme",n)});document.documentElement.setAttribute("data-theme",localStorage.getItem("toolstand-theme")||"light");if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js");
+  var s=localStorage.getItem('toolstand-theme')||'light';
+  document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
+})();
+</script>
+</body></html>
