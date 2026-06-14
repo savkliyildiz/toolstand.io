@@ -578,7 +578,6 @@ async function start() {
   startTime = nextClickTime;
   btnPlay.textContent = '⏹';
   btnPlay.classList.add('playing');
-  bpmSlider.disabled = true;
   pendulumStage.classList.add('metro-playing');
   // Stop CSS animation and use JS for sync
   pendulumArm.classList.remove('swing');
@@ -593,7 +592,6 @@ function stop() {
   schedulerTimer = null;
   btnPlay.textContent = '▶';
   btnPlay.classList.remove('playing');
-  bpmSlider.disabled = false;
   pendulumStage.classList.remove('metro-playing');
   // Clear beat dots
   beatIndicator.querySelectorAll('.beat-dot').forEach(d => d.classList.remove('active'));
