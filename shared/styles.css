@@ -600,3 +600,22 @@ body {
 .tools-in-category a:hover {
   text-decoration: underline;
 }
+
+.when-to-use, .how-it-works {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.when-to-use h2, .how-it-works h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+.when-to-use ul, .how-it-works ul {
+  margin: 0.75rem 0 0 1.25rem;
+}
+.when-to-use li, .how-it-works li {
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
