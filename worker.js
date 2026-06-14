@@ -76,6 +76,10 @@ export default {
     }
 
     // ── All other requests → static assets ─────────────
-    return env.ASSETS.fetch(request);
+    try {
+      return await env.ASSETS.fetch(request);
+    } catch (e) {
+      return new Response('Not Found', { status: 404 });
+    }
   }
 };

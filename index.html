@@ -73,6 +73,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .no-results a{color:var(--primary);text-decoration:underline}
 @media(max-width:640px){.hero h1{font-size:1.8rem}.tools-grid{grid-template-columns:1fr}.category-grid{grid-template-columns:repeat(2,1fr)}.ad-banner{height:100px;margin:16px auto}}
 </style>
+<style>html:not([data-adsense-approved="true"]) .ad-banner{display:none!important}</style>
 
 <link rel="stylesheet" href="/shared/styles.css" media="print" onload="this.media='all';this.onload=null">
 <noscript><link rel="stylesheet" href="/shared/styles.css"></noscript>
@@ -83,7 +84,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 
 <script>
-(function(){var w=window;w.adsbygoogle=w.adsbygoogle||[];var s=document.createElement('script');s.async=true;s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770';s.crossOrigin='anonymous';s.onerror=function(e){e.stopPropagation()};var l=function(){document.head.appendChild(s)};if(w.requestIdleCallback){w.requestIdleCallback(l,{timeout:3000})}else{setTimeout(l,1000)};w.addEventListener('error',function(e){if(e.target&&e.target.src&&e.target.src.includes('googlesyndication')){e.stopPropagation();e.preventDefault()}},true)})();
+(function(){var w=window;w.adsbygoogle=w.adsbygoogle||[];if(document.documentElement.getAttribute('data-adsense-approved')!=='true'){return;}var s=document.createElement('script');s.async=true;s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8632240779421770';s.crossOrigin='anonymous';s.onerror=function(e){e.stopPropagation()};var l=function(){document.head.appendChild(s)};if(w.requestIdleCallback){w.requestIdleCallback(l,{timeout:3000})}else{setTimeout(l,1000)};w.addEventListener('error',function(e){if(e.target&&e.target.src&&e.target.src.includes('googlesyndication')){e.stopPropagation();e.preventDefault()}},true)})();
 </script>
 
 <script type="application/ld+json">
@@ -116,7 +117,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- ToolStand Analytics (privacy-first, self-hosted) -->
 <script src="/shared/bot-detect.js" defer></script>
-<script src="/shared/analytics.js"></script>
+<script src="/shared/analytics.js" defer></script>
 </head>
 <body>
 <header class="header">

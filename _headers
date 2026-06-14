@@ -1,0 +1,46 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net cdnjs.cloudflare.com pagead2.googlesyndication.com static.cloudflareinsights.com ep2.adtrafficquality.google; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' api.frankfurter.dev api.ipify.org ipapi.co pagead2.googlesyndication.com googleads.g.doubleclick.net ep1.adtrafficquality.google; frame-src 'self' googleads.g.doubleclick.net tpc.googlesyndication.com ep2.adtrafficquality.google www.google.com; frame-ancestors *; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/tools/*
+  Cache-Control: public, max-age=14400
+
+/tools/*/embed
+  Cache-Control: public, max-age=14400
+
+/hubs/*
+  Cache-Control: public, max-age=7200
+
+/
+  Cache-Control: public, max-age=7200
+
+/blog/*
+  Cache-Control: public, max-age=86400
+
+/about
+  Cache-Control: public, max-age=86400
+
+/privacy
+  Cache-Control: public, max-age=86400
+
+/terms
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/shared/*
+  Cache-Control: public, max-age=86400
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/.well-known/*
+  Cache-Control: public, max-age=86400
