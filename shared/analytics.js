@@ -11,6 +11,11 @@
 
   // ── Send a single event ────────────────────────────
   function send(event) {
+    // Attach bot detection data if available (set by bot-detect.js)
+    if (window._tsBotInfo) {
+      event._bt = window._tsBotInfo.getLevel ? window._tsBotInfo.getLevel() : 0;
+      event._br = window._tsBotInfo.reasons || '';
+    }
     const payload = JSON.stringify(event);
     if (navigator.sendBeacon) {
       navigator.sendBeacon(ENDPOINT, payload);
