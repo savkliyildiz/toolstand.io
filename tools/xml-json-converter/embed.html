@@ -1,143 +1,53 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>XML ↔ JSON Converter — Embed | ToolStand</title><link rel="stylesheet" href="/shared/styles.css"><meta name="theme-color" content="#8b5cf6"><link rel="canonical" href="https://toolstand.io/tools/xml-json-converter/"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"XML ↔ JSON Converter","url":"https://toolstand.io/tools/xml-json-converter/","applicationCategory":"ConverterApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script><style>.embed-page{all:initial;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#1a1a2e;background:transparent;display:block}.embed-page *{box-sizing:border-box}.tc-c{display:flex;flex-direction:column;gap:12px}.tc-tabs{display:flex;gap:0;margin-bottom:0}.tc-tab{padding:8px 16px;font-weight:600;background:#f1f5f9;border:2px solid #e2e8f0;border-bottom:none;border-radius:8px 8px 0 0;cursor:pointer;font-size:.8rem;color:#64748b;transition:all .2s}.tc-tab.active{background:#fff;color:#8b5cf6;border-color:#8b5cf6;border-bottom:2px solid #fff;margin-bottom:-2px;position:relative;z-index:1}.tc-i{width:100%;padding:8px;font-size:.85rem;border:2px solid #e2e8f0;border-radius:8px;background:#fff;color:#1a1a2e;font-family:monospace;resize:vertical}.tc-i:focus{outline:none;border-color:#8b5cf6}.tc-b{padding:8px 16px;font-weight:600;background:#8b5cf6;color:white;border:none;border-radius:6px;cursor:pointer;font-size:.85rem}.tc-b:hover{opacity:.9}.tc-o{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;font-size:.8rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;min-height:40px;font-family:monospace;line-height:1.5}.tc-l{font-size:.75rem;font-weight:600;color:#64748b;margin-bottom:4px}.tc-bs{display:flex;gap:8px;flex-wrap:wrap}.tc-err{color:#ef4444;font-weight:600;padding:10px;background:rgba(239,68,68,.08);border-radius:8px;border-left:3px solid #ef4444;font-size:.8rem}.tc-row{display:flex;gap:12px}.tc-col{flex:1;display:flex;flex-direction:column;gap:6px}@media(max-width:600px){.tc-row{flex-direction:column}}.powered-by{text-align:center;padding:8px;margin-top:12px;font-size:.7rem;color:#94a3b8}.powered-by a{color:#8b5cf6;text-decoration:none}</style><script src="/shared/bot-detect.js" defer></script><script src="/shared/analytics.js"></script></head><body class="embed-page"><div class="tc-c"><div class="tc-tabs"><button class="tc-tab active" id="tabX2J">XML → JSON</button><button class="tc-tab" id="tabJ2X">JSON → XML</button></div><div id="panelX2J"><div class="tc-row"><div class="tc-col"><label class="tc-l" for="xjXmlIn">XML Input</label><textarea class="tc-i" id="xjXmlIn" placeholder="<root><item id='1'>Hello</item></root>" style="min-height:150px"><root><person id="1"><name>John</name><age>30</age></person></root></textarea></div><div class="tc-col"><label class="tc-l">JSON Output</label><div class="tc-bs" style="margin-bottom:6px"><button class="tc-b" id="xjConvert">Convert</button><button class="tc-b" id="xjCopy" style="background:#059669">Copy</button></div><div id="xjJsonOut" class="tc-o" style="min-height:150px"></div></div></div></div><div id="panelJ2X" style="display:none"><div class="tc-row"><div class="tc-col"><label class="tc-l" for="xjJsonIn">JSON Input</label><textarea class="tc-i" id="xjJsonIn" placeholder='{"root":{"item":{"@id":"1","name":"Hello"}}}' style="min-height:150px">{"root":{"person":[{"@id":"1","name":"John","age":30}]}}</textarea></div><div class="tc-col"><label class="tc-l">XML Output</label><div class="tc-bs" style="margin-bottom:6px"><button class="tc-b" id="xjConvertBack">Convert</button><button class="tc-b" id="xjCopyBack" style="background:#059669">Copy</button></div><div id="xjXmlOut" class="tc-o" style="min-height:150px"></div></div></div></div></div>
-<div class="powered-by">Powered by <a href="https://toolstand.io" target="_blank" rel="noopener">ToolStand</a></div>
-
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>XML ↔ JSON Converter — Embed</title><link rel="stylesheet" href="/shared/styles.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":["WebApplication","SoftwareApplication"],"name":"XML ↔ JSON Converter","alternateName":"xml-json-converter","url":"https://toolstand.io/tools/xml-json-converter/","applicationCategory":"ConverterApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true}</script><style>.header,.footer,.embed-cta,#embed-section,.ad-banner{display:none}.tc-c{display:flex;flex-direction:column;gap:12px}.tc-tabs{display:flex;gap:0;margin-bottom:0}.tc-tab{padding:8px 16px;font-weight:600;background:var(--bg-card);border:2px solid var(--border);border-bottom:none;border-radius:var(--radius) var(--radius) 0 0;cursor:pointer;font-size:.8rem;color:var(--text-secondary);transition:all .2s}.tc-tab.active{background:var(--bg);color:#8b5cf6;border-color:#8b5cf6;border-bottom:2px solid var(--bg);margin-bottom:-2px;position:relative;z-index:1}.tc-i{width:100%;padding:8px;font-size:.85rem;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:monospace;resize:vertical}.tc-i:focus{outline:none;border-color:#8b5cf6}.tc-b{padding:8px 16px;font-weight:600;background:#8b5cf6;color:white;border:none;border-radius:6px;cursor:pointer;font-size:.85rem}.tc-b:hover{opacity:.9}.tc-o{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:10px;font-size:.8rem;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow:auto;min-height:40px;font-family:monospace;line-height:1.5}.tc-l{font-size:.75rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}.tc-bs{display:flex;gap:8px;flex-wrap:wrap}.tc-err{color:#ef4444;font-weight:600;padding:10px;background:rgba(239,68,68,.08);border-radius:var(--radius);border-left:3px solid #ef4444;font-size:.8rem}.tc-row{display:flex;gap:12px}.tc-col{flex:1;display:flex;flex-direction:column;gap:6px}@media(max-width:600px){.tc-row{flex-direction:column}}.powered-by{text-align:center;padding:12px;margin-top:16px;font-size:.75rem;color:var(--text-secondary)}.powered-by a{color:var(--accent);text-decoration:none;font-weight:600}</style><script src="/shared/bot-detect.js" defer></script><script src="/shared/analytics.js"></script></head><body class="embed-page"><main class="tool-container"><div class="tc-c"><div class="tc-tabs"><button class="tc-tab active" id="tabX2J">XML → JSON</button><button class="tc-tab" id="tabJ2X">JSON → XML</button></div><div id="panelX2J"><div class="tc-row"><div class="tc-col"><label class="tc-l" for="xjXmlIn">XML Input</label><textarea class="tc-i" id="xjXmlIn" placeholder="<root><item id='1'>Hello</item></root>" style="min-height:150px"><root><person id="1"><name>John</name><age>30</age></person></root></textarea></div><div class="tc-col"><label class="tc-l">JSON Output</label><div class="tc-bs" style="margin-bottom:6px"><button class="tc-b" id="xjConvert">Convert</button><button class="tc-b" id="xjCopy" style="background:#059669">Copy</button></div><div id="xjJsonOut" class="tc-o" style="min-height:150px"></div></div></div></div><div id="panelJ2X" style="display:none"><div class="tc-row"><div class="tc-col"><label class="tc-l" for="xjJsonIn">JSON Input</label><textarea class="tc-i" id="xjJsonIn" placeholder='{"root":{"item":{"@id":"1","name":"Hello"}}}' style="min-height:150px">{"root":{"person":[{"@id":"1","name":"John","age":30}]}}</textarea></div><div class="tc-col"><label class="tc-l">XML Output</label><div class="tc-bs" style="margin-bottom:6px"><button class="tc-b" id="xjConvertBack">Convert</button><button class="tc-b" id="xjCopyBack" style="background:#059669">Copy</button></div><div id="xjXmlOut" class="tc-o" style="min-height:150px"></div></div></div></div></div></main><div class="powered-by"><a href="https://toolstand.io/tools/xml-json-converter/" target="_blank" rel="noopener">Powered by ToolStand XML ↔ JSON Converter</a></div>
 <script>
 (function(){
   'use strict';
-
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function xmlToJson(xmlStr) {
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(xmlStr, 'text/xml');
-    var errEl = doc.querySelector('parsererror');
-    if (errEl) return { error: errEl.textContent.replace(/\n/g, ' ').trim() };
-
-    function elementToObj(el) {
-      var obj = {};
-      if (el.attributes && el.attributes.length > 0) {
-        for (var a = 0; a < el.attributes.length; a++) {
-          obj['@' + el.attributes[a].name] = el.attributes[a].value;
-        }
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function xmlToJson(xmlStr){
+    var parser=new DOMParser(),doc=parser.parseFromString(xmlStr,'text/xml');
+    var errEl=doc.querySelector('parsererror');if(errEl)return{error:errEl.textContent.replace(/\n/g,' ').trim()};
+    function elementToObj(el){
+      var obj={};
+      if(el.attributes&&el.attributes.length>0){for(var a=0;a<el.attributes.length;a++)obj['@'+el.attributes[a].name]=el.attributes[a].value}
+      var childElements=[],textContent='';
+      for(var c=0;c<el.childNodes.length;c++){
+        var node=el.childNodes[c];
+        if(node.nodeType===1)childElements.push(node);
+        else if(node.nodeType===3){var t=node.textContent.trim();if(t)textContent+=t}
       }
-      var childElements = [];
-      var textContent = '';
-      for (var c = 0; c < el.childNodes.length; c++) {
-        var node = el.childNodes[c];
-        if (node.nodeType === 1) { childElements.push(node); }
-        else if (node.nodeType === 3) { var t = node.textContent.trim(); if (t) textContent += t; }
-      }
-      if (childElements.length > 0) {
-        var groups = {};
-        for (var i = 0; i < childElements.length; i++) {
-          var child = childElements[i];
-          var tag = child.nodeName;
-          if (!groups[tag]) groups[tag] = [];
-          groups[tag].push(elementToObj(child));
-        }
-        for (var key in groups) {
-          if (!groups.hasOwnProperty(key)) continue;
-          obj[key] = groups[key].length === 1 ? groups[key][0] : groups[key];
-        }
-        if (textContent) obj['#text'] = textContent;
-      } else {
-        if (textContent) {
-          if (Object.keys(obj).length === 0) return textContent;
-          obj['#text'] = textContent;
-        } else if (Object.keys(obj).length === 0) { return ''; }
-      }
+      if(childElements.length>0){
+        var groups={};
+        for(var i=0;i<childElements.length;i++){var child=childElements[i],tag=child.nodeName;if(!groups[tag])groups[tag]=[];groups[tag].push(elementToObj(child))}
+        for(var key in groups){if(!groups.hasOwnProperty(key))continue;obj[key]=groups[key].length===1?groups[key][0]:groups[key]}
+        if(textContent)obj['#text']=textContent;
+      }else{if(textContent){if(Object.keys(obj).length===0)return textContent;obj['#text']=textContent}else if(Object.keys(obj).length===0)return''}
       return obj;
     }
     return elementToObj(doc.documentElement);
   }
-
-  function escXml(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function jsonToXml(obj, rootName) {
-    if (!rootName) rootName = 'root';
-    function objToXml(name, val, indent) {
-      var xml = '';
-      if (Array.isArray(val)) {
-        for (var i = 0; i < val.length; i++) { xml += objToXml(name, val[i], indent); }
-      } else if (typeof val === 'object' && val !== null) {
-        var attrs = '', children = '', textVal = '';
-        var keys = Object.keys(val);
-        for (var k = 0; k < keys.length; k++) {
-          var key = keys[k], v = val[key];
-          if (key === '#text') { textVal = escXml(v); }
-          else if (key.indexOf('@') === 0) { attrs += ' ' + key.substring(1) + '="' + escXml(String(v)) + '"'; }
-          else { children += objToXml(key, v, indent + '  '); }
-        }
-        if (attrs || children || textVal) {
-          xml += indent + '<' + name + attrs;
-          if (!children && !textVal) { xml += '/>\n'; }
-          else if (!children) { xml += '>' + textVal + '</' + name + '>\n'; }
-          else { xml += '>\n' + children + indent + '</' + name + '>\n'; }
-        }
-      } else { xml += indent + '<' + name + '>' + escXml(String(val)) + '</' + name + '>\n'; }
+  function escXml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function jsonToXml(obj,rootName){
+    if(!rootName)rootName='root';
+    function objToXml(name,val,indent){
+      var xml='';
+      if(Array.isArray(val)){for(var i=0;i<val.length;i++)xml+=objToXml(name,val[i],indent)}
+      else if(typeof val==='object'&&val!==null){
+        var attrs='',children='',textVal='',keys=Object.keys(val);
+        for(var k=0;k<keys.length;k++){var key=keys[k],v=val[key];if(key==='#text')textVal=escXml(v);else if(key.indexOf('@')===0)attrs+=' '+key.substring(1)+'="'+escXml(String(v))+'"';else children+=objToXml(key,v,indent+'  ')}
+        if(attrs||children||textVal){xml+=indent+'<'+name+attrs;if(!children&&!textVal)xml+='/>\n';else if(!children)xml+='>'+textVal+'</'+name+'>\n';else xml+='>\n'+children+indent+'</'+name+'>\n'}
+      }else xml+=indent+'<'+name+'>'+escXml(String(val))+'</'+name+'>\n';
       return xml;
     }
-    var result = '<?xml version="1.0" encoding="UTF-8"?>\n';
-    result += objToXml(rootName, obj, '');
-    return result.trim();
+    var result='<?xml version="1.0" encoding="UTF-8"?>\n';result+=objToXml(rootName,obj,'');return result.trim();
   }
-
-  document.getElementById('tabX2J').addEventListener('click', function(){
-    document.getElementById('panelX2J').style.display = 'block';
-    document.getElementById('panelJ2X').style.display = 'none';
-    document.getElementById('tabX2J').classList.add('active');
-    document.getElementById('tabJ2X').classList.remove('active');
-  });
-  document.getElementById('tabJ2X').addEventListener('click', function(){
-    document.getElementById('panelX2J').style.display = 'none';
-    document.getElementById('panelJ2X').style.display = 'block';
-    document.getElementById('tabJ2X').classList.add('active');
-    document.getElementById('tabX2J').classList.remove('active');
-  });
-
-  document.getElementById('xjConvert').addEventListener('click', function(){
-    var xml = document.getElementById('xjXmlIn').value;
-    var out = document.getElementById('xjJsonOut');
-    if (!xml.trim()) { out.innerHTML = '<p class="tc-err">Please enter XML.</p>'; return; }
-    var json = xmlToJson(xml);
-    if (json && json.error) { out.innerHTML = '<div class="tc-err">Invalid XML:\n' + esc(json.error) + '</div>'; return; }
-    try { out.textContent = JSON.stringify(json, null, 2); }
-    catch(e) { out.innerHTML = '<div class="tc-err">Error: ' + esc(e.message) + '</div>'; }
-  });
-
-  document.getElementById('xjCopy').addEventListener('click', function(){
-    var text = document.getElementById('xjJsonOut').textContent;
-    navigator.clipboard.writeText(text).then(function(){
-      var btn = document.getElementById('xjCopy'), orig = btn.textContent;
-      btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 1500);
-    });
-  });
-
-  document.getElementById('xjConvertBack').addEventListener('click', function(){
-    var jsonStr = document.getElementById('xjJsonIn').value;
-    var out = document.getElementById('xjXmlOut');
-    if (!jsonStr.trim()) { out.innerHTML = '<p class="tc-err">Please enter JSON.</p>'; return; }
-    var obj;
-    try { obj = JSON.parse(jsonStr); }
-    catch(e) { out.innerHTML = '<div class="tc-err">Invalid JSON:\n' + esc(e.message) + '</div>'; return; }
-    var rootName = Object.keys(obj)[0] || 'root';
-    out.textContent = jsonToXml(obj[rootName], rootName);
-  });
-
-  document.getElementById('xjCopyBack').addEventListener('click', function(){
-    var text = document.getElementById('xjXmlOut').textContent;
-    navigator.clipboard.writeText(text).then(function(){
-      var btn = document.getElementById('xjCopyBack'), orig = btn.textContent;
-      btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 1500);
-    });
-  });
-
-  if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); }
+  document.getElementById('tabX2J').addEventListener('click',function(){document.getElementById('panelX2J').style.display='block';document.getElementById('panelJ2X').style.display='none';document.getElementById('tabX2J').classList.add('active');document.getElementById('tabJ2X').classList.remove('active')});
+  document.getElementById('tabJ2X').addEventListener('click',function(){document.getElementById('panelX2J').style.display='none';document.getElementById('panelJ2X').style.display='block';document.getElementById('tabJ2X').classList.add('active');document.getElementById('tabX2J').classList.remove('active')});
+  document.getElementById('xjConvert').addEventListener('click',function(){var xml=document.getElementById('xjXmlIn').value,out=document.getElementById('xjJsonOut');if(!xml.trim()){out.innerHTML='<p class="tc-err">Please enter XML.</p>';return}var json=xmlToJson(xml);if(json&&json.error){out.innerHTML='<div class="tc-err">Invalid XML:\n'+esc(json.error)+'</div>';return}try{out.textContent=JSON.stringify(json,null,2)}catch(e){out.innerHTML='<div class="tc-err">Error: '+esc(e.message)+'</div>'}});
+  document.getElementById('xjCopy').addEventListener('click',function(){var text=document.getElementById('xjJsonOut').textContent;navigator.clipboard.writeText(text).then(function(){var btn=document.getElementById('xjCopy'),orig=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=orig},1500)})});
+  document.getElementById('xjConvertBack').addEventListener('click',function(){var jsonStr=document.getElementById('xjJsonIn').value,out=document.getElementById('xjXmlOut');if(!jsonStr.trim()){out.innerHTML='<p class="tc-err">Please enter JSON.</p>';return}var obj;try{obj=JSON.parse(jsonStr)}catch(e){out.innerHTML='<div class="tc-err">Invalid JSON:\n'+esc(e.message)+'</div>';return}var rootName=Object.keys(obj)[0]||'root';out.textContent=jsonToXml(obj[rootName],rootName)});
+  document.getElementById('xjCopyBack').addEventListener('click',function(){var text=document.getElementById('xjXmlOut').textContent;navigator.clipboard.writeText(text).then(function(){var btn=document.getElementById('xjCopyBack'),orig=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=orig},1500)})});
+  var s=localStorage.getItem('toolstand-theme')||'light';document.documentElement.setAttribute('data-theme',s);
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
   document.getElementById('xjConvert').click();
 })();
-</script>
-</body></html>
+</script></body></html>
