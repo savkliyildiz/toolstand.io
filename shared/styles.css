@@ -545,3 +545,58 @@ body {
   color: var(--primary);
   text-decoration: underline;
 }
+
+/* Internal linking: related tools & guides */
+.related-tools, .related-guides {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.related-tools h2, .related-guides h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+.related-tools ul, .related-guides ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+.related-tools a, .related-guides a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.related-tools a:hover, .related-guides a:hover {
+  text-decoration: underline;
+}
+
+.tools-in-category {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.tools-in-category h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+.tools-in-category ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+.tools-in-category a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.tools-in-category a:hover {
+  text-decoration: underline;
+}
