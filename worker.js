@@ -17,7 +17,8 @@ export default {
           payload = JSON.parse(await request.text());
         }
 
-        const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const today = new Date().toISOString().slice(0, 10);
+        const id = `${today}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
         await env.ANALYTICS_KV.put(id, JSON.stringify({
           ...payload,
           _ts: new Date().toISOString(),
