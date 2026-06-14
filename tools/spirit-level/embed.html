@@ -291,9 +291,59 @@
 <script>
 (function(){
   'use strict';
-
+  // Theme
   var s=localStorage.getItem('toolstand-theme')||'light';
   document.documentElement.setAttribute('data-theme',s);
+
+  // Tick marks
+  var ticksContainer=document.getElementById('levelTicks');
+  if(ticksContainer){var r=130,tO=14,oR=r-tO;
+  for(var d=0;d<360;d+=10){var tick=document.createElement('div');
+  tick.className='level-tick';var isM=d%30===0;
+  tick.style.height=isM?'16px':'8px';tick.style.top='8px';tick.style.left='50%';
+  tick.style.marginLeft='-1px';tick.style.transform='rotate('+d+'deg) translateY('+(-oR)+'px)';
+  tick.style.transformOrigin='50% 0';ticksContainer.appendChild(tick);}}
+
+  // Spirit Level Logic
+  var bubble=document.getElementById('bubble'),rollVal=document.getElementById('rollVal'),
+  pitchVal=document.getElementById('pitchVal'),levelStatus=document.getElementById('levelStatus'),
+  levelUI=document.getElementById('levelUI'),fallback=document.getElementById('fallback'),
+  permissionPrompt=document.getElementById('permissionPrompt'),
+  MAX_TRAVEL=94,LEVEL_THRESHOLD=1.5,sensorActive=false;
+
+  function updateBubble(gamma,beta){var gx=Math.max(-45,Math.min(45,gamma||0)),by=Math.max(-45,Math.min(45,beta||0));
+  var xO=-(gx/45)*MAX_TRAVEL,yO=-(by/45)*MAX_TRAVEL,dist=Math.sqrt(xO*xO+yO*yO),
+  cX=dist>MAX_TRAVEL?(xO/dist)*MAX_TRAVEL:xO,cY=dist>MAX_TRAVEL?(yO/dist)*MAX_TRAVEL:yO;
+  bubble.style.left='calc(50% + '+cX+'px)';bubble.style.top='calc(50% + '+cY+'px)';
+  rollVal.textContent=gx.toFixed(1);pitchVal.textContent=by.toFixed(1);
+  var aG=Math.abs(gx),aB=Math.abs(by);
+  if(aG<LEVEL_THRESHOLD&&aB<LEVEL_THRESHOLD){levelStatus.textContent='✅ Level';levelStatus.className='level-status level';}
+  else{var p=[];if(aG>=LEVEL_THRESHOLD)p.push(gx>0?'tilt right':'tilt left');
+  if(aB>=LEVEL_THRESHOLD)p.push(by>0?'tilt back':'tilt forward');
+  levelStatus.textContent='↗ '+p.join(', ');levelStatus.className='level-status';}}
+
+  function handleOrientation(e){if(!sensorActive){sensorActive=true;
+  levelUI.style.display='flex';fallback.classList.remove('active');permissionPrompt.classList.remove('active');}
+  updateBubble(e.gamma,e.beta);}
+
+  function showFallback(){fallback.classList.add('active');permissionPrompt.classList.remove('active');levelUI.style.display='none';}
+
+  async function requestPermission(){if(typeof DeviceOrientationEvent!=='undefined'){
+  if(typeof DeviceOrientationEvent.requestPermission==='function'){try{var p=await DeviceOrientationEvent.requestPermission();
+  if(p==='granted'){permissionPrompt.classList.remove('active');fallback.classList.add('active');
+  window.addEventListener('deviceorientation',handleOrientation,true);}else{fallback.classList.add('active');}}catch(e){showFallback();}}
+  else{permissionPrompt.classList.remove('active');fallback.classList.add('active');
+  window.addEventListener('deviceorientation',handleOrientation,true);}}else{showFallback();}}
+
+  document.getElementById('requestPermission')&&document.getElementById('requestPermission').addEventListener('click',requestPermission);
+
+  (function init(){if(typeof DeviceOrientationEvent==='undefined'){showFallback();return;}
+  if(typeof DeviceOrientationEvent.requestPermission==='function'){permissionPrompt.classList.add('active');
+  fallback.classList.remove('active');levelUI.style.display='none';return;}
+  fallback.classList.add('active');permissionPrompt.classList.remove('active');levelUI.style.display='none';
+  window.addEventListener('deviceorientation',handleOrientation,true);
+  setTimeout(function(){if(!sensorActive)fallback.classList.add('active');},5000);})();
+
   if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
 })();
 </script>
