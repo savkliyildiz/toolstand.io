@@ -1,8 +1,8 @@
-# 🧰 ToolStand — 113 Free Online Tools
+# 🧰 ToolStand — 115 Free Online Tools
 
 **[toolstand.io](https://toolstand.io)** — Free online tools for developers, designers, students, and everyday tasks. No downloads, no sign-up, no ads on embeds. Privacy-first: everything runs in your browser.
 
-**113 free browser-based tools** including calculators, converters, generators, formatters, PDF tools, developer utilities, SEO tools, health calculators, and games. All tools work offline via PWA. Every tool is embeddable.
+**115 free browser-based tools** including calculators, converters, generators, formatters, PDF tools, developer utilities, SEO tools, health calculators, and games. All tools work offline via PWA. Every tool is embeddable.
 
 🌐 **[toolstand.io](https://toolstand.io)** | 📧 hello@toolstand.io
 
@@ -45,7 +45,7 @@
 | [What's My IP](https://toolstand.io/tools/whats-my-ip/) | Check your public IP address, IPv4 & IPv6, location |
 | [Markdown Table Generator](https://toolstand.io/tools/markdown-table/) | Create Markdown tables visually, export CSV |
 
-## 🛠️ All 113 Tools
+## 🛠️ All 115 Tools
 
 - 📱 [QR Code Generator & Scanner](https://toolstand.io/tools/qr-code/)
 - 📐 [Spirit Level](https://toolstand.io/tools/spirit-level/)
@@ -158,6 +158,7 @@
 - 🌐 [What's My IP](https://toolstand.io/tools/whats-my-ip/)
 - 🔢 [Number to Words](https://toolstand.io/tools/number-to-words/)
 - 🔊 [Morse Code Translator](https://toolstand.io/tools/morse-code/)
+- 📛 [Name Generator](https://toolstand.io/tools/name-generator/)
 - 📖 [Thesaurus & Synonym Finder](https://toolstand.io/tools/thesaurus/)
 - 🌍 [World Clock](https://toolstand.io/tools/world-clock/)
 
