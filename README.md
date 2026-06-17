@@ -195,7 +195,7 @@ Read our free guides on using online tools effectively:
 
 ## 🛠️ Tech Stack
 
-- **Hosting:** Cloudflare Pages (free tier, global CDN)
+- **Hosting:** Cloudflare Workers (free tier, global CDN)
 - **Domain:** Cloudflare Registrar
 - **Frontend:** HTML + CSS + vanilla JavaScript — no frameworks, no build step
 - **Client-Side Only:** Tools run entirely in the browser, no backend, no data collection
