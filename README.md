@@ -1,8 +1,8 @@
-# 🧰 ToolStand — 132 Free Online Tools
+# 🧰 ToolStand — 134 Free Online Tools
 
 **[toolstand.io](https://toolstand.io)** — Free online tools for developers, designers, students, and everyday tasks. No downloads, no sign-up, no ads on embeds. Privacy-first: everything runs in your browser.
 
-**132 free browser-based tools** including calculators, converters, generators, formatters, PDF tools, developer utilities, SEO tools, health calculators, and games. All tools work offline via PWA. Every tool is embeddable.
+**134 free browser-based tools** including calculators, converters, generators, formatters, PDF tools, developer utilities, SEO tools, health calculators, and games. All tools work offline via PWA. Every tool is embeddable.
 
 🌐 **[toolstand.io](https://toolstand.io)** | 📧 hello@toolstand.io
 
@@ -45,7 +45,7 @@
 | [What's My IP](https://toolstand.io/tools/whats-my-ip/) | Check your public IP address, IPv4 & IPv6, location |
 | [Markdown Table Generator](https://toolstand.io/tools/markdown-table/) | Create Markdown tables visually, export CSV |
 
-## 🛠️ All 132 Tools
+## 🛠️ All 134 Tools
 
 - 📱 [QR Code Generator & Scanner](https://toolstand.io/tools/qr-code/)
 - 📐 [Spirit Level](https://toolstand.io/tools/spirit-level/)
@@ -179,6 +179,8 @@
 - 🎮 [Discord Link Preview](https://toolstand.io/tools/discord-link-preview/)
 - 💬 [Slack Link Preview](https://toolstand.io/tools/slack-link-preview/)
 - 🎱 [Venn Diagram Generator](https://toolstand.io/tools/venn-diagram/)
+- 👾 [Pixel Art Maker](https://toolstand.io/tools/pixel-art/)
+- 🎲 [Dice Roller](https://toolstand.io/tools/dice-roller/)
 
 ## 📚 Blog & Guides
 
